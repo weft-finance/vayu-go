@@ -1,0 +1,4764 @@
+openapi: 3.0.0
+info:
+  contact:
+    email: dev@withvayu.com
+    name: "Vayu, Inc"
+    url: https://withvayu.com
+  description: |-
+    The Vayu API is a RESTful API that allows you to submit events for processing and storage & manage billing related entities.
+              The API is secured using the Bearer Authentication scheme with JWT tokens.
+              To obtain a JWT token, please contact Vayu at team@withvayu.com
+  title: Vayu API
+  version: 1.0.0
+servers:
+- description: Production server
+  url: https://connect.withvayu.com
+- description: Sandbox server
+  url: https://staging-connect.withvayu.com
+tags:
+- description: The auth tag is used for endpoints related to authentication and authorization.
+  name: auth
+- description: The events tag is used for endpoints related to event ingestion.
+  name: events
+- description: The customers tag is used for endpoints related to customer management.
+  name: customers
+- description: The meters tag is used for endpoints related to meter management.
+  name: meters
+- description: The plans tag is used for endpoints related to plan management.
+  name: plans
+- description: The contracts tag is used for endpoints related to contract management.
+  name: contracts
+- description: The invoices tag is used for endpoints related to invoice management.
+  name: invoices
+- description: The billing-cycles tag is used for endpoints related to billing cycle
+    management.
+  name: billing-cycles
+- description: The reports tag is used for endpoints related to report generation
+  name: reports
+- description: The integrations tag is used for endpoints related to integrations
+    with external systems
+  name: integrations
+- description: The credits tag is used for endpoints related to credit management.
+  name: credits
+- description: The webhooks tag is used for endpoints related to webhook management.
+  name: webhooks
+paths:
+  /customers:
+    get:
+      description: Get a list of Customers.
+      operationId: listCustomers
+      parameters:
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          $ref: '#/components/schemas/Limit'
+        style: form
+      - explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          $ref: '#/components/schemas/Cursor'
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListCustomersResponse'
+          description: RequestSuccess
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "429":
+          description: Too Many Requests
+        "500":
+          description: Internal Server Error
+      security:
+      - CognitoServerAuthorizer: []
+      summary: List Customers
+      tags:
+      - customers
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-list-external-customers/invocations"
+    options:
+      responses:
+        "200":
+          content: {}
+          description: Default response for OPTIONS method
+          headers:
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      tags:
+      - customers
+      x-amazon-apigateway-integration:
+        requestTemplates:
+          application/json: "{ \"statusCode\": 200 }"
+        type: mock
+        responses:
+          default:
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            statusCode: 200
+    post:
+      description: Create a new Customer.
+      operationId: createCustomer
+      requestBody:
+        $ref: '#/components/requestBodies/CreateCustomerRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCustomerResponse'
+          description: RequestSuccess
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "429":
+          description: Too Many Requests
+        "500":
+          description: Internal Server Error
+      security:
+      - CognitoServerAuthorizer: []
+      summary: Create Customer
+      tags:
+      - customers
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-create-external-customer/invocations"
+  /customers/{customerId}:
+    delete:
+      description: Delete a Customer by id.
+      operationId: deleteCustomer
+      parameters:
+      - explode: false
+        in: path
+        name: customerId
+        required: true
+        schema:
+          $ref: '#/components/schemas/CustomerId'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteCustomerResponse'
+          description: RequestSuccess
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+        "429":
+          description: Too Many Requests
+        "500":
+          description: Internal Server Error
+      security:
+      - CognitoServerAuthorizer: []
+      summary: Delete Customer
+      tags:
+      - customers
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-delete-external-customer/invocations"
+    get:
+      description: Get a Customer by id.
+      operationId: getCustomer
+      parameters:
+      - explode: false
+        in: path
+        name: customerId
+        required: true
+        schema:
+          $ref: '#/components/schemas/CustomerId'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCustomerResponse'
+          description: RequestSuccess
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+        "429":
+          description: Too Many Requests
+        "500":
+          description: Internal Server Error
+      security:
+      - CognitoServerAuthorizer: []
+      summary: Get Customer
+      tags:
+      - customers
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-get-external-customer/invocations"
+    options:
+      parameters:
+      - explode: false
+        in: path
+        name: customerId
+        required: true
+        schema:
+          $ref: '#/components/schemas/CustomerId'
+        style: simple
+      responses:
+        "200":
+          content: {}
+          description: Default response for OPTIONS method
+          headers:
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      tags:
+      - customers
+      x-amazon-apigateway-integration:
+        requestTemplates:
+          application/json: "{ \"statusCode\": 200 }"
+        type: mock
+        responses:
+          default:
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            statusCode: 200
+    put:
+      description: Update a Customer by id.
+      operationId: updateCustomer
+      parameters:
+      - explode: false
+        in: path
+        name: customerId
+        required: true
+        schema:
+          $ref: '#/components/schemas/CustomerId'
+        style: simple
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateCustomerRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateCustomerResponse'
+          description: RequestSuccess
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+        "429":
+          description: Too Many Requests
+        "500":
+          description: Internal Server Error
+      security:
+      - CognitoServerAuthorizer: []
+      summary: Update Customer
+      tags:
+      - customers
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-update-external-customer/invocations"
+  /meters/{meterId}:
+    delete:
+      description: Delete a Meter by id.
+      operationId: deleteMeter
+      parameters:
+      - explode: false
+        in: path
+        name: meterId
+        required: true
+        schema:
+          $ref: '#/components/schemas/MeterId'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteMeterResponse'
+          description: RequestSuccess
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+        "429":
+          description: Too Many Requests
+        "500":
+          description: Internal Server Error
+      security:
+      - CognitoServerAuthorizer: []
+      summary: Delete Meter
+      tags:
+      - meters
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-delete-external-meter/invocations"
+    get:
+      description: Get a Meter by id.
+      operationId: getMeter
+      parameters:
+      - explode: false
+        in: path
+        name: meterId
+        required: true
+        schema:
+          $ref: '#/components/schemas/MeterId'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMeterResponse'
+          description: RequestSuccess
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+        "429":
+          description: Too Many Requests
+        "500":
+          description: Internal Server Error
+      security:
+      - CognitoServerAuthorizer: []
+      summary: Get Meter
+      tags:
+      - meters
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-get-external-meter/invocations"
+    options:
+      parameters:
+      - explode: false
+        in: path
+        name: meterId
+        required: true
+        schema:
+          $ref: '#/components/schemas/MeterId'
+        style: simple
+      responses:
+        "200":
+          content: {}
+          description: Default response for OPTIONS method
+          headers:
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      tags:
+      - meters
+      x-amazon-apigateway-integration:
+        requestTemplates:
+          application/json: "{ \"statusCode\": 200 }"
+        type: mock
+        responses:
+          default:
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            statusCode: 200
+    put:
+      description: Update a Meter by id.
+      operationId: updateMeter
+      parameters:
+      - explode: false
+        in: path
+        name: meterId
+        required: true
+        schema:
+          $ref: '#/components/schemas/MeterId'
+        style: simple
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateMeterRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateMeterResponse'
+          description: RequestSuccess
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+        "429":
+          description: Too Many Requests
+        "500":
+          description: Internal Server Error
+      security:
+      - CognitoServerAuthorizer: []
+      summary: Update Meter
+      tags:
+      - meters
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-update-external-meter/invocations"
+  /meters:
+    get:
+      description: Get a list of Meters.
+      operationId: listMeters
+      parameters:
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          $ref: '#/components/schemas/Limit'
+        style: form
+      - explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          $ref: '#/components/schemas/Cursor'
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListMetersResponse'
+          description: RequestSuccess
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "429":
+          description: Too Many Requests
+        "500":
+          description: Internal Server Error
+      security:
+      - CognitoServerAuthorizer: []
+      summary: List Meters
+      tags:
+      - meters
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-list-external-meters/invocations"
+    options:
+      responses:
+        "200":
+          content: {}
+          description: Default response for OPTIONS method
+          headers:
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      tags:
+      - meters
+      x-amazon-apigateway-integration:
+        requestTemplates:
+          application/json: "{ \"statusCode\": 200 }"
+        type: mock
+        responses:
+          default:
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            statusCode: 200
+  /plans/{planId}:
+    delete:
+      description: Delete a Plan by id.
+      operationId: deletePlan
+      parameters:
+      - explode: false
+        in: path
+        name: planId
+        required: true
+        schema:
+          $ref: '#/components/schemas/PlanId'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletePlanResponse'
+          description: RequestSuccess
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+        "429":
+          description: Too Many Requests
+        "500":
+          description: Internal Server Error
+      security:
+      - CognitoServerAuthorizer: []
+      summary: Delete Plan
+      tags:
+      - plans
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-delete-external-plan/invocations"
+    get:
+      description: Get a Plan by id.
+      operationId: getPlan
+      parameters:
+      - explode: false
+        in: path
+        name: planId
+        required: true
+        schema:
+          $ref: '#/components/schemas/PlanId'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPlanResponse'
+          description: RequestSuccess
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+        "429":
+          description: Too Many Requests
+        "500":
+          description: Internal Server Error
+      security:
+      - CognitoServerAuthorizer: []
+      summary: Get Plan
+      tags:
+      - plans
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-get-external-plan/invocations"
+    options:
+      parameters:
+      - explode: false
+        in: path
+        name: planId
+        required: true
+        schema:
+          $ref: '#/components/schemas/PlanId'
+        style: simple
+      responses:
+        "200":
+          content: {}
+          description: Default response for OPTIONS method
+          headers:
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      tags:
+      - plans
+      x-amazon-apigateway-integration:
+        requestTemplates:
+          application/json: "{ \"statusCode\": 200 }"
+        type: mock
+        responses:
+          default:
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            statusCode: 200
+  /plans:
+    get:
+      description: Get a list of Plans.
+      operationId: listPlans
+      parameters:
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          $ref: '#/components/schemas/Limit'
+        style: form
+      - explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          $ref: '#/components/schemas/Cursor'
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListPlansResponse'
+          description: RequestSuccess
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "429":
+          description: Too Many Requests
+        "500":
+          description: Internal Server Error
+      security:
+      - CognitoServerAuthorizer: []
+      summary: List Plans
+      tags:
+      - plans
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-list-external-plans/invocations"
+    options:
+      responses:
+        "200":
+          content: {}
+          description: Default response for OPTIONS method
+          headers:
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      tags:
+      - plans
+      x-amazon-apigateway-integration:
+        requestTemplates:
+          application/json: "{ \"statusCode\": 200 }"
+        type: mock
+        responses:
+          default:
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            statusCode: 200
+  /contracts/{contractId}:
+    delete:
+      description: Delete a Contract by id.
+      operationId: deleteContract
+      parameters:
+      - explode: false
+        in: path
+        name: contractId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ContractId'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteContractResponse'
+          description: RequestSuccess
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+        "429":
+          description: Too Many Requests
+        "500":
+          description: Internal Server Error
+      security:
+      - CognitoServerAuthorizer: []
+      summary: Delete Contract
+      tags:
+      - contracts
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-delete-external-contract/invocations"
+    get:
+      description: Get a Contract by id.
+      operationId: getContract
+      parameters:
+      - explode: false
+        in: path
+        name: contractId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ContractId'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetContractResponse'
+          description: RequestSuccess
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+        "429":
+          description: Too Many Requests
+        "500":
+          description: Internal Server Error
+      security:
+      - CognitoServerAuthorizer: []
+      summary: Get Contract
+      tags:
+      - contracts
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-get-external-contract/invocations"
+    options:
+      parameters:
+      - explode: false
+        in: path
+        name: contractId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ContractId'
+        style: simple
+      responses:
+        "200":
+          content: {}
+          description: Default response for OPTIONS method
+          headers:
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      tags:
+      - contracts
+      x-amazon-apigateway-integration:
+        requestTemplates:
+          application/json: "{ \"statusCode\": 200 }"
+        type: mock
+        responses:
+          default:
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            statusCode: 200
+  /contracts:
+    get:
+      description: Get a list of Contracts.
+      operationId: listContracts
+      parameters:
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          $ref: '#/components/schemas/Limit'
+        style: form
+      - explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          $ref: '#/components/schemas/Cursor'
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListContractsResponse'
+          description: RequestSuccess
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "429":
+          description: Too Many Requests
+        "500":
+          description: Internal Server Error
+      security:
+      - CognitoServerAuthorizer: []
+      summary: List Contracts
+      tags:
+      - contracts
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-list-external-contracts/invocations"
+    options:
+      responses:
+        "200":
+          content: {}
+          description: Default response for OPTIONS method
+          headers:
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      tags:
+      - contracts
+      x-amazon-apigateway-integration:
+        requestTemplates:
+          application/json: "{ \"statusCode\": 200 }"
+        type: mock
+        responses:
+          default:
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            statusCode: 200
+    post:
+      description: Create a new Contract.
+      operationId: createContract
+      requestBody:
+        $ref: '#/components/requestBodies/CreateContractRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateContractResponse'
+          description: RequestSuccess
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "429":
+          description: Too Many Requests
+        "500":
+          description: Internal Server Error
+      security:
+      - CognitoServerAuthorizer: []
+      summary: Create Contract
+      tags:
+      - contracts
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-create-external-contract/invocations"
+  /invoices/{invoiceId}:
+    get:
+      description: Get a Invoice by id.
+      operationId: getInvoice
+      parameters:
+      - explode: false
+        in: path
+        name: invoiceId
+        required: true
+        schema:
+          $ref: '#/components/schemas/InvoiceId'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetInvoiceResponse'
+          description: RequestSuccess
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+        "429":
+          description: Too Many Requests
+        "500":
+          description: Internal Server Error
+      security:
+      - CognitoServerAuthorizer: []
+      summary: Get Invoice
+      tags:
+      - invoices
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-get-external-invoice/invocations"
+    options:
+      parameters:
+      - explode: false
+        in: path
+        name: invoiceId
+        required: true
+        schema:
+          $ref: '#/components/schemas/InvoiceId'
+        style: simple
+      responses:
+        "200":
+          content: {}
+          description: Default response for OPTIONS method
+          headers:
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      tags:
+      - invoices
+      x-amazon-apigateway-integration:
+        requestTemplates:
+          application/json: "{ \"statusCode\": 200 }"
+        type: mock
+        responses:
+          default:
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            statusCode: 200
+  /invoices:
+    get:
+      description: Get a list of Invoices.
+      operationId: listInvoices
+      parameters:
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          $ref: '#/components/schemas/Limit'
+        style: form
+      - explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          $ref: '#/components/schemas/Cursor'
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListInvoicesResponse'
+          description: RequestSuccess
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "429":
+          description: Too Many Requests
+        "500":
+          description: Internal Server Error
+      security:
+      - CognitoServerAuthorizer: []
+      summary: List Invoices
+      tags:
+      - invoices
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-list-external-invoices/invocations"
+    options:
+      responses:
+        "200":
+          content: {}
+          description: Default response for OPTIONS method
+          headers:
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      tags:
+      - invoices
+      x-amazon-apigateway-integration:
+        requestTemplates:
+          application/json: "{ \"statusCode\": 200 }"
+        type: mock
+        responses:
+          default:
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            statusCode: 200
+  /login:
+    options:
+      responses:
+        "200":
+          content: {}
+          description: Default response for OPTIONS method
+          headers:
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      tags:
+      - auth
+      x-amazon-apigateway-integration:
+        requestTemplates:
+          application/json: "{ \"statusCode\": 200 }"
+        type: mock
+        responses:
+          default:
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            statusCode: 200
+    post:
+      description: |-
+        This endpoint is designed to acquire a temporary access token.
+            Submit the auth token in the request body to obtain a new access token.
+            Use this new token for subsequent API calls. Token is set to expire every hour.
+      operationId: login
+      requestBody:
+        $ref: '#/components/requestBodies/LoginRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+          description: RequestSuccess
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "429":
+          description: Too Many Requests
+        "500":
+          description: Internal Server Error
+      summary: Login by obtaining a new access token
+      tags:
+      - auth
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-external-login/invocations"
+  /events/dry-run:
+    options:
+      responses:
+        "200":
+          content: {}
+          description: Default response for OPTIONS method
+          headers:
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      tags:
+      - events
+      x-amazon-apigateway-integration:
+        requestTemplates:
+          application/json: "{ \"statusCode\": 200 }"
+        type: mock
+        responses:
+          default:
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            statusCode: 200
+    post:
+      description: "Use this endpoint to send an array of events for processing. Make\
+        \ sure to comply with the request schema for each event. NOTE: this is a dry\
+        \ run and will not result in actual storage of the events."
+      operationId: sendEventsDryRun
+      requestBody:
+        $ref: '#/components/requestBodies/EventsDryRunRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventsDryRunResponse'
+          description: Events with their corresponding meter and customer data.
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "413":
+          description: Request Entity Too Large
+        "429":
+          description: Too Many Requests
+        "500":
+          description: Internal Server Error
+      security:
+      - CognitoServerAuthorizer: []
+      summary: Submit a batch of events for testing
+      tags:
+      - events
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-dry-run-send-events/invocations"
+  /events:
+    get:
+      description: Fetch events occurring within a specified timestamp range. An optional
+        event name can be provided to further filter the events.
+      operationId: queryEvents
+      parameters:
+      - explode: true
+        in: query
+        name: startTime
+        required: true
+        schema:
+          $ref: '#/components/schemas/StartTime'
+        style: form
+      - explode: true
+        in: query
+        name: endTime
+        required: true
+        schema:
+          $ref: '#/components/schemas/EndTime'
+        style: form
+      - explode: true
+        in: query
+        name: eventName
+        required: false
+        schema:
+          $ref: '#/components/schemas/EventName'
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          $ref: '#/components/schemas/Limit'
+        style: form
+      - explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          $ref: '#/components/schemas/Cursor'
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryEventsResponse'
+          description: response contains an array of events
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "429":
+          description: Too Many Requests
+        "500":
+          description: Internal Server Error
+      security:
+      - CognitoServerAuthorizer: []
+      summary: Query events by timestamp period and optional event name
+      tags:
+      - events
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-query-events/invocations"
+    options:
+      responses:
+        "200":
+          content: {}
+          description: Default response for OPTIONS method
+          headers:
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      tags:
+      - events
+      x-amazon-apigateway-integration:
+        requestTemplates:
+          application/json: "{ \"statusCode\": 200 }"
+        type: mock
+        responses:
+          default:
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            statusCode: 200
+    post:
+      description: Use this endpoint to send an array of events for processing and
+        storage. Make sure to comply with the request schema for each event.
+      operationId: sendEvents
+      requestBody:
+        $ref: '#/components/requestBodies/SendEventsRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendEventsResponse'
+          description: RequestSuccess
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "413":
+          description: Request Entity Too Large
+        "429":
+          description: Too Many Requests
+        "500":
+          description: Internal Server Error
+      security:
+      - CognitoServerAuthorizer: []
+      summary: Submit a batch of events for ingestion
+      tags:
+      - events
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-send-events/invocations"
+  /events/{refId}:
+    delete:
+      description: Use this endpoint to remove a specific event using its reference
+        ID.
+      operationId: deleteEventByRefId
+      parameters:
+      - explode: false
+        in: path
+        name: refId
+        required: true
+        schema:
+          $ref: '#/components/schemas/RefId'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteEventByRefIdResponse'
+          description: Contains the event that was deleted
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+        "429":
+          description: Too Many Requests
+        "500":
+          description: Internal Server Error
+      security:
+      - CognitoServerAuthorizer: []
+      summary: Delete an event by refId
+      tags:
+      - events
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-delete-event-by-ref-id/invocations"
+    get:
+      description: Use this endpoint to get a specific event using its reference ID.
+      operationId: getEventByRefId
+      parameters:
+      - explode: false
+        in: path
+        name: refId
+        required: true
+        schema:
+          $ref: '#/components/schemas/RefId'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetEventByRefIdResponse'
+          description: response contains the event matching the provided refId
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+        "429":
+          description: Too Many Requests
+        "500":
+          description: Internal Server Error
+      security:
+      - CognitoServerAuthorizer: []
+      summary: Get event by refId
+      tags:
+      - events
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-get-event-by-ref-id/invocations"
+    options:
+      parameters:
+      - explode: false
+        in: path
+        name: refId
+        required: true
+        schema:
+          $ref: '#/components/schemas/RefId'
+        style: simple
+      responses:
+        "200":
+          content: {}
+          description: Default response for OPTIONS method
+          headers:
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      tags:
+      - events
+      x-amazon-apigateway-integration:
+        requestTemplates:
+          application/json: "{ \"statusCode\": 200 }"
+        type: mock
+        responses:
+          default:
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            statusCode: 200
+  /report/products-usage:
+    get:
+      description: Use this endpoint to get the products usage report.
+      operationId: getProductsUsageReport
+      parameters:
+      - explode: true
+        in: query
+        name: reportId
+        required: false
+        schema:
+          $ref: '#/components/schemas/ReportId'
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          $ref: '#/components/schemas/Limit'
+        style: form
+      - explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          $ref: '#/components/schemas/Cursor'
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetProductsUsageReportResponse'
+          description: response contains the products usage report
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "429":
+          description: Too Many Requests
+        "500":
+          description: Internal Server Error
+      security:
+      - CognitoServerAuthorizer: []
+      summary: Get products usage report
+      tags:
+      - reports
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-external-get-products-usage-report/invocations"
+    options:
+      responses:
+        "200":
+          content: {}
+          description: Default response for OPTIONS method
+          headers:
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      tags:
+      - reports
+      x-amazon-apigateway-integration:
+        requestTemplates:
+          application/json: "{ \"statusCode\": 200 }"
+        type: mock
+        responses:
+          default:
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            statusCode: 200
+  /report/commitment:
+    get:
+      operationId: getCommitmentReportResponse
+      parameters:
+      - explode: true
+        in: query
+        name: reportId
+        required: false
+        schema:
+          $ref: '#/components/schemas/ReportId'
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCommitmentReportResponse'
+          description: response contains the commitment report
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "429":
+          description: Too Many Requests
+        "500":
+          description: Internal Server Error
+      security:
+      - CognitoServerAuthorizer: []
+      summary: 'Get commitment report '
+      tags:
+      - reports
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-external-get-commitment-report/invocations"
+    options:
+      responses:
+        "200":
+          content: {}
+          description: Default response for OPTIONS method
+          headers:
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      tags:
+      - reports
+      x-amazon-apigateway-integration:
+        requestTemplates:
+          application/json: "{ \"statusCode\": 200 }"
+        type: mock
+        responses:
+          default:
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            statusCode: 200
+  /integrations/netsuite/sync-invoices:
+    options:
+      responses:
+        "200":
+          content: {}
+          description: Default response for OPTIONS method
+          headers:
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      tags:
+      - integrations
+      x-amazon-apigateway-integration:
+        requestTemplates:
+          application/json: "{ \"statusCode\": 200 }"
+        type: mock
+        responses:
+          default:
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            statusCode: 200
+    post:
+      description: This endpoint is used to sync invoices to NetSuite.
+      operationId: net-suite-sync-invoices
+      requestBody:
+        $ref: '#/components/requestBodies/NetSuiteSyncInvoicesRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetSuiteSyncInvoicesResponse'
+          description: RequestSuccess
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "429":
+          description: Too Many Requests
+        "500":
+          description: Internal Server Error
+      security:
+      - CognitoServerAuthorizer: []
+      summary: Sync invoices to NetSuite
+      tags:
+      - integrations
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-external-sync-invoice-to-netsuite/invocations"
+  /integrations/netsuite/export-sales-order:
+    options:
+      responses:
+        "200":
+          content: {}
+          description: Default response for OPTIONS method
+          headers:
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      tags:
+      - integrations
+      x-amazon-apigateway-integration:
+        requestTemplates:
+          application/json: "{ \"statusCode\": 200 }"
+        type: mock
+        responses:
+          default:
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            statusCode: 200
+    post:
+      description: This endpoint is used to export sales order to NetSuite.
+      operationId: export-net-suite-sales-order
+      requestBody:
+        $ref: '#/components/requestBodies/NetSuiteExportSalesOrderRequest'
+      responses:
+        "200":
+          description: RequestSuccess
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "429":
+          description: Too Many Requests
+        "500":
+          description: Internal Server Error
+      security:
+      - CognitoServerAuthorizer: []
+      summary: Export sales order to NetSuite
+      tags:
+      - integrations
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-external-export-sales-order-to-netsuite/invocations"
+  /credits:
+    get:
+      description: This endpoint is used to retrieve the credit ledger entries for
+        a specific customer.
+      operationId: listCreditLedgerEntries
+      parameters:
+      - explode: true
+        in: query
+        name: customerId
+        required: true
+        schema:
+          $ref: '#/components/schemas/CustomerId'
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          $ref: '#/components/schemas/Limit'
+        style: form
+      - explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          $ref: '#/components/schemas/Cursor'
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListCreditLedgerEntriesResponse'
+          description: RequestSuccess
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "429":
+          description: Too Many Requests
+        "500":
+          description: Internal Server Error
+      security:
+      - CognitoServerAuthorizer: []
+      summary: Retrieve credit ledger entries for customer.
+      tags:
+      - credits
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-external-list-credit-ledger-entries/invocations"
+    options:
+      responses:
+        "200":
+          content: {}
+          description: Default response for OPTIONS method
+          headers:
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      tags:
+      - credits
+      x-amazon-apigateway-integration:
+        requestTemplates:
+          application/json: "{ \"statusCode\": 200 }"
+        type: mock
+        responses:
+          default:
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            statusCode: 200
+  /credits/grant:
+    options:
+      responses:
+        "200":
+          content: {}
+          description: Default response for OPTIONS method
+          headers:
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      tags:
+      - credits
+      x-amazon-apigateway-integration:
+        requestTemplates:
+          application/json: "{ \"statusCode\": 200 }"
+        type: mock
+        responses:
+          default:
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            statusCode: 200
+    post:
+      description: |-
+        This endpoint is used to grant credits to a customer.
+            Submit the credit amount and customer ID in the request body to grant the credits.
+            The granted credits will be added to the customer's account.
+      operationId: grantCredits
+      requestBody:
+        $ref: '#/components/requestBodies/GrantCreditsRequest'
+      responses:
+        "200":
+          description: RequestSuccess
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "429":
+          description: Too Many Requests
+        "500":
+          description: Internal Server Error
+      security:
+      - CognitoServerAuthorizer: []
+      summary: Grant credits to a customer credit ledger
+      tags:
+      - credits
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-external-grant-credits/invocations"
+  /credits/deduct:
+    options:
+      responses:
+        "200":
+          content: {}
+          description: Default response for OPTIONS method
+          headers:
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      tags:
+      - credits
+      x-amazon-apigateway-integration:
+        requestTemplates:
+          application/json: "{ \"statusCode\": 200 }"
+        type: mock
+        responses:
+          default:
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            statusCode: 200
+    post:
+      description: "This endpoint is used to deduct credits from the specified customer\
+        \ account. \n    Submit the credit amount and customer ID in the request body\
+        \ to deduct the credits. \n    The deducted credits will be subtracted from\
+        \ the customer's account."
+      operationId: deductCredits
+      requestBody:
+        $ref: '#/components/requestBodies/DeductCreditsRequest'
+      responses:
+        "200":
+          description: RequestSuccess
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "429":
+          description: Too Many Requests
+        "500":
+          description: Internal Server Error
+      security:
+      - CognitoServerAuthorizer: []
+      summary: Deduct credits from customer credit ledger
+      tags:
+      - credits
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-external-deduct-credits/invocations"
+  /webhook:
+    options:
+      responses:
+        "200":
+          content: {}
+          description: Default response for OPTIONS method
+          headers:
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      tags:
+      - webhooks
+      x-amazon-apigateway-integration:
+        requestTemplates:
+          application/json: "{ \"statusCode\": 200 }"
+        type: mock
+        responses:
+          default:
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            statusCode: 200
+    post:
+      description: Use this endpoint to subscribe to webhooks and receive event notifications.
+      operationId: webhookSubscribe
+      requestBody:
+        $ref: '#/components/requestBodies/WebhookSubscribeRequest'
+      responses:
+        "200":
+          description: RequestSuccess
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "413":
+          description: Request Entity Too Large
+        "429":
+          description: Too Many Requests
+        "500":
+          description: Internal Server Error
+      security:
+      - CognitoServerAuthorizer: []
+      summary: Subscribe to webhooks
+      tags:
+      - webhooks
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: aws_proxy
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-webhook-subscribe/invocations"
+components:
+  parameters: {}
+  requestBodies:
+    CreateCustomerRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateCustomerRequest'
+      required: true
+    UpdateCustomerRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UpdateCustomerRequest'
+      required: true
+    UpdateMeterRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UpdateMeterRequest'
+      required: true
+    CreateContractRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateContractRequest'
+      required: true
+    LoginRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/LoginRequest'
+      required: true
+    EventsDryRunRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EventsDryRunRequest'
+      description: |-
+        An array of events following the EventInput schema. This request body should be included in the PUT request to '/events'
+              Up to 1000 events or a total payload max size of 256KB
+      required: true
+    SendEventsRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SendEventsRequest'
+      description: |-
+        An array of events following the EventInput schema. This request body should be included in the PUT request to '/events'
+              Up to 1000 events or a total payload max size of 256KB
+      required: true
+    NetSuiteSyncInvoicesRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NetSuiteSyncInvoicesRequest'
+      required: true
+    NetSuiteExportSalesOrderRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NetSuiteExportSalesOrderRequest'
+      required: true
+    GrantCreditsRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GrantCreditsRequest'
+      required: true
+    DeductCreditsRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DeductCreditsRequest'
+      required: true
+    WebhookSubscribeRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/WebhookSubscribeRequest'
+      description: Subscribe to webhooks and receive event notifications.
+      required: true
+  responses:
+    CreateCustomerResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateCustomerResponse'
+      description: RequestSuccess
+    ListCustomersResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListCustomersResponse'
+      description: RequestSuccess
+    GetCustomerResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetCustomerResponse'
+      description: RequestSuccess
+    UpdateCustomerResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UpdateCustomerResponse'
+      description: RequestSuccess
+    DeleteCustomerResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DeleteCustomerResponse'
+      description: RequestSuccess
+    GetMeterResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetMeterResponse'
+      description: RequestSuccess
+    UpdateMeterResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UpdateMeterResponse'
+      description: RequestSuccess
+    DeleteMeterResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DeleteMeterResponse'
+      description: RequestSuccess
+    ListMetersResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListMetersResponse'
+      description: RequestSuccess
+    GetPlanResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetPlanResponse'
+      description: RequestSuccess
+    DeletePlanResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DeletePlanResponse'
+      description: RequestSuccess
+    ListPlansResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListPlansResponse'
+      description: RequestSuccess
+    GetContractResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetContractResponse'
+      description: RequestSuccess
+    DeleteContractResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DeleteContractResponse'
+      description: RequestSuccess
+    ListContractsResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListContractsResponse'
+      description: RequestSuccess
+    CreateContractResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateContractResponse'
+      description: RequestSuccess
+    GetInvoiceResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetInvoiceResponse'
+      description: RequestSuccess
+    ListInvoicesResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListInvoicesResponse'
+      description: RequestSuccess
+    LoginResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/LoginResponse'
+      description: RequestSuccess
+    EventsDryRunResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EventsDryRunResponse'
+      description: Events with their corresponding meter and customer data.
+    QueryEventsResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/QueryEventsResponse'
+      description: response contains an array of events
+    SendEventsResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SendEventsResponse'
+      description: RequestSuccess
+    GetEventByRefIdResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetEventByRefIdResponse'
+      description: response contains the event matching the provided refId
+    DeleteEventByRefIdResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DeleteEventByRefIdResponse'
+      description: Contains the event that was deleted
+    GetProductsUsageReportResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetProductsUsageReportResponse'
+      description: response contains the products usage report
+    GetCommitmentReportResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetCommitmentReportResponse'
+      description: response contains the commitment report
+    NetSuiteSyncInvoicesResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NetSuiteSyncInvoicesResponse'
+      description: RequestSuccess
+    RequestSuccess:
+      description: RequestSuccess
+    ListCreditLedgerEntriesResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListCreditLedgerEntriesResponse'
+      description: RequestSuccess
+  schemas:
+    CreateCustomerRequest:
+      example:
+        name: name
+        alias: alias
+      properties:
+        name:
+          description: The name of the customer
+          minLength: 1
+          type: string
+        alias:
+          description: The alias of the customer used to match events to the customer.
+          minLength: 1
+          type: string
+      required:
+      - name
+      type: object
+    CreateCustomerResponse:
+      example:
+        customer:
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          deletedAt: deletedAt
+          name: name
+          alias: alias
+          id: id
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        customer:
+          $ref: '#/components/schemas/CreateCustomerResponse_customer'
+      required:
+      - customer
+      type: object
+    ListCustomersResponse:
+      example:
+        nextCursor: nextCursor
+        total: 0.8008281904610115
+        hasMore: true
+        customers:
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          name: name
+          alias: alias
+          id: id
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          name: name
+          alias: alias
+          id: id
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        customers:
+          items:
+            $ref: '#/components/schemas/ListCustomersResponse_customers_inner'
+          type: array
+        total:
+          type: number
+        hasMore:
+          type: boolean
+        nextCursor:
+          type: string
+      required:
+      - customers
+      - hasMore
+      - total
+      type: object
+    GetCustomerResponse:
+      example:
+        customer:
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          deletedAt: deletedAt
+          name: name
+          alias: alias
+          id: id
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        customer:
+          $ref: '#/components/schemas/CreateCustomerResponse_customer'
+      required:
+      - customer
+      type: object
+    UpdateCustomerRequest:
+      additionalProperties: false
+      example:
+        name: name
+        alias: alias
+      properties:
+        name:
+          description: The name of the customer
+          minLength: 1
+          type: string
+        alias:
+          description: The alias of the customer used to match events to the customer.
+          minLength: 1
+          type: string
+      type: object
+    UpdateCustomerResponse:
+      example:
+        customer:
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          deletedAt: deletedAt
+          name: name
+          alias: alias
+          id: id
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        customer:
+          $ref: '#/components/schemas/CreateCustomerResponse_customer'
+      required:
+      - customer
+      type: object
+    DeleteCustomerResponse:
+      example:
+        customer:
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          deletedAt: deletedAt
+          name: name
+          alias: alias
+          id: id
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        customer:
+          $ref: '#/components/schemas/CreateCustomerResponse_customer'
+      required:
+      - customer
+      type: object
+    AggregationOperator:
+      description: The aggregation method defines how the events should be summed
+        to represent a usage value.
+      enum:
+      - Count
+      - Sum
+      - Distinct
+      - Max
+      - Min
+      - Average
+      - First
+      - Last
+      type: string
+    CriterionOperator:
+      enum:
+      - Equals
+      - DoesntEqual
+      - Has
+      - In
+      - Contains
+      - DoesntContain
+      - LargerThan
+      - LowerThan
+      - LowerEqualTo
+      - LargerEqualTo
+      type: string
+    Criterion:
+      example:
+        field: field
+        value: value
+        operator: Equals
+      properties:
+        field:
+          minLength: 1
+          type: string
+        operator:
+          $ref: '#/components/schemas/CriterionOperator'
+        value:
+          minLength: 1
+          type: string
+      required:
+      - field
+      - operator
+      - value
+      type: object
+    Condition:
+      example:
+        criterions:
+        - field: field
+          value: value
+          operator: Equals
+        - field: field
+          value: value
+          operator: Equals
+      properties:
+        criterions:
+          items:
+            $ref: '#/components/schemas/Criterion'
+          minItems: 1
+          type: array
+      required:
+      - criterions
+      type: object
+    Filter:
+      description: |-
+        The filter to apply to the events to be included in the meter.
+            The filter object contains an array of Conditions, each condition represents a logical OR statement.
+            Each condition contains an array of Criteria (criterions), each criterion represents a logical AND statement.
+      example:
+        conditions:
+        - criterions:
+          - field: field
+            value: value
+            operator: Equals
+          - field: field
+            value: value
+            operator: Equals
+        - criterions:
+          - field: field
+            value: value
+            operator: Equals
+          - field: field
+            value: value
+            operator: Equals
+      properties:
+        conditions:
+          items:
+            $ref: '#/components/schemas/Condition'
+          minItems: 1
+          type: array
+      required:
+      - conditions
+      type: object
+    GetMeterResponse:
+      example:
+        meter:
+          filter:
+            conditions:
+            - criterions:
+              - field: field
+                value: value
+                operator: Equals
+              - field: field
+                value: value
+                operator: Equals
+            - criterions:
+              - field: field
+                value: value
+                operator: Equals
+              - field: field
+                value: value
+                operator: Equals
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          deletedAt: deletedAt
+          name: name
+          eventName: eventName
+          id: id
+          aggregationMethod:
+            field: field
+            operator: Count
+            instanceKey: instanceKey
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        meter:
+          $ref: '#/components/schemas/GetMeterResponse_meter'
+      required:
+      - meter
+      type: object
+    UpdateMeterRequest:
+      additionalProperties: false
+      example:
+        filter:
+          conditions:
+          - criterions:
+            - field: field
+              value: value
+              operator: Equals
+            - field: field
+              value: value
+              operator: Equals
+          - criterions:
+            - field: field
+              value: value
+              operator: Equals
+            - field: field
+              value: value
+              operator: Equals
+        name: name
+        eventName: eventName
+        aggregationMethod:
+          field: field
+          operator: Count
+          instanceKey: instanceKey
+      properties:
+        name:
+          description: The name of the meter
+          minLength: 1
+          type: string
+        eventName:
+          description: The name of the event that the meter is tracking.
+          minLength: 1
+          type: string
+        aggregationMethod:
+          $ref: '#/components/schemas/GetMeterResponse_meter_aggregationMethod'
+        filter:
+          $ref: '#/components/schemas/Filter'
+      type: object
+    UpdateMeterResponse:
+      example:
+        meter:
+          filter:
+            conditions:
+            - criterions:
+              - field: field
+                value: value
+                operator: Equals
+              - field: field
+                value: value
+                operator: Equals
+            - criterions:
+              - field: field
+                value: value
+                operator: Equals
+              - field: field
+                value: value
+                operator: Equals
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          deletedAt: deletedAt
+          name: name
+          eventName: eventName
+          id: id
+          aggregationMethod:
+            field: field
+            operator: Count
+            instanceKey: instanceKey
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        meter:
+          $ref: '#/components/schemas/GetMeterResponse_meter'
+      required:
+      - meter
+      type: object
+    DeleteMeterResponse:
+      example:
+        meter:
+          filter:
+            conditions:
+            - criterions:
+              - field: field
+                value: value
+                operator: Equals
+              - field: field
+                value: value
+                operator: Equals
+            - criterions:
+              - field: field
+                value: value
+                operator: Equals
+              - field: field
+                value: value
+                operator: Equals
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          deletedAt: deletedAt
+          name: name
+          eventName: eventName
+          id: id
+          aggregationMethod:
+            field: field
+            operator: Count
+            instanceKey: instanceKey
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        meter:
+          $ref: '#/components/schemas/GetMeterResponse_meter'
+      required:
+      - meter
+      type: object
+    ListMetersResponse:
+      example:
+        nextCursor: nextCursor
+        total: 0.8008281904610115
+        hasMore: true
+        meters:
+        - filter:
+            conditions:
+            - criterions:
+              - field: field
+                value: value
+                operator: Equals
+              - field: field
+                value: value
+                operator: Equals
+            - criterions:
+              - field: field
+                value: value
+                operator: Equals
+              - field: field
+                value: value
+                operator: Equals
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          name: name
+          eventName: eventName
+          id: id
+          aggregationMethod:
+            field: field
+            operator: Count
+            instanceKey: instanceKey
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - filter:
+            conditions:
+            - criterions:
+              - field: field
+                value: value
+                operator: Equals
+              - field: field
+                value: value
+                operator: Equals
+            - criterions:
+              - field: field
+                value: value
+                operator: Equals
+              - field: field
+                value: value
+                operator: Equals
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          name: name
+          eventName: eventName
+          id: id
+          aggregationMethod:
+            field: field
+            operator: Count
+            instanceKey: instanceKey
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        meters:
+          items:
+            $ref: '#/components/schemas/ListMetersResponse_meters_inner'
+          type: array
+        total:
+          type: number
+        hasMore:
+          type: boolean
+        nextCursor:
+          type: string
+      required:
+      - hasMore
+      - meters
+      - total
+      type: object
+    PlanStatus:
+      description: "The status of the plan. plan statuses are active, inactive"
+      enum:
+      - Active
+      - Inactive
+      - Error
+      type: string
+    BillingInterval:
+      enum:
+      - Monthly
+      - BiMonthly
+      - Quarterly
+      - SixMonths
+      - Yearly
+      type: string
+    PaymentTerm:
+      default: Postpayment
+      enum:
+      - Prepayment
+      - Postpayment
+      type: string
+    PlanBillingData:
+      description: "The billing data of the plan. The billing data contains the billing\
+        \ interval, the plan duration the payment terms and auto renewal, and the\
+        \ billing method."
+      example:
+        duration: 0.08008281904610115
+        proRated: true
+        autoRenewal: false
+        billingInterval: Monthly
+        paymentTerm: Postpayment
+      properties:
+        billingInterval:
+          $ref: '#/components/schemas/BillingInterval'
+        duration:
+          exclusiveMinimum: true
+          minimum: 0
+          type: number
+        paymentTerm:
+          $ref: '#/components/schemas/PaymentTerm'
+        autoRenewal:
+          default: false
+          type: boolean
+        proRated:
+          default: true
+          type: boolean
+      required:
+      - autoRenewal
+      - billingInterval
+      - duration
+      - paymentTerm
+      - proRated
+      type: object
+    GetPlanResponse:
+      example:
+        plan:
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          deletedAt: deletedAt
+          name: name
+          id: id
+          billingData:
+            duration: 0.08008281904610115
+            proRated: true
+            autoRenewal: false
+            billingInterval: Monthly
+            paymentTerm: Postpayment
+          status: Active
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        plan:
+          $ref: '#/components/schemas/GetPlanResponse_plan'
+      required:
+      - plan
+      type: object
+    DeletePlanResponse:
+      example:
+        plan:
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          deletedAt: deletedAt
+          name: name
+          id: id
+          billingData:
+            duration: 0.08008281904610115
+            proRated: true
+            autoRenewal: false
+            billingInterval: Monthly
+            paymentTerm: Postpayment
+          status: Active
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        plan:
+          $ref: '#/components/schemas/GetPlanResponse_plan'
+      required:
+      - plan
+      type: object
+    ListPlansResponse:
+      example:
+        nextCursor: nextCursor
+        total: 0.8008281904610115
+        plans:
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          name: name
+          id: id
+          billingData:
+            duration: 0.08008281904610115
+            proRated: true
+            autoRenewal: false
+            billingInterval: Monthly
+            paymentTerm: Postpayment
+          status: Active
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          name: name
+          id: id
+          billingData:
+            duration: 0.08008281904610115
+            proRated: true
+            autoRenewal: false
+            billingInterval: Monthly
+            paymentTerm: Postpayment
+          status: Active
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        hasMore: true
+      properties:
+        plans:
+          items:
+            $ref: '#/components/schemas/ListPlansResponse_plans_inner'
+          type: array
+        total:
+          type: number
+        hasMore:
+          type: boolean
+        nextCursor:
+          type: string
+      required:
+      - hasMore
+      - plans
+      - total
+      type: object
+    GetContractResponse:
+      example:
+        contract:
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          deletedAt: deletedAt
+          endDate: 2000-01-23T04:56:07.000+00:00
+          customerId: customerId
+          planId: planId
+          id: id
+          startDate: 2000-01-23T04:56:07.000+00:00
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        contract:
+          $ref: '#/components/schemas/GetContractResponse_contract'
+      required:
+      - contract
+      type: object
+    DeleteContractResponse:
+      example:
+        contract:
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          deletedAt: deletedAt
+          endDate: 2000-01-23T04:56:07.000+00:00
+          customerId: customerId
+          planId: planId
+          id: id
+          startDate: 2000-01-23T04:56:07.000+00:00
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        contract:
+          $ref: '#/components/schemas/GetContractResponse_contract'
+      required:
+      - contract
+      type: object
+    ListContractsResponse:
+      example:
+        nextCursor: nextCursor
+        total: 0.8008281904610115
+        hasMore: true
+        contracts:
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          endDate: 2000-01-23T04:56:07.000+00:00
+          customerId: customerId
+          planId: planId
+          id: id
+          startDate: 2000-01-23T04:56:07.000+00:00
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          endDate: 2000-01-23T04:56:07.000+00:00
+          customerId: customerId
+          planId: planId
+          id: id
+          startDate: 2000-01-23T04:56:07.000+00:00
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        contracts:
+          items:
+            $ref: '#/components/schemas/ListContractsResponse_contracts_inner'
+          type: array
+        total:
+          type: number
+        hasMore:
+          type: boolean
+        nextCursor:
+          type: string
+      required:
+      - contracts
+      - hasMore
+      - total
+      type: object
+    CreateContractRequest:
+      example:
+        endDate: 2000-01-23T04:56:07.000+00:00
+        customerId: customerId
+        planId: planId
+        startDate: 2000-01-23T04:56:07.000+00:00
+      properties:
+        startDate:
+          description: The start date of the contract
+          format: date-time
+          type: string
+        endDate:
+          description: The end date of the contract
+          format: date-time
+          type: string
+        customerId:
+          description: The id of the customer that the contract is associated with
+          pattern: "^[0-9a-fA-F]{24}$"
+          type: string
+        planId:
+          description: The id of the plan that the contract is associated with
+          pattern: "^[0-9a-fA-F]{24}$"
+          type: string
+      required:
+      - customerId
+      - planId
+      - startDate
+      type: object
+    CreateContractResponse:
+      example:
+        contract:
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          deletedAt: deletedAt
+          endDate: 2000-01-23T04:56:07.000+00:00
+          customerId: customerId
+          planId: planId
+          id: id
+          startDate: 2000-01-23T04:56:07.000+00:00
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        contract:
+          $ref: '#/components/schemas/GetContractResponse_contract'
+      required:
+      - contract
+      type: object
+    Period:
+      description: "The billing cycle of the invoice, consists of a start and end\
+        \ date"
+      example:
+        startTime: 2000-01-23T04:56:07.000+00:00
+        endTime: 2000-01-23T04:56:07.000+00:00
+      properties:
+        startTime:
+          format: date-time
+          type: string
+        endTime:
+          format: date-time
+          type: string
+      required:
+      - endTime
+      - startTime
+      type: object
+    GetInvoiceResponse:
+      example:
+        invoice:
+          lineItems:
+          - price: 0.08008281904610115
+            invoiceId: invoiceId
+          - price: 0.08008281904610115
+            invoiceId: invoiceId
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          amount: 6.027456183070403
+          deletedAt: deletedAt
+          billingCycle:
+            startTime: 2000-01-23T04:56:07.000+00:00
+            endTime: 2000-01-23T04:56:07.000+00:00
+          customerId: customerId
+          contractId: contractId
+          name: name
+          id: id
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        invoice:
+          $ref: '#/components/schemas/GetInvoiceResponse_invoice'
+      required:
+      - invoice
+      type: object
+    ListInvoicesResponse:
+      example:
+        nextCursor: nextCursor
+        total: 6.027456183070403
+        invoices:
+        - lineItems:
+          - price: 0.08008281904610115
+            invoiceId: invoiceId
+          - price: 0.08008281904610115
+            invoiceId: invoiceId
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          amount: 0.8008281904610115
+          billingCycle:
+            startTime: 2000-01-23T04:56:07.000+00:00
+            endTime: 2000-01-23T04:56:07.000+00:00
+          customerId: customerId
+          contractId: contractId
+          name: name
+          id: id
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - lineItems:
+          - price: 0.08008281904610115
+            invoiceId: invoiceId
+          - price: 0.08008281904610115
+            invoiceId: invoiceId
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          amount: 0.8008281904610115
+          billingCycle:
+            startTime: 2000-01-23T04:56:07.000+00:00
+            endTime: 2000-01-23T04:56:07.000+00:00
+          customerId: customerId
+          contractId: contractId
+          name: name
+          id: id
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        hasMore: true
+      properties:
+        invoices:
+          items:
+            $ref: '#/components/schemas/ListInvoicesResponse_invoices_inner'
+          type: array
+        total:
+          type: number
+        hasMore:
+          type: boolean
+        nextCursor:
+          type: string
+      required:
+      - hasMore
+      - invoices
+      - total
+      type: object
+    LoginRequest:
+      example:
+        refreshToken: refreshToken
+      properties:
+        refreshToken:
+          description: The refresh token issued for the authentication process. It
+            is required to obtain a new access token.
+          type: string
+      required:
+      - refreshToken
+      type: object
+    LoginResponse:
+      example:
+        accessToken: accessToken
+      properties:
+        accessToken:
+          description: The new access token to be used for subsequent API calls. It
+            is set to expire every hour.
+          type: string
+      required:
+      - accessToken
+      type: object
+    EventsDryRunRequest:
+      example:
+        events:
+        - customerAlias: customer_12345
+          ref: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
+          data:
+            key1: processing_duration
+            key2: api_url
+          name: api_call
+          timestamp: 2023-09-13T18:25:43.511Z
+        - customerAlias: customer_12345
+          ref: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
+          data:
+            key1: processing_duration
+            key2: api_url
+          name: api_call
+          timestamp: 2023-09-13T18:25:43.511Z
+        - customerAlias: customer_12345
+          ref: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
+          data:
+            key1: processing_duration
+            key2: api_url
+          name: api_call
+          timestamp: 2023-09-13T18:25:43.511Z
+        - customerAlias: customer_12345
+          ref: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
+          data:
+            key1: processing_duration
+            key2: api_url
+          name: api_call
+          timestamp: 2023-09-13T18:25:43.511Z
+        - customerAlias: customer_12345
+          ref: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
+          data:
+            key1: processing_duration
+            key2: api_url
+          name: api_call
+          timestamp: 2023-09-13T18:25:43.511Z
+      properties:
+        events:
+          items:
+            $ref: '#/components/schemas/EventsDryRunRequest_events_inner'
+          maxItems: 1000
+          minItems: 1
+          type: array
+      required:
+      - events
+      type: object
+    EventsDryRunResponse:
+      items:
+        $ref: '#/components/schemas/EventsDryRunResponse_inner'
+      type: array
+    QueryEventsResponse:
+      example:
+        events:
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          customerAlias: customer_12345
+          ref: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
+          data:
+            key1: processing_duration
+            key2: api_url
+          name: api_call
+          id: id
+          timestamp: 2023-09-13T18:25:43.511Z
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          customerAlias: customer_12345
+          ref: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
+          data:
+            key1: processing_duration
+            key2: api_url
+          name: api_call
+          id: id
+          timestamp: 2023-09-13T18:25:43.511Z
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        events:
+          description: An array of events matching the query criteria
+          items:
+            $ref: '#/components/schemas/QueryEventsResponse_events_inner'
+          type: array
+      required:
+      - events
+      type: object
+    SendEventsRequest:
+      example:
+        events:
+        - customerAlias: customer_12345
+          ref: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
+          data:
+            key1: processing_duration
+            key2: api_url
+          name: api_call
+          timestamp: 2023-09-13T18:25:43.511Z
+        - customerAlias: customer_12345
+          ref: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
+          data:
+            key1: processing_duration
+            key2: api_url
+          name: api_call
+          timestamp: 2023-09-13T18:25:43.511Z
+        - customerAlias: customer_12345
+          ref: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
+          data:
+            key1: processing_duration
+            key2: api_url
+          name: api_call
+          timestamp: 2023-09-13T18:25:43.511Z
+        - customerAlias: customer_12345
+          ref: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
+          data:
+            key1: processing_duration
+            key2: api_url
+          name: api_call
+          timestamp: 2023-09-13T18:25:43.511Z
+        - customerAlias: customer_12345
+          ref: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
+          data:
+            key1: processing_duration
+            key2: api_url
+          name: api_call
+          timestamp: 2023-09-13T18:25:43.511Z
+      properties:
+        events:
+          items:
+            $ref: '#/components/schemas/EventsDryRunRequest_events_inner'
+          maxItems: 1000
+          minItems: 1
+          type: array
+      required:
+      - events
+      type: object
+    SendEventsResponse:
+      example:
+        validEvents:
+        - customerAlias: customer_12345
+          ref: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
+          data:
+            key1: processing_duration
+            key2: api_url
+          name: api_call
+          timestamp: 2023-09-13T18:25:43.511Z
+        - customerAlias: customer_12345
+          ref: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
+          data:
+            key1: processing_duration
+            key2: api_url
+          name: api_call
+          timestamp: 2023-09-13T18:25:43.511Z
+        invalidEvents:
+        - event:
+            customerAlias: customer_12345
+            ref: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
+            data:
+              key1: processing_duration
+              key2: api_url
+            name: api_call
+            timestamp: 2023-09-13T18:25:43.511Z
+          error: Event ref already exists.
+        - event:
+            customerAlias: customer_12345
+            ref: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
+            data:
+              key1: processing_duration
+              key2: api_url
+            name: api_call
+            timestamp: 2023-09-13T18:25:43.511Z
+          error: Event ref already exists.
+      properties:
+        validEvents:
+          description: An array of events that were successfully processed and sent
+            to the queue.
+          items:
+            $ref: '#/components/schemas/EventsDryRunRequest_events_inner'
+          type: array
+        invalidEvents:
+          description: An array of events that failed validation and were not sent
+            to the queue. Each object contains the event and the error message.
+          items:
+            $ref: '#/components/schemas/SendEventsResponse_invalidEvents_inner'
+          type: array
+      required:
+      - invalidEvents
+      - validEvents
+      type: object
+    GetEventByRefIdResponse:
+      example:
+        event:
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          customerAlias: customer_12345
+          ref: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
+          data:
+            key1: processing_duration
+            key2: api_url
+          name: api_call
+          id: id
+          timestamp: 2023-09-13T18:25:43.511Z
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        event:
+          $ref: '#/components/schemas/GetEventByRefIdResponse_event'
+      required:
+      - event
+      type: object
+    DeleteEventByRefIdResponse:
+      example:
+        event:
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          customerAlias: customer_12345
+          ref: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
+          deletedAt: deletedAt
+          data:
+            key1: processing_duration
+            key2: api_url
+          name: api_call
+          id: id
+          timestamp: 2023-09-13T18:25:43.511Z
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        event:
+          $ref: '#/components/schemas/DeleteEventByRefIdResponse_event'
+      required:
+      - event
+      type: object
+    ContractStatus:
+      enum:
+      - Active
+      - Inactive
+      - Terminated
+      - PendingTermination
+      - Error
+      type: string
+    Currency:
+      enum:
+      - USD
+      - EUR
+      - GBP
+      - ILS
+      type: string
+    GetProductsUsageReportResponse:
+      example:
+        usageConsumptionCurrencyAmount: 2.3021358869347655
+        usageConsumptionUnitsAmount: 7.061401241503109
+        contractStatus: Active
+        daysToContractEnd: 0.8008281904610115
+        endDate: 2000-01-23T04:56:07.000+00:00
+        contractStartDate: 2000-01-23T04:56:07.000+00:00
+        productVariantName: productVariantName
+        customerName: customerName
+        commitmentConsumptionPercentage: 6.027456183070403
+        commercialTermsAmount: 5.637376656633329
+        erpId: erpId
+        currency: USD
+        totalCommitmentUnitsAmount: 5.962133916683182
+        startDate: 2000-01-23T04:56:07.000+00:00
+        totalCommitmentCurrencyAmount: 1.4658129805029452
+      properties:
+        contractStatus:
+          $ref: '#/components/schemas/ContractStatus'
+        customerName:
+          type: string
+        startDate:
+          format: date-time
+          type: string
+        endDate:
+          format: date-time
+          type: string
+        contractStartDate:
+          format: date-time
+          type: string
+        daysToContractEnd:
+          type: number
+        productVariantName:
+          type: string
+        commitmentConsumptionPercentage:
+          type: number
+        totalCommitmentCurrencyAmount:
+          type: number
+        totalCommitmentUnitsAmount:
+          type: number
+        commercialTermsAmount:
+          type: number
+        erpId:
+          type: string
+        currency:
+          $ref: '#/components/schemas/Currency'
+        usageConsumptionCurrencyAmount:
+          type: number
+        usageConsumptionUnitsAmount:
+          type: number
+      required:
+      - contractStartDate
+      - contractStatus
+      - currency
+      - customerName
+      - endDate
+      - productVariantName
+      - startDate
+      type: object
+    GetCommitmentReportResponse:
+      example:
+        contractStatus: Active
+        daysToContractEnd: 0.8008281904610115
+        endDate: 2000-01-23T04:56:07.000+00:00
+        contractStartDate: 2000-01-23T04:56:07.000+00:00
+        productVariantName: productVariantName
+        commitmentConsumptionCurrencyAmount: 6.027456183070403
+        customerName: customerName
+        commitmentConsumptionPercentage: 5.962133916683182
+        commercialTermsAmount: 7.061401241503109
+        commitmentConsumptionUnitsAmount: 1.4658129805029452
+        erpId: erpId
+        currency: USD
+        totalCommitmentUnitsAmount: 2.3021358869347655
+        startDate: 2000-01-23T04:56:07.000+00:00
+        totalCommitmentCurrencyAmount: 5.637376656633329
+      properties:
+        contractStatus:
+          $ref: '#/components/schemas/ContractStatus'
+        customerName:
+          type: string
+        startDate:
+          format: date-time
+          type: string
+        endDate:
+          format: date-time
+          type: string
+        contractStartDate:
+          format: date-time
+          type: string
+        daysToContractEnd:
+          type: number
+        productVariantName:
+          type: string
+        commitmentConsumptionCurrencyAmount:
+          type: number
+        commitmentConsumptionUnitsAmount:
+          type: number
+        commitmentConsumptionPercentage:
+          type: number
+        totalCommitmentCurrencyAmount:
+          type: number
+        totalCommitmentUnitsAmount:
+          type: number
+        commercialTermsAmount:
+          type: number
+        erpId:
+          type: string
+        currency:
+          $ref: '#/components/schemas/Currency'
+      required:
+      - commitmentConsumptionCurrencyAmount
+      - commitmentConsumptionPercentage
+      - commitmentConsumptionUnitsAmount
+      - contractStartDate
+      - contractStatus
+      - currency
+      - customerName
+      - endDate
+      - productVariantName
+      - startDate
+      - totalCommitmentCurrencyAmount
+      - totalCommitmentUnitsAmount
+      type: object
+    NetSuiteSyncInvoicesRequest:
+      example:
+        uid: uid
+        integrationType: upsertInvoice
+        data:
+          discountRate: 1.4658129805029452
+          item:
+            items:
+            - item:
+                id: id
+              amount: 6.027456183070403
+              quantity: 0.8008281904610115
+              description: description
+              memo: memo
+            - item:
+                id: id
+              amount: 6.027456183070403
+              quantity: 0.8008281904610115
+              description: description
+              memo: memo
+          endDate: 2000-01-23T04:56:07.000+00:00
+          discountItem:
+            id: id
+          memo: memo
+          externalId: externalId
+          tranDate: 2000-01-23T04:56:07.000+00:00
+          startDate: 2000-01-23T04:56:07.000+00:00
+          entity:
+            id: id
+          account:
+            id: id
+      properties:
+        integrationType:
+          enum:
+          - upsertInvoice
+          type: string
+        uid:
+          type: string
+        data:
+          $ref: '#/components/schemas/NetSuiteSyncInvoicesRequest_data'
+      required:
+      - data
+      - integrationType
+      - uid
+      type: object
+    NetSuiteSyncInvoicesResponse:
+      example:
+        recordId: recordId
+        tranId: tranId
+      properties:
+        recordId:
+          type: string
+        tranId:
+          type: string
+      required:
+      - recordId
+      - tranId
+      type: object
+    NetSuiteExportSalesOrderRequest:
+      example:
+        productsIds:
+        - productsIds
+        - productsIds
+        contractId: contractId
+        subsidiaryId: subsidiaryId
+      properties:
+        contractId:
+          pattern: "^[0-9a-fA-F]{24}$"
+          type: string
+        productsIds:
+          items:
+            pattern: "^[0-9a-fA-F]{24}$"
+            type: string
+          type: array
+        subsidiaryId:
+          type: string
+      required:
+      - contractId
+      - productsIds
+      - subsidiaryId
+      type: object
+    BillingCycleStatus:
+      enum:
+      - Grant
+      - Deduct
+      type: string
+    CreditLedgerEntry:
+      example:
+        amount: 0.8008281904610115
+        balanceAfterEntry: 6.027456183070403
+        invoiceId: invoiceId
+        type: Grant
+      properties:
+        type:
+          $ref: '#/components/schemas/BillingCycleStatus'
+        amount:
+          type: number
+        invoiceId:
+          type: string
+        balanceAfterEntry:
+          type: number
+      required:
+      - amount
+      - balanceAfterEntry
+      - type
+      type: object
+    ListCreditLedgerEntriesResponse:
+      example:
+        entries:
+        - amount: 0.8008281904610115
+          balanceAfterEntry: 6.027456183070403
+          invoiceId: invoiceId
+          type: Grant
+        - amount: 0.8008281904610115
+          balanceAfterEntry: 6.027456183070403
+          invoiceId: invoiceId
+          type: Grant
+      properties:
+        entries:
+          description: The credit ledger entries for the customer.
+          items:
+            $ref: '#/components/schemas/CreditLedgerEntry'
+          type: array
+      required:
+      - entries
+      type: object
+    GrantCreditsRequest:
+      example:
+        customerId: customerId
+        creditAmount: 0.8008281904610115
+      properties:
+        creditAmount:
+          description: The amount of credits to be granted to the user.
+          type: number
+        customerId:
+          description: The ID of the customer to whom the credits will be granted.
+          pattern: "^[0-9a-fA-F]{24}$"
+          type: string
+      required:
+      - creditAmount
+      - customerId
+      type: object
+    DeductCreditsRequest:
+      example:
+        customerId: customerId
+        creditAmount: 0.8008281904610115
+      properties:
+        creditAmount:
+          description: The amount of credits to be deducted from the user.
+          type: number
+        customerId:
+          description: The ID of the customer to whom the credits will be deducted
+            from.
+          pattern: "^[0-9a-fA-F]{24}$"
+          type: string
+      required:
+      - creditAmount
+      - customerId
+      type: object
+    NotificationEventType:
+      enum:
+      - AnonymousCustomer
+      - Overage
+      - UpcomingRenewal
+      - InvoiceApproved
+      type: string
+    WebhookSubscribeRequest:
+      example:
+        callbackUrl: callbackUrl
+        eventType: AnonymousCustomer
+      properties:
+        callbackUrl:
+          type: string
+        eventType:
+          $ref: '#/components/schemas/NotificationEventType'
+      required:
+      - callbackUrl
+      - eventType
+      type: object
+    Limit:
+      default: 10
+      maximum: 1000
+      type: number
+    Cursor:
+      type: string
+    CustomerId:
+      pattern: "^[0-9a-fA-F]{24}$"
+      type: string
+    MeterId:
+      pattern: "^[0-9a-fA-F]{24}$"
+      type: string
+    PlanId:
+      pattern: "^[0-9a-fA-F]{24}$"
+      type: string
+    ContractId:
+      pattern: "^[0-9a-fA-F]{24}$"
+      type: string
+    InvoiceId:
+      pattern: "^[0-9a-fA-F]{24}$"
+      type: string
+    StartTime:
+      format: date-time
+      type: string
+    EndTime:
+      format: date-time
+      type: string
+    EventName:
+      minLength: 1
+      type: string
+    RefId:
+      type: string
+    ReportId:
+      type: string
+    CreateCustomerResponse_customer:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        deletedAt: deletedAt
+        name: name
+        alias: alias
+        id: id
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        name:
+          description: The name of the customer
+          minLength: 1
+          type: string
+        alias:
+          description: The alias of the customer used to match events to the customer.
+          minLength: 1
+          type: string
+        id:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        deletedAt:
+          type: string
+      required:
+      - createdAt
+      - deletedAt
+      - id
+      - name
+      - updatedAt
+      type: object
+    ListCustomersResponse_customers_inner:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        name: name
+        alias: alias
+        id: id
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        name:
+          description: The name of the customer
+          minLength: 1
+          type: string
+        alias:
+          description: The alias of the customer used to match events to the customer.
+          minLength: 1
+          type: string
+        id:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      required:
+      - createdAt
+      - id
+      - name
+      - updatedAt
+      type: object
+    GetMeterResponse_meter_aggregationMethod:
+      description: The aggregation method defines how the events should be summed
+        to represent a usage value.
+      example:
+        field: field
+        operator: Count
+        instanceKey: instanceKey
+      properties:
+        operator:
+          $ref: '#/components/schemas/AggregationOperator'
+        field:
+          description: The field inside the "data" property to apply the aggregation
+            method to.
+          type: string
+        instanceKey:
+          description: The fields that is used to group different events together
+            when measuring the usage.
+          type: string
+      required:
+      - operator
+      type: object
+    GetMeterResponse_meter:
+      example:
+        filter:
+          conditions:
+          - criterions:
+            - field: field
+              value: value
+              operator: Equals
+            - field: field
+              value: value
+              operator: Equals
+          - criterions:
+            - field: field
+              value: value
+              operator: Equals
+            - field: field
+              value: value
+              operator: Equals
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        deletedAt: deletedAt
+        name: name
+        eventName: eventName
+        id: id
+        aggregationMethod:
+          field: field
+          operator: Count
+          instanceKey: instanceKey
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        name:
+          description: The name of the meter
+          minLength: 1
+          type: string
+        eventName:
+          description: The name of the event that the meter is tracking.
+          minLength: 1
+          type: string
+        aggregationMethod:
+          $ref: '#/components/schemas/GetMeterResponse_meter_aggregationMethod'
+        filter:
+          $ref: '#/components/schemas/Filter'
+        id:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        deletedAt:
+          type: string
+      required:
+      - aggregationMethod
+      - createdAt
+      - deletedAt
+      - eventName
+      - id
+      - name
+      - updatedAt
+      type: object
+    ListMetersResponse_meters_inner:
+      example:
+        filter:
+          conditions:
+          - criterions:
+            - field: field
+              value: value
+              operator: Equals
+            - field: field
+              value: value
+              operator: Equals
+          - criterions:
+            - field: field
+              value: value
+              operator: Equals
+            - field: field
+              value: value
+              operator: Equals
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        name: name
+        eventName: eventName
+        id: id
+        aggregationMethod:
+          field: field
+          operator: Count
+          instanceKey: instanceKey
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        name:
+          description: The name of the meter
+          minLength: 1
+          type: string
+        eventName:
+          description: The name of the event that the meter is tracking.
+          minLength: 1
+          type: string
+        aggregationMethod:
+          $ref: '#/components/schemas/GetMeterResponse_meter_aggregationMethod'
+        filter:
+          $ref: '#/components/schemas/Filter'
+        id:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      required:
+      - aggregationMethod
+      - createdAt
+      - eventName
+      - id
+      - name
+      - updatedAt
+      type: object
+    GetPlanResponse_plan:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        deletedAt: deletedAt
+        name: name
+        id: id
+        billingData:
+          duration: 0.08008281904610115
+          proRated: true
+          autoRenewal: false
+          billingInterval: Monthly
+          paymentTerm: Postpayment
+        status: Active
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        name:
+          description: The name of the plan
+          minLength: 1
+          type: string
+        status:
+          $ref: '#/components/schemas/PlanStatus'
+        billingData:
+          $ref: '#/components/schemas/PlanBillingData'
+        id:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        deletedAt:
+          type: string
+      required:
+      - billingData
+      - createdAt
+      - deletedAt
+      - id
+      - name
+      - status
+      - updatedAt
+      type: object
+    ListPlansResponse_plans_inner:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        name: name
+        id: id
+        billingData:
+          duration: 0.08008281904610115
+          proRated: true
+          autoRenewal: false
+          billingInterval: Monthly
+          paymentTerm: Postpayment
+        status: Active
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        name:
+          description: The name of the plan
+          minLength: 1
+          type: string
+        status:
+          $ref: '#/components/schemas/PlanStatus'
+        billingData:
+          $ref: '#/components/schemas/PlanBillingData'
+        id:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      required:
+      - billingData
+      - createdAt
+      - id
+      - name
+      - status
+      - updatedAt
+      type: object
+    GetContractResponse_contract:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        deletedAt: deletedAt
+        endDate: 2000-01-23T04:56:07.000+00:00
+        customerId: customerId
+        planId: planId
+        id: id
+        startDate: 2000-01-23T04:56:07.000+00:00
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        startDate:
+          description: The start date of the contract
+          format: date-time
+          type: string
+        endDate:
+          description: The end date of the contract
+          format: date-time
+          type: string
+        customerId:
+          description: The id of the customer that the contract is associated with
+          pattern: "^[0-9a-fA-F]{24}$"
+          type: string
+        planId:
+          description: The id of the plan that the contract is associated with
+          pattern: "^[0-9a-fA-F]{24}$"
+          type: string
+        id:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        deletedAt:
+          type: string
+      required:
+      - createdAt
+      - customerId
+      - deletedAt
+      - id
+      - planId
+      - startDate
+      - updatedAt
+      type: object
+    ListContractsResponse_contracts_inner:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        endDate: 2000-01-23T04:56:07.000+00:00
+        customerId: customerId
+        planId: planId
+        id: id
+        startDate: 2000-01-23T04:56:07.000+00:00
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        startDate:
+          description: The start date of the contract
+          format: date-time
+          type: string
+        endDate:
+          description: The end date of the contract
+          format: date-time
+          type: string
+        customerId:
+          description: The id of the customer that the contract is associated with
+          pattern: "^[0-9a-fA-F]{24}$"
+          type: string
+        planId:
+          description: The id of the plan that the contract is associated with
+          pattern: "^[0-9a-fA-F]{24}$"
+          type: string
+        id:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      required:
+      - createdAt
+      - customerId
+      - id
+      - planId
+      - startDate
+      - updatedAt
+      type: object
+    GetInvoiceResponse_invoice_lineItems_inner:
+      example:
+        price: 0.08008281904610115
+        invoiceId: invoiceId
+      properties:
+        invoiceId:
+          description: The id of the invoice that the line item is a part of
+          pattern: "^[0-9a-fA-F]{24}$"
+          type: string
+        price:
+          description: The price of the line item
+          minimum: 0
+          type: number
+      required:
+      - invoiceId
+      - price
+      type: object
+    GetInvoiceResponse_invoice:
+      example:
+        lineItems:
+        - price: 0.08008281904610115
+          invoiceId: invoiceId
+        - price: 0.08008281904610115
+          invoiceId: invoiceId
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        amount: 6.027456183070403
+        deletedAt: deletedAt
+        billingCycle:
+          startTime: 2000-01-23T04:56:07.000+00:00
+          endTime: 2000-01-23T04:56:07.000+00:00
+        customerId: customerId
+        contractId: contractId
+        name: name
+        id: id
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        customerId:
+          description: The id of the customer that the invoice is associated with
+          pattern: "^[0-9a-fA-F]{24}$"
+          type: string
+        contractId:
+          description: The id of the contract that the invoice is associated with
+          pattern: "^[0-9a-fA-F]{24}$"
+          type: string
+        name:
+          description: "The name of the invoice, usually a description of the billing\
+            \ period"
+          minLength: 1
+          type: string
+        billingCycle:
+          $ref: '#/components/schemas/Period'
+        lineItems:
+          items:
+            $ref: '#/components/schemas/GetInvoiceResponse_invoice_lineItems_inner'
+          type: array
+        amount:
+          description: The total amount of the invoice
+          type: number
+        id:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        deletedAt:
+          type: string
+      required:
+      - amount
+      - billingCycle
+      - createdAt
+      - customerId
+      - deletedAt
+      - id
+      - lineItems
+      - name
+      - updatedAt
+      type: object
+    ListInvoicesResponse_invoices_inner:
+      example:
+        lineItems:
+        - price: 0.08008281904610115
+          invoiceId: invoiceId
+        - price: 0.08008281904610115
+          invoiceId: invoiceId
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        amount: 0.8008281904610115
+        billingCycle:
+          startTime: 2000-01-23T04:56:07.000+00:00
+          endTime: 2000-01-23T04:56:07.000+00:00
+        customerId: customerId
+        contractId: contractId
+        name: name
+        id: id
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        customerId:
+          description: The id of the customer that the invoice is associated with
+          pattern: "^[0-9a-fA-F]{24}$"
+          type: string
+        contractId:
+          description: The id of the contract that the invoice is associated with
+          pattern: "^[0-9a-fA-F]{24}$"
+          type: string
+        name:
+          description: "The name of the invoice, usually a description of the billing\
+            \ period"
+          minLength: 1
+          type: string
+        billingCycle:
+          $ref: '#/components/schemas/Period'
+        lineItems:
+          items:
+            $ref: '#/components/schemas/GetInvoiceResponse_invoice_lineItems_inner'
+          type: array
+        amount:
+          description: The total amount of the invoice
+          type: number
+        id:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      required:
+      - amount
+      - billingCycle
+      - createdAt
+      - customerId
+      - id
+      - lineItems
+      - name
+      - updatedAt
+      type: object
+    EventsDryRunRequest_events_inner:
+      example:
+        customerAlias: customer_12345
+        ref: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
+        data:
+          key1: processing_duration
+          key2: api_url
+        name: api_call
+        timestamp: 2023-09-13T18:25:43.511Z
+      properties:
+        name:
+          description: "The distinctive label assigned to an event, serving as a critical\
+            \ identifier for categorizing and pricing events within the system's backend\
+            \ infrastructure."
+          example: api_call
+          type: string
+        timestamp:
+          description: The temporal marker denoting the exact moment of event occurrence.
+            The timestamp is formatted as an ISO 8601 string and is expressed in Coordinated
+            Universal Time (UTC). i.e. YYYY-MM-DDTHH:MM:SS.SSSZ
+          example: 2023-09-13T18:25:43.511Z
+          format: date-time
+          type: string
+        customerAlias:
+          description: A pseudonymous or otherwise obfuscated identifier uniquely
+            assigned to each customer.
+          example: customer_12345
+          minLength: 1
+          type: string
+        ref:
+          description: A universally unique identifier (UUID) or other form of high-entropy
+            string serving as an immutable reference for each event entry.
+          example: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
+          type: string
+        data:
+          additionalProperties:
+            nullable: true
+          description: A schema-less JSON object encapsulating miscellaneous attributes
+            and metrics associated with the event.
+          example:
+            key1: processing_duration
+            key2: api_url
+          nullable: true
+          type: object
+      required:
+      - customerAlias
+      - name
+      - ref
+      - timestamp
+      type: object
+    EventsDryRunResponse_inner_event:
+      example:
+        accountId: accountId
+        customerAlias: customerAlias
+        ref: ref
+        data:
+          key: ""
+        name: name
+        timestamp: 2000-01-23T04:56:07.000+00:00
+      properties:
+        timestamp:
+          format: date-time
+          type: string
+        customerAlias:
+          minLength: 1
+          type: string
+        accountId:
+          pattern: "^[0-9a-fA-F]{24}$"
+          type: string
+        data:
+          additionalProperties:
+            nullable: true
+          nullable: true
+          type: object
+        ref:
+          type: string
+        name:
+          type: string
+      required:
+      - accountId
+      - customerAlias
+      - name
+      - ref
+      - timestamp
+      type: object
+    EventsDryRunResponse_inner_meterWithValues_inner:
+      example:
+        filter:
+          conditions:
+          - criterions:
+            - field: field
+              value: value
+              operator: Equals
+            - field: field
+              value: value
+              operator: Equals
+          - criterions:
+            - field: field
+              value: value
+              operator: Equals
+            - field: field
+              value: value
+              operator: Equals
+        name: name
+        eventName: eventName
+        aggregationMethod:
+          field: field
+          operator: Count
+          instanceKey: instanceKey
+        value: 0.8008281904610115
+        instanceValue: ""
+      properties:
+        name:
+          description: The name of the meter
+          minLength: 1
+          type: string
+        eventName:
+          description: The name of the event that the meter is tracking.
+          minLength: 1
+          type: string
+        aggregationMethod:
+          $ref: '#/components/schemas/GetMeterResponse_meter_aggregationMethod'
+        filter:
+          $ref: '#/components/schemas/Filter'
+        value:
+          type: number
+        instanceValue:
+          nullable: true
+      required:
+      - aggregationMethod
+      - eventName
+      - name
+      - value
+      type: object
+    EventsDryRunResponse_inner:
+      example:
+        matchedCustomer: matchedCustomer
+        meterWithValues:
+        - filter:
+            conditions:
+            - criterions:
+              - field: field
+                value: value
+                operator: Equals
+              - field: field
+                value: value
+                operator: Equals
+            - criterions:
+              - field: field
+                value: value
+                operator: Equals
+              - field: field
+                value: value
+                operator: Equals
+          name: name
+          eventName: eventName
+          aggregationMethod:
+            field: field
+            operator: Count
+            instanceKey: instanceKey
+          value: 0.8008281904610115
+          instanceValue: ""
+        - filter:
+            conditions:
+            - criterions:
+              - field: field
+                value: value
+                operator: Equals
+              - field: field
+                value: value
+                operator: Equals
+            - criterions:
+              - field: field
+                value: value
+                operator: Equals
+              - field: field
+                value: value
+                operator: Equals
+          name: name
+          eventName: eventName
+          aggregationMethod:
+            field: field
+            operator: Count
+            instanceKey: instanceKey
+          value: 0.8008281904610115
+          instanceValue: ""
+        event:
+          accountId: accountId
+          customerAlias: customerAlias
+          ref: ref
+          data:
+            key: ""
+          name: name
+          timestamp: 2000-01-23T04:56:07.000+00:00
+      properties:
+        event:
+          $ref: '#/components/schemas/EventsDryRunResponse_inner_event'
+        matchedCustomer:
+          nullable: true
+          type: string
+        meterWithValues:
+          items:
+            $ref: '#/components/schemas/EventsDryRunResponse_inner_meterWithValues_inner'
+          type: array
+      required:
+      - event
+      - meterWithValues
+      type: object
+    QueryEventsResponse_events_inner:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        customerAlias: customer_12345
+        ref: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
+        data:
+          key1: processing_duration
+          key2: api_url
+        name: api_call
+        id: id
+        timestamp: 2023-09-13T18:25:43.511Z
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        name:
+          description: "The distinctive label assigned to an event, serving as a critical\
+            \ identifier for categorizing and pricing events within the system's backend\
+            \ infrastructure."
+          example: api_call
+          type: string
+        timestamp:
+          description: The temporal marker denoting the exact moment of event occurrence.
+            The timestamp is formatted as an ISO 8601 string and is expressed in Coordinated
+            Universal Time (UTC). i.e. YYYY-MM-DDTHH:MM:SS.SSSZ
+          example: 2023-09-13T18:25:43.511Z
+          format: date-time
+          type: string
+        customerAlias:
+          description: A pseudonymous or otherwise obfuscated identifier uniquely
+            assigned to each customer.
+          example: customer_12345
+          minLength: 1
+          type: string
+        ref:
+          description: A universally unique identifier (UUID) or other form of high-entropy
+            string serving as an immutable reference for each event entry.
+          example: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
+          type: string
+        data:
+          additionalProperties:
+            nullable: true
+          description: A schema-less JSON object encapsulating miscellaneous attributes
+            and metrics associated with the event.
+          example:
+            key1: processing_duration
+            key2: api_url
+          nullable: true
+          type: object
+        id:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      required:
+      - createdAt
+      - customerAlias
+      - id
+      - name
+      - ref
+      - timestamp
+      - updatedAt
+      type: object
+    SendEventsResponse_invalidEvents_inner:
+      example:
+        event:
+          customerAlias: customer_12345
+          ref: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
+          data:
+            key1: processing_duration
+            key2: api_url
+          name: api_call
+          timestamp: 2023-09-13T18:25:43.511Z
+        error: Event ref already exists.
+      properties:
+        event:
+          $ref: '#/components/schemas/EventsDryRunRequest_events_inner'
+        error:
+          description: The error message indicating the reason the event failed validation.
+          example: Event ref already exists.
+          type: string
+      required:
+      - error
+      - event
+      type: object
+    GetEventByRefIdResponse_event:
+      description: The event matching the provided refId
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        customerAlias: customer_12345
+        ref: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
+        data:
+          key1: processing_duration
+          key2: api_url
+        name: api_call
+        id: id
+        timestamp: 2023-09-13T18:25:43.511Z
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        name:
+          description: "The distinctive label assigned to an event, serving as a critical\
+            \ identifier for categorizing and pricing events within the system's backend\
+            \ infrastructure."
+          example: api_call
+          type: string
+        timestamp:
+          description: The temporal marker denoting the exact moment of event occurrence.
+            The timestamp is formatted as an ISO 8601 string and is expressed in Coordinated
+            Universal Time (UTC). i.e. YYYY-MM-DDTHH:MM:SS.SSSZ
+          example: 2023-09-13T18:25:43.511Z
+          format: date-time
+          type: string
+        customerAlias:
+          description: A pseudonymous or otherwise obfuscated identifier uniquely
+            assigned to each customer.
+          example: customer_12345
+          minLength: 1
+          type: string
+        ref:
+          description: A universally unique identifier (UUID) or other form of high-entropy
+            string serving as an immutable reference for each event entry.
+          example: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
+          type: string
+        data:
+          additionalProperties:
+            nullable: true
+          description: A schema-less JSON object encapsulating miscellaneous attributes
+            and metrics associated with the event.
+          example:
+            key1: processing_duration
+            key2: api_url
+          nullable: true
+          type: object
+        id:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      required:
+      - createdAt
+      - customerAlias
+      - id
+      - name
+      - ref
+      - timestamp
+      - updatedAt
+      type: object
+    DeleteEventByRefIdResponse_event:
+      description: The event matching the provided refId
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        customerAlias: customer_12345
+        ref: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
+        deletedAt: deletedAt
+        data:
+          key1: processing_duration
+          key2: api_url
+        name: api_call
+        id: id
+        timestamp: 2023-09-13T18:25:43.511Z
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        name:
+          description: "The distinctive label assigned to an event, serving as a critical\
+            \ identifier for categorizing and pricing events within the system's backend\
+            \ infrastructure."
+          example: api_call
+          type: string
+        timestamp:
+          description: The temporal marker denoting the exact moment of event occurrence.
+            The timestamp is formatted as an ISO 8601 string and is expressed in Coordinated
+            Universal Time (UTC). i.e. YYYY-MM-DDTHH:MM:SS.SSSZ
+          example: 2023-09-13T18:25:43.511Z
+          format: date-time
+          type: string
+        customerAlias:
+          description: A pseudonymous or otherwise obfuscated identifier uniquely
+            assigned to each customer.
+          example: customer_12345
+          minLength: 1
+          type: string
+        ref:
+          description: A universally unique identifier (UUID) or other form of high-entropy
+            string serving as an immutable reference for each event entry.
+          example: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
+          type: string
+        data:
+          additionalProperties:
+            nullable: true
+          description: A schema-less JSON object encapsulating miscellaneous attributes
+            and metrics associated with the event.
+          example:
+            key1: processing_duration
+            key2: api_url
+          nullable: true
+          type: object
+        id:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        deletedAt:
+          type: string
+      required:
+      - createdAt
+      - customerAlias
+      - deletedAt
+      - id
+      - name
+      - ref
+      - timestamp
+      - updatedAt
+      type: object
+    NetSuiteSyncInvoicesRequest_data_entity:
+      example:
+        id: id
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      type: object
+    NetSuiteSyncInvoicesRequest_data_item_items_inner:
+      example:
+        item:
+          id: id
+        amount: 6.027456183070403
+        quantity: 0.8008281904610115
+        description: description
+        memo: memo
+      properties:
+        item:
+          $ref: '#/components/schemas/NetSuiteSyncInvoicesRequest_data_entity'
+        quantity:
+          type: number
+        amount:
+          type: number
+        description:
+          type: string
+        memo:
+          type: string
+      required:
+      - amount
+      - item
+      - quantity
+      type: object
+    NetSuiteSyncInvoicesRequest_data_item:
+      example:
+        items:
+        - item:
+            id: id
+          amount: 6.027456183070403
+          quantity: 0.8008281904610115
+          description: description
+          memo: memo
+        - item:
+            id: id
+          amount: 6.027456183070403
+          quantity: 0.8008281904610115
+          description: description
+          memo: memo
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/NetSuiteSyncInvoicesRequest_data_item_items_inner'
+          type: array
+      required:
+      - items
+      type: object
+    NetSuiteSyncInvoicesRequest_data:
+      example:
+        discountRate: 1.4658129805029452
+        item:
+          items:
+          - item:
+              id: id
+            amount: 6.027456183070403
+            quantity: 0.8008281904610115
+            description: description
+            memo: memo
+          - item:
+              id: id
+            amount: 6.027456183070403
+            quantity: 0.8008281904610115
+            description: description
+            memo: memo
+        endDate: 2000-01-23T04:56:07.000+00:00
+        discountItem:
+          id: id
+        memo: memo
+        externalId: externalId
+        tranDate: 2000-01-23T04:56:07.000+00:00
+        startDate: 2000-01-23T04:56:07.000+00:00
+        entity:
+          id: id
+        account:
+          id: id
+      properties:
+        startDate:
+          format: date-time
+          type: string
+        endDate:
+          format: date-time
+          type: string
+        tranDate:
+          format: date-time
+          type: string
+        memo:
+          type: string
+        externalId:
+          pattern: "^[0-9a-fA-F]{24}$"
+          type: string
+        entity:
+          $ref: '#/components/schemas/NetSuiteSyncInvoicesRequest_data_entity'
+        account:
+          $ref: '#/components/schemas/NetSuiteSyncInvoicesRequest_data_entity'
+        item:
+          $ref: '#/components/schemas/NetSuiteSyncInvoicesRequest_data_item'
+        discountItem:
+          $ref: '#/components/schemas/NetSuiteSyncInvoicesRequest_data_entity'
+        discountRate:
+          type: number
+      required:
+      - endDate
+      - entity
+      - externalId
+      - item
+      - memo
+      - startDate
+      - tranDate
+      type: object
+  securitySchemes: {}
