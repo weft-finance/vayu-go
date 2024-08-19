@@ -21,8 +21,8 @@ type BillingCycleStatus string
 
 // List of BillingCycleStatus
 const (
-	GRANT BillingCycleStatus = "Grant"
-	DEDUCT BillingCycleStatus = "Deduct"
+	BILLINGCYCLESTATUS_GRANT BillingCycleStatus = "Grant"
+	BILLINGCYCLESTATUS_DEDUCT BillingCycleStatus = "Deduct"
 )
 
 // All allowed values of BillingCycleStatus enum

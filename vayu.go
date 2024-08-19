@@ -38,8 +38,45 @@ func (v *Vayu) IsLoggedIn() bool {
 	loggedIn := v.client.IsLoggedIn()
 
 	if !loggedIn {
-		fmt.Println("Vayu client is not logged in. please call `vayu.login()` before calling this method'")
+		fmt.Println("vayu client is not logged in. please call `vayu.login()` before calling this method'")
 	}
 
 	return loggedIn
 }
+
+// Types
+
+type (
+	Contract              = api.Contract
+	ListContractsResponse = api.ListContractsResponse
+	CreateContractRequest = api.CreateContractRequest
+)
+
+type (
+	Customer              = api.Customer
+	ListCustomersResponse = api.ListCustomersResponse
+	CreateCustomerRequest = api.CreateCustomerRequest
+	UpdateCustomerRequest = api.UpdateCustomerRequest
+)
+
+type (
+	Event                    = api.Event
+	SendEventsResponse       = api.SendEventsResponse
+	SendEventsDryRunResponse = api.SendEventsDryRunResponse
+	QueryEventsPayload       = api.QueryEventsPayload
+)
+
+type (
+	Invoice              = api.Invoice
+	ListInvoicesResponse = api.ListInvoicesResponse
+)
+
+type (
+	Meter              = api.Meter
+	ListMetersResponse = api.ListMetersResponse
+)
+
+type (
+	Plan              = api.Plan
+	ListPlansResponse = api.ListPlansResponse
+)

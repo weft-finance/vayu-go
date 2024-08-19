@@ -13,7 +13,6 @@ package openapi
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -26,6 +25,7 @@ type GetInvoiceResponseInvoiceLineItemsInner struct {
 	InvoiceId string `json:"invoiceId" validate:"regexp=^[0-9a-fA-F]{24}$"`
 	// The price of the line item
 	Price float32 `json:"price"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _GetInvoiceResponseInvoiceLineItemsInner GetInvoiceResponseInvoiceLineItemsInner
@@ -109,6 +109,11 @@ func (o GetInvoiceResponseInvoiceLineItemsInner) ToMap() (map[string]interface{}
 	toSerialize := map[string]interface{}{}
 	toSerialize["invoiceId"] = o.InvoiceId
 	toSerialize["price"] = o.Price
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -137,15 +142,21 @@ func (o *GetInvoiceResponseInvoiceLineItemsInner) UnmarshalJSON(data []byte) (er
 
 	varGetInvoiceResponseInvoiceLineItemsInner := _GetInvoiceResponseInvoiceLineItemsInner{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varGetInvoiceResponseInvoiceLineItemsInner)
+	err = json.Unmarshal(data, &varGetInvoiceResponseInvoiceLineItemsInner)
 
 	if err != nil {
 		return err
 	}
 
 	*o = GetInvoiceResponseInvoiceLineItemsInner(varGetInvoiceResponseInvoiceLineItemsInner)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "invoiceId")
+		delete(additionalProperties, "price")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

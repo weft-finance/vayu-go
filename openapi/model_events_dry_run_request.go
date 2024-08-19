@@ -13,7 +13,6 @@ package openapi
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &EventsDryRunRequest{}
 // EventsDryRunRequest struct for EventsDryRunRequest
 type EventsDryRunRequest struct {
 	Events []EventsDryRunRequestEventsInner `json:"events"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _EventsDryRunRequest EventsDryRunRequest
@@ -80,6 +80,11 @@ func (o EventsDryRunRequest) MarshalJSON() ([]byte, error) {
 func (o EventsDryRunRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["events"] = o.Events
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *EventsDryRunRequest) UnmarshalJSON(data []byte) (err error) {
 
 	varEventsDryRunRequest := _EventsDryRunRequest{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varEventsDryRunRequest)
+	err = json.Unmarshal(data, &varEventsDryRunRequest)
 
 	if err != nil {
 		return err
 	}
 
 	*o = EventsDryRunRequest(varEventsDryRunRequest)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "events")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

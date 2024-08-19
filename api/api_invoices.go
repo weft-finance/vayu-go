@@ -14,7 +14,7 @@ type InvoicesAPI struct {
 }
 
 type Invoice = openapi.GetInvoiceResponseInvoice
-type ListInvociesResponse = openapi.ListInvoicesResponse
+type ListInvoicesResponse = openapi.ListInvoicesResponse
 
 func NewInvoicesAPI(client *client.VayuClient) *InvoicesAPI {
 	return &InvoicesAPI{
@@ -22,9 +22,9 @@ func NewInvoicesAPI(client *client.VayuClient) *InvoicesAPI {
 	}
 }
 
-func (c *InvoicesAPI) ListInvocies(limit *float32, cursor *string) (*ListInvociesResponse, error) {
+func (c *InvoicesAPI) ListInvoices(limit *float32, cursor *string) (*ListInvoicesResponse, error) {
 	if !c.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("Vayu client is not logged in. please call `vayu.login()` before calling this method")
+		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -49,7 +49,7 @@ func (c *InvoicesAPI) ListInvocies(limit *float32, cursor *string) (*ListInvocie
 
 func (c *InvoicesAPI) GetInvoice(invoiceId string) (*Invoice, error) {
 	if !c.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("Vayu client is not logged in. please call `vayu.login()` before calling this method")
+		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)

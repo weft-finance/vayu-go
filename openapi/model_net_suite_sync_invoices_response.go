@@ -13,7 +13,6 @@ package openapi
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -24,6 +23,7 @@ var _ MappedNullable = &NetSuiteSyncInvoicesResponse{}
 type NetSuiteSyncInvoicesResponse struct {
 	RecordId string `json:"recordId"`
 	TranId string `json:"tranId"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _NetSuiteSyncInvoicesResponse NetSuiteSyncInvoicesResponse
@@ -107,6 +107,11 @@ func (o NetSuiteSyncInvoicesResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["recordId"] = o.RecordId
 	toSerialize["tranId"] = o.TranId
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -135,15 +140,21 @@ func (o *NetSuiteSyncInvoicesResponse) UnmarshalJSON(data []byte) (err error) {
 
 	varNetSuiteSyncInvoicesResponse := _NetSuiteSyncInvoicesResponse{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varNetSuiteSyncInvoicesResponse)
+	err = json.Unmarshal(data, &varNetSuiteSyncInvoicesResponse)
 
 	if err != nil {
 		return err
 	}
 
 	*o = NetSuiteSyncInvoicesResponse(varNetSuiteSyncInvoicesResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "recordId")
+		delete(additionalProperties, "tranId")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

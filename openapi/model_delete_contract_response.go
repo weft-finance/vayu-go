@@ -13,7 +13,6 @@ package openapi
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &DeleteContractResponse{}
 // DeleteContractResponse struct for DeleteContractResponse
 type DeleteContractResponse struct {
 	Contract GetContractResponseContract `json:"contract"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _DeleteContractResponse DeleteContractResponse
@@ -80,6 +80,11 @@ func (o DeleteContractResponse) MarshalJSON() ([]byte, error) {
 func (o DeleteContractResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["contract"] = o.Contract
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *DeleteContractResponse) UnmarshalJSON(data []byte) (err error) {
 
 	varDeleteContractResponse := _DeleteContractResponse{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varDeleteContractResponse)
+	err = json.Unmarshal(data, &varDeleteContractResponse)
 
 	if err != nil {
 		return err
 	}
 
 	*o = DeleteContractResponse(varDeleteContractResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "contract")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

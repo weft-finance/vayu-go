@@ -13,7 +13,6 @@ package openapi
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -26,6 +25,7 @@ type CreateCustomerRequest struct {
 	Name string `json:"name"`
 	// The alias of the customer used to match events to the customer.
 	Alias *string `json:"alias,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _CreateCustomerRequest CreateCustomerRequest
@@ -118,6 +118,11 @@ func (o CreateCustomerRequest) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Alias) {
 		toSerialize["alias"] = o.Alias
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -145,15 +150,21 @@ func (o *CreateCustomerRequest) UnmarshalJSON(data []byte) (err error) {
 
 	varCreateCustomerRequest := _CreateCustomerRequest{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varCreateCustomerRequest)
+	err = json.Unmarshal(data, &varCreateCustomerRequest)
 
 	if err != nil {
 		return err
 	}
 
 	*o = CreateCustomerRequest(varCreateCustomerRequest)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "alias")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

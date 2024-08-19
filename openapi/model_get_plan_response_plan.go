@@ -14,7 +14,6 @@ package openapi
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -31,6 +30,7 @@ type GetPlanResponsePlan struct {
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 	DeletedAt string `json:"deletedAt"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _GetPlanResponsePlan GetPlanResponsePlan
@@ -244,6 +244,11 @@ func (o GetPlanResponsePlan) ToMap() (map[string]interface{}, error) {
 	toSerialize["createdAt"] = o.CreatedAt
 	toSerialize["updatedAt"] = o.UpdatedAt
 	toSerialize["deletedAt"] = o.DeletedAt
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -277,15 +282,26 @@ func (o *GetPlanResponsePlan) UnmarshalJSON(data []byte) (err error) {
 
 	varGetPlanResponsePlan := _GetPlanResponsePlan{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varGetPlanResponsePlan)
+	err = json.Unmarshal(data, &varGetPlanResponsePlan)
 
 	if err != nil {
 		return err
 	}
 
 	*o = GetPlanResponsePlan(varGetPlanResponsePlan)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "status")
+		delete(additionalProperties, "billingData")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "createdAt")
+		delete(additionalProperties, "updatedAt")
+		delete(additionalProperties, "deletedAt")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

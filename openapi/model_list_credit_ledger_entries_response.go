@@ -13,7 +13,6 @@ package openapi
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -24,6 +23,7 @@ var _ MappedNullable = &ListCreditLedgerEntriesResponse{}
 type ListCreditLedgerEntriesResponse struct {
 	// The credit ledger entries for the customer.
 	Entries []CreditLedgerEntry `json:"entries"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ListCreditLedgerEntriesResponse ListCreditLedgerEntriesResponse
@@ -81,6 +81,11 @@ func (o ListCreditLedgerEntriesResponse) MarshalJSON() ([]byte, error) {
 func (o ListCreditLedgerEntriesResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["entries"] = o.Entries
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -108,15 +113,20 @@ func (o *ListCreditLedgerEntriesResponse) UnmarshalJSON(data []byte) (err error)
 
 	varListCreditLedgerEntriesResponse := _ListCreditLedgerEntriesResponse{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varListCreditLedgerEntriesResponse)
+	err = json.Unmarshal(data, &varListCreditLedgerEntriesResponse)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ListCreditLedgerEntriesResponse(varListCreditLedgerEntriesResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "entries")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -13,7 +13,6 @@ package openapi
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type NetSuiteExportSalesOrderRequest struct {
 	ContractId string `json:"contractId" validate:"regexp=^[0-9a-fA-F]{24}$"`
 	ProductsIds []string `json:"productsIds"`
 	SubsidiaryId string `json:"subsidiaryId"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _NetSuiteExportSalesOrderRequest NetSuiteExportSalesOrderRequest
@@ -134,6 +134,11 @@ func (o NetSuiteExportSalesOrderRequest) ToMap() (map[string]interface{}, error)
 	toSerialize["contractId"] = o.ContractId
 	toSerialize["productsIds"] = o.ProductsIds
 	toSerialize["subsidiaryId"] = o.SubsidiaryId
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -163,15 +168,22 @@ func (o *NetSuiteExportSalesOrderRequest) UnmarshalJSON(data []byte) (err error)
 
 	varNetSuiteExportSalesOrderRequest := _NetSuiteExportSalesOrderRequest{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varNetSuiteExportSalesOrderRequest)
+	err = json.Unmarshal(data, &varNetSuiteExportSalesOrderRequest)
 
 	if err != nil {
 		return err
 	}
 
 	*o = NetSuiteExportSalesOrderRequest(varNetSuiteExportSalesOrderRequest)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "contractId")
+		delete(additionalProperties, "productsIds")
+		delete(additionalProperties, "subsidiaryId")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

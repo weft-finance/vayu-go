@@ -14,7 +14,6 @@ package openapi
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -33,6 +32,7 @@ type NetSuiteSyncInvoicesRequestData struct {
 	Item NetSuiteSyncInvoicesRequestDataItem `json:"item"`
 	DiscountItem *NetSuiteSyncInvoicesRequestDataEntity `json:"discountItem,omitempty"`
 	DiscountRate *float32 `json:"discountRate,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _NetSuiteSyncInvoicesRequestData NetSuiteSyncInvoicesRequestData
@@ -351,6 +351,11 @@ func (o NetSuiteSyncInvoicesRequestData) ToMap() (map[string]interface{}, error)
 	if !IsNil(o.DiscountRate) {
 		toSerialize["discountRate"] = o.DiscountRate
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -384,15 +389,29 @@ func (o *NetSuiteSyncInvoicesRequestData) UnmarshalJSON(data []byte) (err error)
 
 	varNetSuiteSyncInvoicesRequestData := _NetSuiteSyncInvoicesRequestData{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varNetSuiteSyncInvoicesRequestData)
+	err = json.Unmarshal(data, &varNetSuiteSyncInvoicesRequestData)
 
 	if err != nil {
 		return err
 	}
 
 	*o = NetSuiteSyncInvoicesRequestData(varNetSuiteSyncInvoicesRequestData)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "startDate")
+		delete(additionalProperties, "endDate")
+		delete(additionalProperties, "tranDate")
+		delete(additionalProperties, "memo")
+		delete(additionalProperties, "externalId")
+		delete(additionalProperties, "entity")
+		delete(additionalProperties, "account")
+		delete(additionalProperties, "item")
+		delete(additionalProperties, "discountItem")
+		delete(additionalProperties, "discountRate")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

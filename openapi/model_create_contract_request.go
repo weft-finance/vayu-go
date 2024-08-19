@@ -14,7 +14,6 @@ package openapi
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -31,6 +30,7 @@ type CreateContractRequest struct {
 	CustomerId string `json:"customerId" validate:"regexp=^[0-9a-fA-F]{24}$"`
 	// The id of the plan that the contract is associated with
 	PlanId string `json:"planId" validate:"regexp=^[0-9a-fA-F]{24}$"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _CreateContractRequest CreateContractRequest
@@ -175,6 +175,11 @@ func (o CreateContractRequest) ToMap() (map[string]interface{}, error) {
 	}
 	toSerialize["customerId"] = o.CustomerId
 	toSerialize["planId"] = o.PlanId
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -204,15 +209,23 @@ func (o *CreateContractRequest) UnmarshalJSON(data []byte) (err error) {
 
 	varCreateContractRequest := _CreateContractRequest{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varCreateContractRequest)
+	err = json.Unmarshal(data, &varCreateContractRequest)
 
 	if err != nil {
 		return err
 	}
 
 	*o = CreateContractRequest(varCreateContractRequest)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "startDate")
+		delete(additionalProperties, "endDate")
+		delete(additionalProperties, "customerId")
+		delete(additionalProperties, "planId")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

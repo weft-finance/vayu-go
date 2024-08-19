@@ -21,10 +21,10 @@ type NotificationEventType string
 
 // List of NotificationEventType
 const (
-	ANONYMOUS_CUSTOMER NotificationEventType = "AnonymousCustomer"
-	OVERAGE NotificationEventType = "Overage"
-	UPCOMING_RENEWAL NotificationEventType = "UpcomingRenewal"
-	INVOICE_APPROVED NotificationEventType = "InvoiceApproved"
+	NOTIFICATIONEVENTTYPE_ANONYMOUS_CUSTOMER NotificationEventType = "AnonymousCustomer"
+	NOTIFICATIONEVENTTYPE_OVERAGE NotificationEventType = "Overage"
+	NOTIFICATIONEVENTTYPE_UPCOMING_RENEWAL NotificationEventType = "UpcomingRenewal"
+	NOTIFICATIONEVENTTYPE_INVOICE_APPROVED NotificationEventType = "InvoiceApproved"
 )
 
 // All allowed values of NotificationEventType enum

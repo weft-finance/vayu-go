@@ -13,7 +13,6 @@ package openapi
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -24,6 +23,7 @@ var _ MappedNullable = &LoginResponse{}
 type LoginResponse struct {
 	// The new access token to be used for subsequent API calls. It is set to expire every hour.
 	AccessToken string `json:"accessToken"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _LoginResponse LoginResponse
@@ -81,6 +81,11 @@ func (o LoginResponse) MarshalJSON() ([]byte, error) {
 func (o LoginResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["accessToken"] = o.AccessToken
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -108,15 +113,20 @@ func (o *LoginResponse) UnmarshalJSON(data []byte) (err error) {
 
 	varLoginResponse := _LoginResponse{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varLoginResponse)
+	err = json.Unmarshal(data, &varLoginResponse)
 
 	if err != nil {
 		return err
 	}
 
 	*o = LoginResponse(varLoginResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "accessToken")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

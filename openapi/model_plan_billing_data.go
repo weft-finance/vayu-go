@@ -13,7 +13,6 @@ package openapi
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type PlanBillingData struct {
 	PaymentTerm PaymentTerm `json:"paymentTerm"`
 	AutoRenewal bool `json:"autoRenewal"`
 	ProRated bool `json:"proRated"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _PlanBillingData PlanBillingData
@@ -50,7 +50,7 @@ func NewPlanBillingData(billingInterval BillingInterval, duration float32, payme
 // but it doesn't guarantee that properties required by API are set
 func NewPlanBillingDataWithDefaults() *PlanBillingData {
 	this := PlanBillingData{}
-	var paymentTerm PaymentTerm = POSTPAYMENT
+	var paymentTerm PaymentTerm = PAYMENTTERM_POSTPAYMENT
 	this.PaymentTerm = paymentTerm
 	var autoRenewal bool = false
 	this.AutoRenewal = autoRenewal
@@ -194,6 +194,11 @@ func (o PlanBillingData) ToMap() (map[string]interface{}, error) {
 	toSerialize["paymentTerm"] = o.PaymentTerm
 	toSerialize["autoRenewal"] = o.AutoRenewal
 	toSerialize["proRated"] = o.ProRated
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -225,15 +230,24 @@ func (o *PlanBillingData) UnmarshalJSON(data []byte) (err error) {
 
 	varPlanBillingData := _PlanBillingData{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varPlanBillingData)
+	err = json.Unmarshal(data, &varPlanBillingData)
 
 	if err != nil {
 		return err
 	}
 
 	*o = PlanBillingData(varPlanBillingData)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "billingInterval")
+		delete(additionalProperties, "duration")
+		delete(additionalProperties, "paymentTerm")
+		delete(additionalProperties, "autoRenewal")
+		delete(additionalProperties, "proRated")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

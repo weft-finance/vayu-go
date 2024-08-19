@@ -13,7 +13,6 @@ package openapi
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &Filter{}
 // Filter The filter to apply to the events to be included in the meter.     The filter object contains an array of Conditions, each condition represents a logical OR statement.     Each condition contains an array of Criteria (criterions), each criterion represents a logical AND statement.
 type Filter struct {
 	Conditions []Condition `json:"conditions"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _Filter Filter
@@ -80,6 +80,11 @@ func (o Filter) MarshalJSON() ([]byte, error) {
 func (o Filter) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["conditions"] = o.Conditions
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *Filter) UnmarshalJSON(data []byte) (err error) {
 
 	varFilter := _Filter{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varFilter)
+	err = json.Unmarshal(data, &varFilter)
 
 	if err != nil {
 		return err
 	}
 
 	*o = Filter(varFilter)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "conditions")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

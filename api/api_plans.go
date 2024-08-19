@@ -24,7 +24,7 @@ func NewPlansAPI(client *client.VayuClient) *PlansAPI {
 
 func (c *PlansAPI) ListPlans(limit *float32, cursor *string) (*ListPlansResponse, error) {
 	if !c.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("Vayu client is not logged in. please call `vayu.login()` before calling this method")
+		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -49,7 +49,7 @@ func (c *PlansAPI) ListPlans(limit *float32, cursor *string) (*ListPlansResponse
 
 func (c *PlansAPI) GetPlan(planId string) (*Plan, error) {
 	if !c.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("Vayu client is not logged in. please call `vayu.login()` before calling this method")
+		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -67,7 +67,7 @@ func (c *PlansAPI) GetPlan(planId string) (*Plan, error) {
 
 func (c *PlansAPI) DeletePlan(planId string) (*Plan, error) {
 	if !c.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("Vayu client is not logged in. please call `vayu.login()` before calling this method")
+		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)

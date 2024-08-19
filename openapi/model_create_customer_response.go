@@ -13,7 +13,6 @@ package openapi
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &CreateCustomerResponse{}
 // CreateCustomerResponse struct for CreateCustomerResponse
 type CreateCustomerResponse struct {
 	Customer CreateCustomerResponseCustomer `json:"customer"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _CreateCustomerResponse CreateCustomerResponse
@@ -80,6 +80,11 @@ func (o CreateCustomerResponse) MarshalJSON() ([]byte, error) {
 func (o CreateCustomerResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["customer"] = o.Customer
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *CreateCustomerResponse) UnmarshalJSON(data []byte) (err error) {
 
 	varCreateCustomerResponse := _CreateCustomerResponse{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varCreateCustomerResponse)
+	err = json.Unmarshal(data, &varCreateCustomerResponse)
 
 	if err != nil {
 		return err
 	}
 
 	*o = CreateCustomerResponse(varCreateCustomerResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "customer")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

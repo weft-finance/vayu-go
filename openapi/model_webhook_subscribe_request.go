@@ -13,7 +13,6 @@ package openapi
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -24,6 +23,7 @@ var _ MappedNullable = &WebhookSubscribeRequest{}
 type WebhookSubscribeRequest struct {
 	CallbackUrl string `json:"callbackUrl"`
 	EventType NotificationEventType `json:"eventType"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _WebhookSubscribeRequest WebhookSubscribeRequest
@@ -107,6 +107,11 @@ func (o WebhookSubscribeRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["callbackUrl"] = o.CallbackUrl
 	toSerialize["eventType"] = o.EventType
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -135,15 +140,21 @@ func (o *WebhookSubscribeRequest) UnmarshalJSON(data []byte) (err error) {
 
 	varWebhookSubscribeRequest := _WebhookSubscribeRequest{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varWebhookSubscribeRequest)
+	err = json.Unmarshal(data, &varWebhookSubscribeRequest)
 
 	if err != nil {
 		return err
 	}
 
 	*o = WebhookSubscribeRequest(varWebhookSubscribeRequest)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "callbackUrl")
+		delete(additionalProperties, "eventType")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

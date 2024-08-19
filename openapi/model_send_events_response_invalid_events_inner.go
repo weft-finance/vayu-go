@@ -13,7 +13,6 @@ package openapi
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type SendEventsResponseInvalidEventsInner struct {
 	Event EventsDryRunRequestEventsInner `json:"event"`
 	// The error message indicating the reason the event failed validation.
 	Error string `json:"error"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SendEventsResponseInvalidEventsInner SendEventsResponseInvalidEventsInner
@@ -108,6 +108,11 @@ func (o SendEventsResponseInvalidEventsInner) ToMap() (map[string]interface{}, e
 	toSerialize := map[string]interface{}{}
 	toSerialize["event"] = o.Event
 	toSerialize["error"] = o.Error
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *SendEventsResponseInvalidEventsInner) UnmarshalJSON(data []byte) (err e
 
 	varSendEventsResponseInvalidEventsInner := _SendEventsResponseInvalidEventsInner{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSendEventsResponseInvalidEventsInner)
+	err = json.Unmarshal(data, &varSendEventsResponseInvalidEventsInner)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SendEventsResponseInvalidEventsInner(varSendEventsResponseInvalidEventsInner)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "event")
+		delete(additionalProperties, "error")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

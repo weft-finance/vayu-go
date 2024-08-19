@@ -21,16 +21,16 @@ type CriterionOperator string
 
 // List of CriterionOperator
 const (
-	EQUALS CriterionOperator = "Equals"
-	DOESNT_EQUAL CriterionOperator = "DoesntEqual"
-	HAS CriterionOperator = "Has"
-	IN CriterionOperator = "In"
-	CONTAINS CriterionOperator = "Contains"
-	DOESNT_CONTAIN CriterionOperator = "DoesntContain"
-	LARGER_THAN CriterionOperator = "LargerThan"
-	LOWER_THAN CriterionOperator = "LowerThan"
-	LOWER_EQUAL_TO CriterionOperator = "LowerEqualTo"
-	LARGER_EQUAL_TO CriterionOperator = "LargerEqualTo"
+	CRITERIONOPERATOR_EQUALS CriterionOperator = "Equals"
+	CRITERIONOPERATOR_DOESNT_EQUAL CriterionOperator = "DoesntEqual"
+	CRITERIONOPERATOR_HAS CriterionOperator = "Has"
+	CRITERIONOPERATOR_IN CriterionOperator = "In"
+	CRITERIONOPERATOR_CONTAINS CriterionOperator = "Contains"
+	CRITERIONOPERATOR_DOESNT_CONTAIN CriterionOperator = "DoesntContain"
+	CRITERIONOPERATOR_LARGER_THAN CriterionOperator = "LargerThan"
+	CRITERIONOPERATOR_LOWER_THAN CriterionOperator = "LowerThan"
+	CRITERIONOPERATOR_LOWER_EQUAL_TO CriterionOperator = "LowerEqualTo"
+	CRITERIONOPERATOR_LARGER_EQUAL_TO CriterionOperator = "LargerEqualTo"
 )
 
 // All allowed values of CriterionOperator enum

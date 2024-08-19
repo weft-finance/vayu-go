@@ -24,7 +24,7 @@ func NewMetersAPI(client *client.VayuClient) *MetersAPI {
 
 func (c *MetersAPI) ListMeters(limit *float32, cursor *string) (*ListMetersResponse, error) {
 	if !c.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("Vayu client is not logged in. please call `vayu.login()` before calling this method")
+		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -49,7 +49,7 @@ func (c *MetersAPI) ListMeters(limit *float32, cursor *string) (*ListMetersRespo
 
 func (c *MetersAPI) GetMeter(meterId string) (*Meter, error) {
 	if !c.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("Vayu client is not logged in. please call `vayu.login()` before calling this method")
+		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)

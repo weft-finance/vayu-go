@@ -14,7 +14,6 @@ package openapi
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ var _ MappedNullable = &Period{}
 type Period struct {
 	StartTime time.Time `json:"startTime"`
 	EndTime time.Time `json:"endTime"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _Period Period
@@ -108,6 +108,11 @@ func (o Period) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["startTime"] = o.StartTime
 	toSerialize["endTime"] = o.EndTime
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *Period) UnmarshalJSON(data []byte) (err error) {
 
 	varPeriod := _Period{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varPeriod)
+	err = json.Unmarshal(data, &varPeriod)
 
 	if err != nil {
 		return err
 	}
 
 	*o = Period(varPeriod)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "startTime")
+		delete(additionalProperties, "endTime")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

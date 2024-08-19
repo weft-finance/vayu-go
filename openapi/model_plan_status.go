@@ -21,9 +21,9 @@ type PlanStatus string
 
 // List of PlanStatus
 const (
-	ACTIVE PlanStatus = "Active"
-	INACTIVE PlanStatus = "Inactive"
-	ERROR PlanStatus = "Error"
+	PLANSTATUS_ACTIVE PlanStatus = "Active"
+	PLANSTATUS_INACTIVE PlanStatus = "Inactive"
+	PLANSTATUS_ERROR PlanStatus = "Error"
 )
 
 // All allowed values of PlanStatus enum

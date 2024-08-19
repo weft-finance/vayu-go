@@ -13,7 +13,6 @@ package openapi
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -26,6 +25,7 @@ type CreditLedgerEntry struct {
 	Amount float32 `json:"amount"`
 	InvoiceId *string `json:"invoiceId,omitempty"`
 	BalanceAfterEntry float32 `json:"balanceAfterEntry"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _CreditLedgerEntry CreditLedgerEntry
@@ -170,6 +170,11 @@ func (o CreditLedgerEntry) ToMap() (map[string]interface{}, error) {
 		toSerialize["invoiceId"] = o.InvoiceId
 	}
 	toSerialize["balanceAfterEntry"] = o.BalanceAfterEntry
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -199,15 +204,23 @@ func (o *CreditLedgerEntry) UnmarshalJSON(data []byte) (err error) {
 
 	varCreditLedgerEntry := _CreditLedgerEntry{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varCreditLedgerEntry)
+	err = json.Unmarshal(data, &varCreditLedgerEntry)
 
 	if err != nil {
 		return err
 	}
 
 	*o = CreditLedgerEntry(varCreditLedgerEntry)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "type")
+		delete(additionalProperties, "amount")
+		delete(additionalProperties, "invoiceId")
+		delete(additionalProperties, "balanceAfterEntry")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -13,7 +13,6 @@ package openapi
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &NetSuiteSyncInvoicesRequestDataItem{}
 // NetSuiteSyncInvoicesRequestDataItem struct for NetSuiteSyncInvoicesRequestDataItem
 type NetSuiteSyncInvoicesRequestDataItem struct {
 	Items []NetSuiteSyncInvoicesRequestDataItemItemsInner `json:"items"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _NetSuiteSyncInvoicesRequestDataItem NetSuiteSyncInvoicesRequestDataItem
@@ -80,6 +80,11 @@ func (o NetSuiteSyncInvoicesRequestDataItem) MarshalJSON() ([]byte, error) {
 func (o NetSuiteSyncInvoicesRequestDataItem) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["items"] = o.Items
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *NetSuiteSyncInvoicesRequestDataItem) UnmarshalJSON(data []byte) (err er
 
 	varNetSuiteSyncInvoicesRequestDataItem := _NetSuiteSyncInvoicesRequestDataItem{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varNetSuiteSyncInvoicesRequestDataItem)
+	err = json.Unmarshal(data, &varNetSuiteSyncInvoicesRequestDataItem)
 
 	if err != nil {
 		return err
 	}
 
 	*o = NetSuiteSyncInvoicesRequestDataItem(varNetSuiteSyncInvoicesRequestDataItem)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "items")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

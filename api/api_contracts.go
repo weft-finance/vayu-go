@@ -14,22 +14,21 @@ type ContractsAPI struct {
 }
 
 type Contract = openapi.GetContractResponseContract
-
 type ListContractsResponse = openapi.ListContractsResponse
-type ContractCreateRequest = openapi.CreateContractRequest
+type CreateContractRequest = openapi.CreateContractRequest
 
 func NewContractsAPI(client *client.VayuClient) *ContractsAPI {
 	return &ContractsAPI{
 		vayuClient: client,
 	}
 }
-func NewCreateContractRequest(startDate time.Time, endDate *time.Time, customerId string, planId string) *ContractCreateRequest {
+func NewCreateContractRequest(startDate time.Time, endDate *time.Time, customerId string, planId string) *CreateContractRequest {
 	return &openapi.CreateContractRequest{StartDate: startDate, EndDate: endDate, CustomerId: customerId, PlanId: planId}
 }
 
 func (c *ContractsAPI) ListContracts(limit *float32, cursor *string) (*ListContractsResponse, error) {
 	if !c.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("Vayu client is not logged in. please call `vayu.login()` before calling this method")
+		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -56,7 +55,7 @@ func (c *ContractsAPI) ListContracts(limit *float32, cursor *string) (*ListContr
 
 func (c *ContractsAPI) GetContract(contractId string) (*Contract, error) {
 	if !c.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("Vayu client is not logged in. please call `vayu.login()` before calling this method")
+		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -72,9 +71,9 @@ func (c *ContractsAPI) GetContract(contractId string) (*Contract, error) {
 	return &response.Contract, nil
 }
 
-func (c *ContractsAPI) CreateContract(input ContractCreateRequest) (*Contract, error) {
+func (c *ContractsAPI) CreateContract(input CreateContractRequest) (*Contract, error) {
 	if !c.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("Vayu client is not logged in. please call `vayu.login()` before calling this method")
+		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -93,7 +92,7 @@ func (c *ContractsAPI) CreateContract(input ContractCreateRequest) (*Contract, e
 
 func (c *ContractsAPI) DeleteContract(contractId string) (*Contract, error) {
 	if !c.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("Vayu client is not logged in. please call `vayu.login()` before calling this method")
+		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)

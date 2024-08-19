@@ -14,7 +14,6 @@ package openapi
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -38,6 +37,7 @@ type GetCommitmentReportResponse struct {
 	CommercialTermsAmount *float32 `json:"commercialTermsAmount,omitempty"`
 	ErpId *string `json:"erpId,omitempty"`
 	Currency Currency `json:"currency"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _GetCommitmentReportResponse GetCommitmentReportResponse
@@ -486,6 +486,11 @@ func (o GetCommitmentReportResponse) ToMap() (map[string]interface{}, error) {
 		toSerialize["erpId"] = o.ErpId
 	}
 	toSerialize["currency"] = o.Currency
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -524,15 +529,34 @@ func (o *GetCommitmentReportResponse) UnmarshalJSON(data []byte) (err error) {
 
 	varGetCommitmentReportResponse := _GetCommitmentReportResponse{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varGetCommitmentReportResponse)
+	err = json.Unmarshal(data, &varGetCommitmentReportResponse)
 
 	if err != nil {
 		return err
 	}
 
 	*o = GetCommitmentReportResponse(varGetCommitmentReportResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "contractStatus")
+		delete(additionalProperties, "customerName")
+		delete(additionalProperties, "startDate")
+		delete(additionalProperties, "endDate")
+		delete(additionalProperties, "contractStartDate")
+		delete(additionalProperties, "daysToContractEnd")
+		delete(additionalProperties, "productVariantName")
+		delete(additionalProperties, "commitmentConsumptionCurrencyAmount")
+		delete(additionalProperties, "commitmentConsumptionUnitsAmount")
+		delete(additionalProperties, "commitmentConsumptionPercentage")
+		delete(additionalProperties, "totalCommitmentCurrencyAmount")
+		delete(additionalProperties, "totalCommitmentUnitsAmount")
+		delete(additionalProperties, "commercialTermsAmount")
+		delete(additionalProperties, "erpId")
+		delete(additionalProperties, "currency")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

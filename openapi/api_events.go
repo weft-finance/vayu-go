@@ -574,19 +574,19 @@ func (a *EventsAPIService) QueryEventsExecute(r ApiQueryEventsRequest) (*QueryEv
 		return localVarReturnValue, nil, reportError("endTime is required and must be specified")
 	}
 
-	parameterAddToHeaderOrQuery(localVarQueryParams, "startTime", r.startTime, "")
-	parameterAddToHeaderOrQuery(localVarQueryParams, "endTime", r.endTime, "")
+	parameterAddToHeaderOrQuery(localVarQueryParams, "startTime", r.startTime, "form", "")
+	parameterAddToHeaderOrQuery(localVarQueryParams, "endTime", r.endTime, "form", "")
 	if r.eventName != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "eventName", r.eventName, "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "eventName", r.eventName, "form", "")
 	}
 	if r.limit != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")
 	} else {
 		var defaultValue float32 = 10
 		r.limit = &defaultValue
 	}
 	if r.cursor != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "cursor", r.cursor, "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "cursor", r.cursor, "form", "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}

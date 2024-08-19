@@ -13,7 +13,6 @@ package openapi
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type Criterion struct {
 	Field string `json:"field"`
 	Operator CriterionOperator `json:"operator"`
 	Value string `json:"value"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _Criterion Criterion
@@ -134,6 +134,11 @@ func (o Criterion) ToMap() (map[string]interface{}, error) {
 	toSerialize["field"] = o.Field
 	toSerialize["operator"] = o.Operator
 	toSerialize["value"] = o.Value
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -163,15 +168,22 @@ func (o *Criterion) UnmarshalJSON(data []byte) (err error) {
 
 	varCriterion := _Criterion{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varCriterion)
+	err = json.Unmarshal(data, &varCriterion)
 
 	if err != nil {
 		return err
 	}
 
 	*o = Criterion(varCriterion)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "field")
+		delete(additionalProperties, "operator")
+		delete(additionalProperties, "value")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

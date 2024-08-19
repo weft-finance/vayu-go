@@ -21,11 +21,11 @@ type BillingInterval string
 
 // List of BillingInterval
 const (
-	MONTHLY BillingInterval = "Monthly"
-	BI_MONTHLY BillingInterval = "BiMonthly"
-	QUARTERLY BillingInterval = "Quarterly"
-	SIX_MONTHS BillingInterval = "SixMonths"
-	YEARLY BillingInterval = "Yearly"
+	BILLINGINTERVAL_MONTHLY BillingInterval = "Monthly"
+	BILLINGINTERVAL_BI_MONTHLY BillingInterval = "BiMonthly"
+	BILLINGINTERVAL_QUARTERLY BillingInterval = "Quarterly"
+	BILLINGINTERVAL_SIX_MONTHS BillingInterval = "SixMonths"
+	BILLINGINTERVAL_YEARLY BillingInterval = "Yearly"
 )
 
 // All allowed values of BillingInterval enum

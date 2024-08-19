@@ -21,14 +21,14 @@ type AggregationOperator string
 
 // List of AggregationOperator
 const (
-	COUNT AggregationOperator = "Count"
-	SUM AggregationOperator = "Sum"
-	DISTINCT AggregationOperator = "Distinct"
-	MAX AggregationOperator = "Max"
-	MIN AggregationOperator = "Min"
-	AVERAGE AggregationOperator = "Average"
-	FIRST AggregationOperator = "First"
-	LAST AggregationOperator = "Last"
+	AGGREGATIONOPERATOR_COUNT AggregationOperator = "Count"
+	AGGREGATIONOPERATOR_SUM AggregationOperator = "Sum"
+	AGGREGATIONOPERATOR_DISTINCT AggregationOperator = "Distinct"
+	AGGREGATIONOPERATOR_MAX AggregationOperator = "Max"
+	AGGREGATIONOPERATOR_MIN AggregationOperator = "Min"
+	AGGREGATIONOPERATOR_AVERAGE AggregationOperator = "Average"
+	AGGREGATIONOPERATOR_FIRST AggregationOperator = "First"
+	AGGREGATIONOPERATOR_LAST AggregationOperator = "Last"
 )
 
 // All allowed values of AggregationOperator enum

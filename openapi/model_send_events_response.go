@@ -13,7 +13,6 @@ package openapi
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -26,6 +25,7 @@ type SendEventsResponse struct {
 	ValidEvents []EventsDryRunRequestEventsInner `json:"validEvents"`
 	// An array of events that failed validation and were not sent to the queue. Each object contains the event and the error message.
 	InvalidEvents []SendEventsResponseInvalidEventsInner `json:"invalidEvents"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SendEventsResponse SendEventsResponse
@@ -109,6 +109,11 @@ func (o SendEventsResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["validEvents"] = o.ValidEvents
 	toSerialize["invalidEvents"] = o.InvalidEvents
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -137,15 +142,21 @@ func (o *SendEventsResponse) UnmarshalJSON(data []byte) (err error) {
 
 	varSendEventsResponse := _SendEventsResponse{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSendEventsResponse)
+	err = json.Unmarshal(data, &varSendEventsResponse)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SendEventsResponse(varSendEventsResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "validEvents")
+		delete(additionalProperties, "invalidEvents")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

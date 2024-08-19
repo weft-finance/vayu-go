@@ -44,11 +44,11 @@ func convertDeleteToEvent(event *openapi.DeleteEventByRefIdResponseEvent) *Event
 }
 
 type QueryEventsPayload struct {
-	startTime time.Time
-	endTime   time.Time
-	name      string
-	limit     *float32
-	cursor    *string
+	StartTime time.Time
+	EndTime   time.Time
+	Name      string
+	Limit     *float32
+	Cursor    *string
 }
 
 func NewEventsAPI(client *client.VayuClient) *EventsAPI {
@@ -59,17 +59,17 @@ func NewEventsAPI(client *client.VayuClient) *EventsAPI {
 
 func NewQueryEventsPayload(startTime time.Time, endTime time.Time, name string, limit *float32, cursor *string) *QueryEventsPayload {
 	return &QueryEventsPayload{
-		startTime: startTime,
-		endTime:   endTime,
-		name:      name,
-		limit:     limit,
-		cursor:    cursor,
+		StartTime: startTime,
+		EndTime:   endTime,
+		Name:      name,
+		Limit:     limit,
+		Cursor:    cursor,
 	}
 }
 
 func (e *EventsAPI) GetEvent(refId string) (*Event, error) {
 	if !e.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("Vayu client is not logged in. please call `vayu.login()` before calling this method")
+		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -87,7 +87,7 @@ func (e *EventsAPI) GetEvent(refId string) (*Event, error) {
 
 func (e *EventsAPI) DeleteEvent(refId string) (*Event, error) {
 	if !e.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("Vayu client is not logged in. please call `vayu.login()` before calling this method")
+		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -105,7 +105,7 @@ func (e *EventsAPI) DeleteEvent(refId string) (*Event, error) {
 
 func (e *EventsAPI) QueryEvents(payload QueryEventsPayload) ([]Event, error) {
 	if !e.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("Vayu client is not logged in. please call `vayu.login()` before calling this method")
+		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -113,15 +113,15 @@ func (e *EventsAPI) QueryEvents(payload QueryEventsPayload) ([]Event, error) {
 
 	request := e.vayuClient.Client.EventsAPI.QueryEvents(ctx)
 
-	request = request.StartTime(payload.startTime)
-	request = request.EndTime(payload.endTime)
-	request = request.EventName(payload.name)
+	request = request.StartTime(payload.StartTime)
+	request = request.EndTime(payload.EndTime)
+	request = request.EventName(payload.Name)
 
-	if payload.limit != nil {
-		request = request.Limit(*payload.limit)
+	if payload.Limit != nil {
+		request = request.Limit(*payload.Limit)
 	}
-	if payload.cursor != nil {
-		request = request.Cursor(*payload.cursor)
+	if payload.Cursor != nil {
+		request = request.Cursor(*payload.Cursor)
 	}
 
 	response, _, err := request.Execute()
@@ -149,7 +149,7 @@ func convertEventsToSendEventsPayload(events []Event) []openapi.EventsDryRunRequ
 
 func (e *EventsAPI) SendEvents(events []Event) (*SendEventsResponse, error) {
 	if !e.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("Vayu client is not logged in. please call `vayu.login()` before calling this method")
+		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -168,7 +168,7 @@ func (e *EventsAPI) SendEvents(events []Event) (*SendEventsResponse, error) {
 
 func (e *EventsAPI) SendEventsDryRun(events []Event) ([]SendEventsDryRunResponse, error) {
 	if !e.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("Vayu client is not logged in. please call `vayu.login()` before calling this method")
+		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)

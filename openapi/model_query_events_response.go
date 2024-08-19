@@ -13,7 +13,6 @@ package openapi
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -24,6 +23,7 @@ var _ MappedNullable = &QueryEventsResponse{}
 type QueryEventsResponse struct {
 	// An array of events matching the query criteria
 	Events []QueryEventsResponseEventsInner `json:"events"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _QueryEventsResponse QueryEventsResponse
@@ -81,6 +81,11 @@ func (o QueryEventsResponse) MarshalJSON() ([]byte, error) {
 func (o QueryEventsResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["events"] = o.Events
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -108,15 +113,20 @@ func (o *QueryEventsResponse) UnmarshalJSON(data []byte) (err error) {
 
 	varQueryEventsResponse := _QueryEventsResponse{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varQueryEventsResponse)
+	err = json.Unmarshal(data, &varQueryEventsResponse)
 
 	if err != nil {
 		return err
 	}
 
 	*o = QueryEventsResponse(varQueryEventsResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "events")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

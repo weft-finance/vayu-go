@@ -14,7 +14,6 @@ package openapi
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -35,6 +34,7 @@ type GetContractResponseContract struct {
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 	DeletedAt string `json:"deletedAt"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _GetContractResponseContract GetContractResponseContract
@@ -283,6 +283,11 @@ func (o GetContractResponseContract) ToMap() (map[string]interface{}, error) {
 	toSerialize["createdAt"] = o.CreatedAt
 	toSerialize["updatedAt"] = o.UpdatedAt
 	toSerialize["deletedAt"] = o.DeletedAt
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -316,15 +321,27 @@ func (o *GetContractResponseContract) UnmarshalJSON(data []byte) (err error) {
 
 	varGetContractResponseContract := _GetContractResponseContract{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varGetContractResponseContract)
+	err = json.Unmarshal(data, &varGetContractResponseContract)
 
 	if err != nil {
 		return err
 	}
 
 	*o = GetContractResponseContract(varGetContractResponseContract)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "startDate")
+		delete(additionalProperties, "endDate")
+		delete(additionalProperties, "customerId")
+		delete(additionalProperties, "planId")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "createdAt")
+		delete(additionalProperties, "updatedAt")
+		delete(additionalProperties, "deletedAt")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

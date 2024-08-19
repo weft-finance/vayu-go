@@ -13,7 +13,6 @@ package openapi
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -26,6 +25,7 @@ type ListCustomersResponse struct {
 	Total float32 `json:"total"`
 	HasMore bool `json:"hasMore"`
 	NextCursor *string `json:"nextCursor,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ListCustomersResponse ListCustomersResponse
@@ -170,6 +170,11 @@ func (o ListCustomersResponse) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.NextCursor) {
 		toSerialize["nextCursor"] = o.NextCursor
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -199,15 +204,23 @@ func (o *ListCustomersResponse) UnmarshalJSON(data []byte) (err error) {
 
 	varListCustomersResponse := _ListCustomersResponse{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varListCustomersResponse)
+	err = json.Unmarshal(data, &varListCustomersResponse)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ListCustomersResponse(varListCustomersResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "customers")
+		delete(additionalProperties, "total")
+		delete(additionalProperties, "hasMore")
+		delete(additionalProperties, "nextCursor")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

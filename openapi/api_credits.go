@@ -549,15 +549,15 @@ func (a *CreditsAPIService) ListCreditLedgerEntriesExecute(r ApiListCreditLedger
 		return localVarReturnValue, nil, reportError("customerId is required and must be specified")
 	}
 
-	parameterAddToHeaderOrQuery(localVarQueryParams, "customerId", r.customerId, "")
+	parameterAddToHeaderOrQuery(localVarQueryParams, "customerId", r.customerId, "form", "")
 	if r.limit != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")
 	} else {
 		var defaultValue float32 = 10
 		r.limit = &defaultValue
 	}
 	if r.cursor != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "cursor", r.cursor, "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "cursor", r.cursor, "form", "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}

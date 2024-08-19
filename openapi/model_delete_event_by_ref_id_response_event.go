@@ -14,7 +14,6 @@ package openapi
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -37,6 +36,7 @@ type DeleteEventByRefIdResponseEvent struct {
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 	DeletedAt string `json:"deletedAt"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _DeleteEventByRefIdResponseEvent DeleteEventByRefIdResponseEvent
@@ -312,6 +312,11 @@ func (o DeleteEventByRefIdResponseEvent) ToMap() (map[string]interface{}, error)
 	toSerialize["createdAt"] = o.CreatedAt
 	toSerialize["updatedAt"] = o.UpdatedAt
 	toSerialize["deletedAt"] = o.DeletedAt
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -346,15 +351,28 @@ func (o *DeleteEventByRefIdResponseEvent) UnmarshalJSON(data []byte) (err error)
 
 	varDeleteEventByRefIdResponseEvent := _DeleteEventByRefIdResponseEvent{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varDeleteEventByRefIdResponseEvent)
+	err = json.Unmarshal(data, &varDeleteEventByRefIdResponseEvent)
 
 	if err != nil {
 		return err
 	}
 
 	*o = DeleteEventByRefIdResponseEvent(varDeleteEventByRefIdResponseEvent)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "timestamp")
+		delete(additionalProperties, "customerAlias")
+		delete(additionalProperties, "ref")
+		delete(additionalProperties, "data")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "createdAt")
+		delete(additionalProperties, "updatedAt")
+		delete(additionalProperties, "deletedAt")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

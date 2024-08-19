@@ -13,7 +13,6 @@ package openapi
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &GetEventByRefIdResponse{}
 // GetEventByRefIdResponse struct for GetEventByRefIdResponse
 type GetEventByRefIdResponse struct {
 	Event GetEventByRefIdResponseEvent `json:"event"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _GetEventByRefIdResponse GetEventByRefIdResponse
@@ -80,6 +80,11 @@ func (o GetEventByRefIdResponse) MarshalJSON() ([]byte, error) {
 func (o GetEventByRefIdResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["event"] = o.Event
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *GetEventByRefIdResponse) UnmarshalJSON(data []byte) (err error) {
 
 	varGetEventByRefIdResponse := _GetEventByRefIdResponse{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varGetEventByRefIdResponse)
+	err = json.Unmarshal(data, &varGetEventByRefIdResponse)
 
 	if err != nil {
 		return err
 	}
 
 	*o = GetEventByRefIdResponse(varGetEventByRefIdResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "event")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

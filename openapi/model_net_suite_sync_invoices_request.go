@@ -13,7 +13,6 @@ package openapi
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type NetSuiteSyncInvoicesRequest struct {
 	IntegrationType string `json:"integrationType"`
 	Uid string `json:"uid"`
 	Data NetSuiteSyncInvoicesRequestData `json:"data"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _NetSuiteSyncInvoicesRequest NetSuiteSyncInvoicesRequest
@@ -134,6 +134,11 @@ func (o NetSuiteSyncInvoicesRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize["integrationType"] = o.IntegrationType
 	toSerialize["uid"] = o.Uid
 	toSerialize["data"] = o.Data
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -163,15 +168,22 @@ func (o *NetSuiteSyncInvoicesRequest) UnmarshalJSON(data []byte) (err error) {
 
 	varNetSuiteSyncInvoicesRequest := _NetSuiteSyncInvoicesRequest{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varNetSuiteSyncInvoicesRequest)
+	err = json.Unmarshal(data, &varNetSuiteSyncInvoicesRequest)
 
 	if err != nil {
 		return err
 	}
 
 	*o = NetSuiteSyncInvoicesRequest(varNetSuiteSyncInvoicesRequest)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "integrationType")
+		delete(additionalProperties, "uid")
+		delete(additionalProperties, "data")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

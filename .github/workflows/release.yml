@@ -1,0 +1,52 @@
+name: Version and Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  bumping_version_and_releasing:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Get the current version
+        id: get_version
+        run: |
+          echo "VERSION=$(cat VERSION)" >> $GITHUB_ENV
+
+      - name: Increment version
+        id: increment_version
+        run: |
+          echo "Current version: $VERSION"
+          IFS='.' read -r major minor patch <<< "$VERSION"
+          patch=$((patch+1))
+          new_version="$major.$minor.$patch"
+          echo "New version: $new_version"
+          echo "new_version=$new_version" >> $GITHUB_ENV
+
+      - name: Update version in VERSION file
+        run: echo ${{ env.new_version }} > VERSION
+
+      - name: Commit version bump
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add VERSION
+          git commit -m "Bump version to ${{ env.new_version }}"
+          git tag "v${{ env.new_version }}"
+          git push origin main --tags
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: "v${{ env.new_version }}"
+          release_name: "v${{ env.new_version }}"
+          body: "Release version ${{ env.new_version }}"
+          draft: false
+          prerelease: false

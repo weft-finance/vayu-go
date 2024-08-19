@@ -21,8 +21,8 @@ type PaymentTerm string
 
 // List of PaymentTerm
 const (
-	PREPAYMENT PaymentTerm = "Prepayment"
-	POSTPAYMENT PaymentTerm = "Postpayment"
+	PAYMENTTERM_PREPAYMENT PaymentTerm = "Prepayment"
+	PAYMENTTERM_POSTPAYMENT PaymentTerm = "Postpayment"
 )
 
 // All allowed values of PaymentTerm enum

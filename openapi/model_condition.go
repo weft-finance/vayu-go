@@ -13,7 +13,6 @@ package openapi
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &Condition{}
 // Condition struct for Condition
 type Condition struct {
 	Criterions []Criterion `json:"criterions"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _Condition Condition
@@ -80,6 +80,11 @@ func (o Condition) MarshalJSON() ([]byte, error) {
 func (o Condition) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["criterions"] = o.Criterions
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *Condition) UnmarshalJSON(data []byte) (err error) {
 
 	varCondition := _Condition{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varCondition)
+	err = json.Unmarshal(data, &varCondition)
 
 	if err != nil {
 		return err
 	}
 
 	*o = Condition(varCondition)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "criterions")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

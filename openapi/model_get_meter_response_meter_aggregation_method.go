@@ -13,7 +13,6 @@ package openapi
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type GetMeterResponseMeterAggregationMethod struct {
 	Field *string `json:"field,omitempty"`
 	// The fields that is used to group different events together when measuring the usage.
 	InstanceKey *string `json:"instanceKey,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _GetMeterResponseMeterAggregationMethod GetMeterResponseMeterAggregationMethod
@@ -154,6 +154,11 @@ func (o GetMeterResponseMeterAggregationMethod) ToMap() (map[string]interface{},
 	if !IsNil(o.InstanceKey) {
 		toSerialize["instanceKey"] = o.InstanceKey
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -181,15 +186,22 @@ func (o *GetMeterResponseMeterAggregationMethod) UnmarshalJSON(data []byte) (err
 
 	varGetMeterResponseMeterAggregationMethod := _GetMeterResponseMeterAggregationMethod{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varGetMeterResponseMeterAggregationMethod)
+	err = json.Unmarshal(data, &varGetMeterResponseMeterAggregationMethod)
 
 	if err != nil {
 		return err
 	}
 
 	*o = GetMeterResponseMeterAggregationMethod(varGetMeterResponseMeterAggregationMethod)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "operator")
+		delete(additionalProperties, "field")
+		delete(additionalProperties, "instanceKey")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

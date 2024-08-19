@@ -13,7 +13,6 @@ package openapi
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -26,6 +25,7 @@ type DeductCreditsRequest struct {
 	CreditAmount float32 `json:"creditAmount"`
 	// The ID of the customer to whom the credits will be deducted from.
 	CustomerId string `json:"customerId" validate:"regexp=^[0-9a-fA-F]{24}$"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _DeductCreditsRequest DeductCreditsRequest
@@ -109,6 +109,11 @@ func (o DeductCreditsRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["creditAmount"] = o.CreditAmount
 	toSerialize["customerId"] = o.CustomerId
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -137,15 +142,21 @@ func (o *DeductCreditsRequest) UnmarshalJSON(data []byte) (err error) {
 
 	varDeductCreditsRequest := _DeductCreditsRequest{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varDeductCreditsRequest)
+	err = json.Unmarshal(data, &varDeductCreditsRequest)
 
 	if err != nil {
 		return err
 	}
 
 	*o = DeductCreditsRequest(varDeductCreditsRequest)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "creditAmount")
+		delete(additionalProperties, "customerId")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

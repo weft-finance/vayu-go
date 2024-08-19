@@ -13,7 +13,6 @@ package openapi
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -24,6 +23,7 @@ var _ MappedNullable = &LoginRequest{}
 type LoginRequest struct {
 	// The refresh token issued for the authentication process. It is required to obtain a new access token.
 	RefreshToken string `json:"refreshToken"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _LoginRequest LoginRequest
@@ -81,6 +81,11 @@ func (o LoginRequest) MarshalJSON() ([]byte, error) {
 func (o LoginRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["refreshToken"] = o.RefreshToken
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -108,15 +113,20 @@ func (o *LoginRequest) UnmarshalJSON(data []byte) (err error) {
 
 	varLoginRequest := _LoginRequest{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varLoginRequest)
+	err = json.Unmarshal(data, &varLoginRequest)
 
 	if err != nil {
 		return err
 	}
 
 	*o = LoginRequest(varLoginRequest)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "refreshToken")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

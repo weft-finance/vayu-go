@@ -21,11 +21,11 @@ type ContractStatus string
 
 // List of ContractStatus
 const (
-	ACTIVE ContractStatus = "Active"
-	INACTIVE ContractStatus = "Inactive"
-	TERMINATED ContractStatus = "Terminated"
-	PENDING_TERMINATION ContractStatus = "PendingTermination"
-	ERROR ContractStatus = "Error"
+	CONTRACTSTATUS_ACTIVE ContractStatus = "Active"
+	CONTRACTSTATUS_INACTIVE ContractStatus = "Inactive"
+	CONTRACTSTATUS_TERMINATED ContractStatus = "Terminated"
+	CONTRACTSTATUS_PENDING_TERMINATION ContractStatus = "PendingTermination"
+	CONTRACTSTATUS_ERROR ContractStatus = "Error"
 )
 
 // All allowed values of ContractStatus enum

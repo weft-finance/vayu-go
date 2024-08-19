@@ -14,7 +14,6 @@ package openapi
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -37,6 +36,7 @@ type GetInvoiceResponseInvoice struct {
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 	DeletedAt string `json:"deletedAt"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _GetInvoiceResponseInvoice GetInvoiceResponseInvoice
@@ -337,6 +337,11 @@ func (o GetInvoiceResponseInvoice) ToMap() (map[string]interface{}, error) {
 	toSerialize["createdAt"] = o.CreatedAt
 	toSerialize["updatedAt"] = o.UpdatedAt
 	toSerialize["deletedAt"] = o.DeletedAt
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -372,15 +377,29 @@ func (o *GetInvoiceResponseInvoice) UnmarshalJSON(data []byte) (err error) {
 
 	varGetInvoiceResponseInvoice := _GetInvoiceResponseInvoice{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varGetInvoiceResponseInvoice)
+	err = json.Unmarshal(data, &varGetInvoiceResponseInvoice)
 
 	if err != nil {
 		return err
 	}
 
 	*o = GetInvoiceResponseInvoice(varGetInvoiceResponseInvoice)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "customerId")
+		delete(additionalProperties, "contractId")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "billingCycle")
+		delete(additionalProperties, "lineItems")
+		delete(additionalProperties, "amount")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "createdAt")
+		delete(additionalProperties, "updatedAt")
+		delete(additionalProperties, "deletedAt")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

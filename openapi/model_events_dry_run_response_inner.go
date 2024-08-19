@@ -13,7 +13,6 @@ package openapi
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type EventsDryRunResponseInner struct {
 	Event EventsDryRunResponseInnerEvent `json:"event"`
 	MatchedCustomer NullableString `json:"matchedCustomer,omitempty"`
 	MeterWithValues []EventsDryRunResponseInnerMeterWithValuesInner `json:"meterWithValues"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _EventsDryRunResponseInner EventsDryRunResponseInner
@@ -153,6 +153,11 @@ func (o EventsDryRunResponseInner) ToMap() (map[string]interface{}, error) {
 		toSerialize["matchedCustomer"] = o.MatchedCustomer.Get()
 	}
 	toSerialize["meterWithValues"] = o.MeterWithValues
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -181,15 +186,22 @@ func (o *EventsDryRunResponseInner) UnmarshalJSON(data []byte) (err error) {
 
 	varEventsDryRunResponseInner := _EventsDryRunResponseInner{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varEventsDryRunResponseInner)
+	err = json.Unmarshal(data, &varEventsDryRunResponseInner)
 
 	if err != nil {
 		return err
 	}
 
 	*o = EventsDryRunResponseInner(varEventsDryRunResponseInner)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "event")
+		delete(additionalProperties, "matchedCustomer")
+		delete(additionalProperties, "meterWithValues")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

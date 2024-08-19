@@ -73,7 +73,7 @@ func (a *ReportsAPIService) GetCommitmentReportResponseExecute(r ApiGetCommitmen
 	localVarFormParams := url.Values{}
 
 	if r.reportId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "reportId", r.reportId, "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "reportId", r.reportId, "form", "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -193,16 +193,16 @@ func (a *ReportsAPIService) GetProductsUsageReportExecute(r ApiGetProductsUsageR
 	localVarFormParams := url.Values{}
 
 	if r.reportId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "reportId", r.reportId, "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "reportId", r.reportId, "form", "")
 	}
 	if r.limit != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")
 	} else {
 		var defaultValue float32 = 10
 		r.limit = &defaultValue
 	}
 	if r.cursor != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "cursor", r.cursor, "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "cursor", r.cursor, "form", "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}

@@ -14,7 +14,6 @@ package openapi
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -29,6 +28,7 @@ type EventsDryRunResponseInnerEvent struct {
 	Data map[string]interface{} `json:"data,omitempty"`
 	Ref string `json:"ref"`
 	Name string `json:"name"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _EventsDryRunResponseInnerEvent EventsDryRunResponseInnerEvent
@@ -226,6 +226,11 @@ func (o EventsDryRunResponseInnerEvent) ToMap() (map[string]interface{}, error) 
 	}
 	toSerialize["ref"] = o.Ref
 	toSerialize["name"] = o.Name
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -257,15 +262,25 @@ func (o *EventsDryRunResponseInnerEvent) UnmarshalJSON(data []byte) (err error) 
 
 	varEventsDryRunResponseInnerEvent := _EventsDryRunResponseInnerEvent{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varEventsDryRunResponseInnerEvent)
+	err = json.Unmarshal(data, &varEventsDryRunResponseInnerEvent)
 
 	if err != nil {
 		return err
 	}
 
 	*o = EventsDryRunResponseInnerEvent(varEventsDryRunResponseInnerEvent)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "timestamp")
+		delete(additionalProperties, "customerAlias")
+		delete(additionalProperties, "accountId")
+		delete(additionalProperties, "data")
+		delete(additionalProperties, "ref")
+		delete(additionalProperties, "name")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

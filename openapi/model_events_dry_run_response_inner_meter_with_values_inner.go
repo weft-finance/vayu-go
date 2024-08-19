@@ -13,7 +13,6 @@ package openapi
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -30,6 +29,7 @@ type EventsDryRunResponseInnerMeterWithValuesInner struct {
 	Filter *Filter `json:"filter,omitempty"`
 	Value float32 `json:"value"`
 	InstanceValue interface{} `json:"instanceValue,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _EventsDryRunResponseInnerMeterWithValuesInner EventsDryRunResponseInnerMeterWithValuesInner
@@ -236,6 +236,11 @@ func (o EventsDryRunResponseInnerMeterWithValuesInner) ToMap() (map[string]inter
 	if o.InstanceValue != nil {
 		toSerialize["instanceValue"] = o.InstanceValue
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -266,15 +271,25 @@ func (o *EventsDryRunResponseInnerMeterWithValuesInner) UnmarshalJSON(data []byt
 
 	varEventsDryRunResponseInnerMeterWithValuesInner := _EventsDryRunResponseInnerMeterWithValuesInner{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varEventsDryRunResponseInnerMeterWithValuesInner)
+	err = json.Unmarshal(data, &varEventsDryRunResponseInnerMeterWithValuesInner)
 
 	if err != nil {
 		return err
 	}
 
 	*o = EventsDryRunResponseInnerMeterWithValuesInner(varEventsDryRunResponseInnerMeterWithValuesInner)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "eventName")
+		delete(additionalProperties, "aggregationMethod")
+		delete(additionalProperties, "filter")
+		delete(additionalProperties, "value")
+		delete(additionalProperties, "instanceValue")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

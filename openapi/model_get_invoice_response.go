@@ -13,7 +13,6 @@ package openapi
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &GetInvoiceResponse{}
 // GetInvoiceResponse struct for GetInvoiceResponse
 type GetInvoiceResponse struct {
 	Invoice GetInvoiceResponseInvoice `json:"invoice"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _GetInvoiceResponse GetInvoiceResponse
@@ -80,6 +80,11 @@ func (o GetInvoiceResponse) MarshalJSON() ([]byte, error) {
 func (o GetInvoiceResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["invoice"] = o.Invoice
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *GetInvoiceResponse) UnmarshalJSON(data []byte) (err error) {
 
 	varGetInvoiceResponse := _GetInvoiceResponse{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varGetInvoiceResponse)
+	err = json.Unmarshal(data, &varGetInvoiceResponse)
 
 	if err != nil {
 		return err
 	}
 
 	*o = GetInvoiceResponse(varGetInvoiceResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "invoice")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

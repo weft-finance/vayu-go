@@ -14,7 +14,6 @@ package openapi
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -33,6 +32,7 @@ type GetMeterResponseMeter struct {
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 	DeletedAt string `json:"deletedAt"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _GetMeterResponseMeter GetMeterResponseMeter
@@ -281,6 +281,11 @@ func (o GetMeterResponseMeter) ToMap() (map[string]interface{}, error) {
 	toSerialize["createdAt"] = o.CreatedAt
 	toSerialize["updatedAt"] = o.UpdatedAt
 	toSerialize["deletedAt"] = o.DeletedAt
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -314,15 +319,27 @@ func (o *GetMeterResponseMeter) UnmarshalJSON(data []byte) (err error) {
 
 	varGetMeterResponseMeter := _GetMeterResponseMeter{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varGetMeterResponseMeter)
+	err = json.Unmarshal(data, &varGetMeterResponseMeter)
 
 	if err != nil {
 		return err
 	}
 
 	*o = GetMeterResponseMeter(varGetMeterResponseMeter)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "eventName")
+		delete(additionalProperties, "aggregationMethod")
+		delete(additionalProperties, "filter")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "createdAt")
+		delete(additionalProperties, "updatedAt")
+		delete(additionalProperties, "deletedAt")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

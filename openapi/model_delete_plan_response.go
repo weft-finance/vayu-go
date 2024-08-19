@@ -13,7 +13,6 @@ package openapi
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &DeletePlanResponse{}
 // DeletePlanResponse struct for DeletePlanResponse
 type DeletePlanResponse struct {
 	Plan GetPlanResponsePlan `json:"plan"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _DeletePlanResponse DeletePlanResponse
@@ -80,6 +80,11 @@ func (o DeletePlanResponse) MarshalJSON() ([]byte, error) {
 func (o DeletePlanResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["plan"] = o.Plan
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *DeletePlanResponse) UnmarshalJSON(data []byte) (err error) {
 
 	varDeletePlanResponse := _DeletePlanResponse{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varDeletePlanResponse)
+	err = json.Unmarshal(data, &varDeletePlanResponse)
 
 	if err != nil {
 		return err
 	}
 
 	*o = DeletePlanResponse(varDeletePlanResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "plan")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }
