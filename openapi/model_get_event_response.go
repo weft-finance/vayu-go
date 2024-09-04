@@ -16,60 +16,60 @@ import (
 	"fmt"
 )
 
-// checks if the EventsDryRunRequest type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &EventsDryRunRequest{}
+// checks if the GetEventResponse type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &GetEventResponse{}
 
-// EventsDryRunRequest struct for EventsDryRunRequest
-type EventsDryRunRequest struct {
-	Events []Event `json:"events"`
+// GetEventResponse struct for GetEventResponse
+type GetEventResponse struct {
+	Event GetEventResponseEvent `json:"event"`
 	AdditionalProperties map[string]interface{}
 }
 
-type _EventsDryRunRequest EventsDryRunRequest
+type _GetEventResponse GetEventResponse
 
-// NewEventsDryRunRequest instantiates a new EventsDryRunRequest object
+// NewGetEventResponse instantiates a new GetEventResponse object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewEventsDryRunRequest(events []Event) *EventsDryRunRequest {
-	this := EventsDryRunRequest{}
-	this.Events = events
+func NewGetEventResponse(event GetEventResponseEvent) *GetEventResponse {
+	this := GetEventResponse{}
+	this.Event = event
 	return &this
 }
 
-// NewEventsDryRunRequestWithDefaults instantiates a new EventsDryRunRequest object
+// NewGetEventResponseWithDefaults instantiates a new GetEventResponse object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewEventsDryRunRequestWithDefaults() *EventsDryRunRequest {
-	this := EventsDryRunRequest{}
+func NewGetEventResponseWithDefaults() *GetEventResponse {
+	this := GetEventResponse{}
 	return &this
 }
 
-// GetEvents returns the Events field value
-func (o *EventsDryRunRequest) GetEvents() []Event {
+// GetEvent returns the Event field value
+func (o *GetEventResponse) GetEvent() GetEventResponseEvent {
 	if o == nil {
-		var ret []Event
+		var ret GetEventResponseEvent
 		return ret
 	}
 
-	return o.Events
+	return o.Event
 }
 
-// GetEventsOk returns a tuple with the Events field value
+// GetEventOk returns a tuple with the Event field value
 // and a boolean to check if the value has been set.
-func (o *EventsDryRunRequest) GetEventsOk() ([]Event, bool) {
+func (o *GetEventResponse) GetEventOk() (*GetEventResponseEvent, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.Events, true
+	return &o.Event, true
 }
 
-// SetEvents sets field value
-func (o *EventsDryRunRequest) SetEvents(v []Event) {
-	o.Events = v
+// SetEvent sets field value
+func (o *GetEventResponse) SetEvent(v GetEventResponseEvent) {
+	o.Event = v
 }
 
-func (o EventsDryRunRequest) MarshalJSON() ([]byte, error) {
+func (o GetEventResponse) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -77,9 +77,9 @@ func (o EventsDryRunRequest) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o EventsDryRunRequest) ToMap() (map[string]interface{}, error) {
+func (o GetEventResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["events"] = o.Events
+	toSerialize["event"] = o.Event
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -88,12 +88,12 @@ func (o EventsDryRunRequest) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *EventsDryRunRequest) UnmarshalJSON(data []byte) (err error) {
+func (o *GetEventResponse) UnmarshalJSON(data []byte) (err error) {
 	// This validates that all required properties are included in the JSON object
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"events",
+		"event",
 	}
 
 	allProperties := make(map[string]interface{})
@@ -110,58 +110,58 @@ func (o *EventsDryRunRequest) UnmarshalJSON(data []byte) (err error) {
 		}
 	}
 
-	varEventsDryRunRequest := _EventsDryRunRequest{}
+	varGetEventResponse := _GetEventResponse{}
 
-	err = json.Unmarshal(data, &varEventsDryRunRequest)
+	err = json.Unmarshal(data, &varGetEventResponse)
 
 	if err != nil {
 		return err
 	}
 
-	*o = EventsDryRunRequest(varEventsDryRunRequest)
+	*o = GetEventResponse(varGetEventResponse)
 
 	additionalProperties := make(map[string]interface{})
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "events")
+		delete(additionalProperties, "event")
 		o.AdditionalProperties = additionalProperties
 	}
 
 	return err
 }
 
-type NullableEventsDryRunRequest struct {
-	value *EventsDryRunRequest
+type NullableGetEventResponse struct {
+	value *GetEventResponse
 	isSet bool
 }
 
-func (v NullableEventsDryRunRequest) Get() *EventsDryRunRequest {
+func (v NullableGetEventResponse) Get() *GetEventResponse {
 	return v.value
 }
 
-func (v *NullableEventsDryRunRequest) Set(val *EventsDryRunRequest) {
+func (v *NullableGetEventResponse) Set(val *GetEventResponse) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableEventsDryRunRequest) IsSet() bool {
+func (v NullableGetEventResponse) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableEventsDryRunRequest) Unset() {
+func (v *NullableGetEventResponse) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableEventsDryRunRequest(val *EventsDryRunRequest) *NullableEventsDryRunRequest {
-	return &NullableEventsDryRunRequest{value: val, isSet: true}
+func NewNullableGetEventResponse(val *GetEventResponse) *NullableGetEventResponse {
+	return &NullableGetEventResponse{value: val, isSet: true}
 }
 
-func (v NullableEventsDryRunRequest) MarshalJSON() ([]byte, error) {
+func (v NullableGetEventResponse) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableEventsDryRunRequest) UnmarshalJSON(src []byte) error {
+func (v *NullableGetEventResponse) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

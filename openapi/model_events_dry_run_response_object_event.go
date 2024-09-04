@@ -17,28 +17,28 @@ import (
 	"fmt"
 )
 
-// checks if the EventsDryRunResponseInnerEvent type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &EventsDryRunResponseInnerEvent{}
+// checks if the EventsDryRunResponseObjectEvent type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &EventsDryRunResponseObjectEvent{}
 
-// EventsDryRunResponseInnerEvent struct for EventsDryRunResponseInnerEvent
-type EventsDryRunResponseInnerEvent struct {
+// EventsDryRunResponseObjectEvent struct for EventsDryRunResponseObjectEvent
+type EventsDryRunResponseObjectEvent struct {
 	Timestamp time.Time `json:"timestamp"`
 	CustomerAlias string `json:"customerAlias"`
 	AccountId string `json:"accountId" validate:"regexp=^[0-9a-fA-F]{24}$"`
-	Data map[string]interface{} `json:"data,omitempty"`
+	Data map[string]string `json:"data,omitempty"`
 	Ref string `json:"ref"`
 	Name string `json:"name"`
 	AdditionalProperties map[string]interface{}
 }
 
-type _EventsDryRunResponseInnerEvent EventsDryRunResponseInnerEvent
+type _EventsDryRunResponseObjectEvent EventsDryRunResponseObjectEvent
 
-// NewEventsDryRunResponseInnerEvent instantiates a new EventsDryRunResponseInnerEvent object
+// NewEventsDryRunResponseObjectEvent instantiates a new EventsDryRunResponseObjectEvent object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewEventsDryRunResponseInnerEvent(timestamp time.Time, customerAlias string, accountId string, ref string, name string) *EventsDryRunResponseInnerEvent {
-	this := EventsDryRunResponseInnerEvent{}
+func NewEventsDryRunResponseObjectEvent(timestamp time.Time, customerAlias string, accountId string, ref string, name string) *EventsDryRunResponseObjectEvent {
+	this := EventsDryRunResponseObjectEvent{}
 	this.Timestamp = timestamp
 	this.CustomerAlias = customerAlias
 	this.AccountId = accountId
@@ -47,16 +47,16 @@ func NewEventsDryRunResponseInnerEvent(timestamp time.Time, customerAlias string
 	return &this
 }
 
-// NewEventsDryRunResponseInnerEventWithDefaults instantiates a new EventsDryRunResponseInnerEvent object
+// NewEventsDryRunResponseObjectEventWithDefaults instantiates a new EventsDryRunResponseObjectEvent object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewEventsDryRunResponseInnerEventWithDefaults() *EventsDryRunResponseInnerEvent {
-	this := EventsDryRunResponseInnerEvent{}
+func NewEventsDryRunResponseObjectEventWithDefaults() *EventsDryRunResponseObjectEvent {
+	this := EventsDryRunResponseObjectEvent{}
 	return &this
 }
 
 // GetTimestamp returns the Timestamp field value
-func (o *EventsDryRunResponseInnerEvent) GetTimestamp() time.Time {
+func (o *EventsDryRunResponseObjectEvent) GetTimestamp() time.Time {
 	if o == nil {
 		var ret time.Time
 		return ret
@@ -67,7 +67,7 @@ func (o *EventsDryRunResponseInnerEvent) GetTimestamp() time.Time {
 
 // GetTimestampOk returns a tuple with the Timestamp field value
 // and a boolean to check if the value has been set.
-func (o *EventsDryRunResponseInnerEvent) GetTimestampOk() (*time.Time, bool) {
+func (o *EventsDryRunResponseObjectEvent) GetTimestampOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -75,12 +75,12 @@ func (o *EventsDryRunResponseInnerEvent) GetTimestampOk() (*time.Time, bool) {
 }
 
 // SetTimestamp sets field value
-func (o *EventsDryRunResponseInnerEvent) SetTimestamp(v time.Time) {
+func (o *EventsDryRunResponseObjectEvent) SetTimestamp(v time.Time) {
 	o.Timestamp = v
 }
 
 // GetCustomerAlias returns the CustomerAlias field value
-func (o *EventsDryRunResponseInnerEvent) GetCustomerAlias() string {
+func (o *EventsDryRunResponseObjectEvent) GetCustomerAlias() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -91,7 +91,7 @@ func (o *EventsDryRunResponseInnerEvent) GetCustomerAlias() string {
 
 // GetCustomerAliasOk returns a tuple with the CustomerAlias field value
 // and a boolean to check if the value has been set.
-func (o *EventsDryRunResponseInnerEvent) GetCustomerAliasOk() (*string, bool) {
+func (o *EventsDryRunResponseObjectEvent) GetCustomerAliasOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -99,12 +99,12 @@ func (o *EventsDryRunResponseInnerEvent) GetCustomerAliasOk() (*string, bool) {
 }
 
 // SetCustomerAlias sets field value
-func (o *EventsDryRunResponseInnerEvent) SetCustomerAlias(v string) {
+func (o *EventsDryRunResponseObjectEvent) SetCustomerAlias(v string) {
 	o.CustomerAlias = v
 }
 
 // GetAccountId returns the AccountId field value
-func (o *EventsDryRunResponseInnerEvent) GetAccountId() string {
+func (o *EventsDryRunResponseObjectEvent) GetAccountId() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -115,7 +115,7 @@ func (o *EventsDryRunResponseInnerEvent) GetAccountId() string {
 
 // GetAccountIdOk returns a tuple with the AccountId field value
 // and a boolean to check if the value has been set.
-func (o *EventsDryRunResponseInnerEvent) GetAccountIdOk() (*string, bool) {
+func (o *EventsDryRunResponseObjectEvent) GetAccountIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -123,14 +123,14 @@ func (o *EventsDryRunResponseInnerEvent) GetAccountIdOk() (*string, bool) {
 }
 
 // SetAccountId sets field value
-func (o *EventsDryRunResponseInnerEvent) SetAccountId(v string) {
+func (o *EventsDryRunResponseObjectEvent) SetAccountId(v string) {
 	o.AccountId = v
 }
 
 // GetData returns the Data field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *EventsDryRunResponseInnerEvent) GetData() map[string]interface{} {
+func (o *EventsDryRunResponseObjectEvent) GetData() map[string]string {
 	if o == nil {
-		var ret map[string]interface{}
+		var ret map[string]string
 		return ret
 	}
 	return o.Data
@@ -139,15 +139,15 @@ func (o *EventsDryRunResponseInnerEvent) GetData() map[string]interface{} {
 // GetDataOk returns a tuple with the Data field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *EventsDryRunResponseInnerEvent) GetDataOk() (map[string]interface{}, bool) {
+func (o *EventsDryRunResponseObjectEvent) GetDataOk() (*map[string]string, bool) {
 	if o == nil || IsNil(o.Data) {
-		return map[string]interface{}{}, false
+		return nil, false
 	}
-	return o.Data, true
+	return &o.Data, true
 }
 
 // HasData returns a boolean if a field has been set.
-func (o *EventsDryRunResponseInnerEvent) HasData() bool {
+func (o *EventsDryRunResponseObjectEvent) HasData() bool {
 	if o != nil && !IsNil(o.Data) {
 		return true
 	}
@@ -155,13 +155,13 @@ func (o *EventsDryRunResponseInnerEvent) HasData() bool {
 	return false
 }
 
-// SetData gets a reference to the given map[string]interface{} and assigns it to the Data field.
-func (o *EventsDryRunResponseInnerEvent) SetData(v map[string]interface{}) {
+// SetData gets a reference to the given map[string]string and assigns it to the Data field.
+func (o *EventsDryRunResponseObjectEvent) SetData(v map[string]string) {
 	o.Data = v
 }
 
 // GetRef returns the Ref field value
-func (o *EventsDryRunResponseInnerEvent) GetRef() string {
+func (o *EventsDryRunResponseObjectEvent) GetRef() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -172,7 +172,7 @@ func (o *EventsDryRunResponseInnerEvent) GetRef() string {
 
 // GetRefOk returns a tuple with the Ref field value
 // and a boolean to check if the value has been set.
-func (o *EventsDryRunResponseInnerEvent) GetRefOk() (*string, bool) {
+func (o *EventsDryRunResponseObjectEvent) GetRefOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -180,12 +180,12 @@ func (o *EventsDryRunResponseInnerEvent) GetRefOk() (*string, bool) {
 }
 
 // SetRef sets field value
-func (o *EventsDryRunResponseInnerEvent) SetRef(v string) {
+func (o *EventsDryRunResponseObjectEvent) SetRef(v string) {
 	o.Ref = v
 }
 
 // GetName returns the Name field value
-func (o *EventsDryRunResponseInnerEvent) GetName() string {
+func (o *EventsDryRunResponseObjectEvent) GetName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -196,7 +196,7 @@ func (o *EventsDryRunResponseInnerEvent) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-func (o *EventsDryRunResponseInnerEvent) GetNameOk() (*string, bool) {
+func (o *EventsDryRunResponseObjectEvent) GetNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -204,11 +204,11 @@ func (o *EventsDryRunResponseInnerEvent) GetNameOk() (*string, bool) {
 }
 
 // SetName sets field value
-func (o *EventsDryRunResponseInnerEvent) SetName(v string) {
+func (o *EventsDryRunResponseObjectEvent) SetName(v string) {
 	o.Name = v
 }
 
-func (o EventsDryRunResponseInnerEvent) MarshalJSON() ([]byte, error) {
+func (o EventsDryRunResponseObjectEvent) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -216,7 +216,7 @@ func (o EventsDryRunResponseInnerEvent) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o EventsDryRunResponseInnerEvent) ToMap() (map[string]interface{}, error) {
+func (o EventsDryRunResponseObjectEvent) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["timestamp"] = o.Timestamp
 	toSerialize["customerAlias"] = o.CustomerAlias
@@ -234,7 +234,7 @@ func (o EventsDryRunResponseInnerEvent) ToMap() (map[string]interface{}, error) 
 	return toSerialize, nil
 }
 
-func (o *EventsDryRunResponseInnerEvent) UnmarshalJSON(data []byte) (err error) {
+func (o *EventsDryRunResponseObjectEvent) UnmarshalJSON(data []byte) (err error) {
 	// This validates that all required properties are included in the JSON object
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
@@ -260,15 +260,15 @@ func (o *EventsDryRunResponseInnerEvent) UnmarshalJSON(data []byte) (err error) 
 		}
 	}
 
-	varEventsDryRunResponseInnerEvent := _EventsDryRunResponseInnerEvent{}
+	varEventsDryRunResponseObjectEvent := _EventsDryRunResponseObjectEvent{}
 
-	err = json.Unmarshal(data, &varEventsDryRunResponseInnerEvent)
+	err = json.Unmarshal(data, &varEventsDryRunResponseObjectEvent)
 
 	if err != nil {
 		return err
 	}
 
-	*o = EventsDryRunResponseInnerEvent(varEventsDryRunResponseInnerEvent)
+	*o = EventsDryRunResponseObjectEvent(varEventsDryRunResponseObjectEvent)
 
 	additionalProperties := make(map[string]interface{})
 
@@ -285,38 +285,38 @@ func (o *EventsDryRunResponseInnerEvent) UnmarshalJSON(data []byte) (err error) 
 	return err
 }
 
-type NullableEventsDryRunResponseInnerEvent struct {
-	value *EventsDryRunResponseInnerEvent
+type NullableEventsDryRunResponseObjectEvent struct {
+	value *EventsDryRunResponseObjectEvent
 	isSet bool
 }
 
-func (v NullableEventsDryRunResponseInnerEvent) Get() *EventsDryRunResponseInnerEvent {
+func (v NullableEventsDryRunResponseObjectEvent) Get() *EventsDryRunResponseObjectEvent {
 	return v.value
 }
 
-func (v *NullableEventsDryRunResponseInnerEvent) Set(val *EventsDryRunResponseInnerEvent) {
+func (v *NullableEventsDryRunResponseObjectEvent) Set(val *EventsDryRunResponseObjectEvent) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableEventsDryRunResponseInnerEvent) IsSet() bool {
+func (v NullableEventsDryRunResponseObjectEvent) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableEventsDryRunResponseInnerEvent) Unset() {
+func (v *NullableEventsDryRunResponseObjectEvent) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableEventsDryRunResponseInnerEvent(val *EventsDryRunResponseInnerEvent) *NullableEventsDryRunResponseInnerEvent {
-	return &NullableEventsDryRunResponseInnerEvent{value: val, isSet: true}
+func NewNullableEventsDryRunResponseObjectEvent(val *EventsDryRunResponseObjectEvent) *NullableEventsDryRunResponseObjectEvent {
+	return &NullableEventsDryRunResponseObjectEvent{value: val, isSet: true}
 }
 
-func (v NullableEventsDryRunResponseInnerEvent) MarshalJSON() ([]byte, error) {
+func (v NullableEventsDryRunResponseObjectEvent) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableEventsDryRunResponseInnerEvent) UnmarshalJSON(src []byte) error {
+func (v *NullableEventsDryRunResponseObjectEvent) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

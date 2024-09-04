@@ -16,11 +16,11 @@ import (
 	"fmt"
 )
 
-// checks if the GetInvoiceResponseInvoiceLineItemsInner type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &GetInvoiceResponseInvoiceLineItemsInner{}
+// checks if the LineItem type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &LineItem{}
 
-// GetInvoiceResponseInvoiceLineItemsInner struct for GetInvoiceResponseInvoiceLineItemsInner
-type GetInvoiceResponseInvoiceLineItemsInner struct {
+// LineItem struct for LineItem
+type LineItem struct {
 	// The id of the invoice that the line item is a part of
 	InvoiceId string `json:"invoiceId" validate:"regexp=^[0-9a-fA-F]{24}$"`
 	// The price of the line item
@@ -28,29 +28,29 @@ type GetInvoiceResponseInvoiceLineItemsInner struct {
 	AdditionalProperties map[string]interface{}
 }
 
-type _GetInvoiceResponseInvoiceLineItemsInner GetInvoiceResponseInvoiceLineItemsInner
+type _LineItem LineItem
 
-// NewGetInvoiceResponseInvoiceLineItemsInner instantiates a new GetInvoiceResponseInvoiceLineItemsInner object
+// NewLineItem instantiates a new LineItem object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGetInvoiceResponseInvoiceLineItemsInner(invoiceId string, price float32) *GetInvoiceResponseInvoiceLineItemsInner {
-	this := GetInvoiceResponseInvoiceLineItemsInner{}
+func NewLineItem(invoiceId string, price float32) *LineItem {
+	this := LineItem{}
 	this.InvoiceId = invoiceId
 	this.Price = price
 	return &this
 }
 
-// NewGetInvoiceResponseInvoiceLineItemsInnerWithDefaults instantiates a new GetInvoiceResponseInvoiceLineItemsInner object
+// NewLineItemWithDefaults instantiates a new LineItem object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewGetInvoiceResponseInvoiceLineItemsInnerWithDefaults() *GetInvoiceResponseInvoiceLineItemsInner {
-	this := GetInvoiceResponseInvoiceLineItemsInner{}
+func NewLineItemWithDefaults() *LineItem {
+	this := LineItem{}
 	return &this
 }
 
 // GetInvoiceId returns the InvoiceId field value
-func (o *GetInvoiceResponseInvoiceLineItemsInner) GetInvoiceId() string {
+func (o *LineItem) GetInvoiceId() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -61,7 +61,7 @@ func (o *GetInvoiceResponseInvoiceLineItemsInner) GetInvoiceId() string {
 
 // GetInvoiceIdOk returns a tuple with the InvoiceId field value
 // and a boolean to check if the value has been set.
-func (o *GetInvoiceResponseInvoiceLineItemsInner) GetInvoiceIdOk() (*string, bool) {
+func (o *LineItem) GetInvoiceIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -69,12 +69,12 @@ func (o *GetInvoiceResponseInvoiceLineItemsInner) GetInvoiceIdOk() (*string, boo
 }
 
 // SetInvoiceId sets field value
-func (o *GetInvoiceResponseInvoiceLineItemsInner) SetInvoiceId(v string) {
+func (o *LineItem) SetInvoiceId(v string) {
 	o.InvoiceId = v
 }
 
 // GetPrice returns the Price field value
-func (o *GetInvoiceResponseInvoiceLineItemsInner) GetPrice() float32 {
+func (o *LineItem) GetPrice() float32 {
 	if o == nil {
 		var ret float32
 		return ret
@@ -85,7 +85,7 @@ func (o *GetInvoiceResponseInvoiceLineItemsInner) GetPrice() float32 {
 
 // GetPriceOk returns a tuple with the Price field value
 // and a boolean to check if the value has been set.
-func (o *GetInvoiceResponseInvoiceLineItemsInner) GetPriceOk() (*float32, bool) {
+func (o *LineItem) GetPriceOk() (*float32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -93,11 +93,11 @@ func (o *GetInvoiceResponseInvoiceLineItemsInner) GetPriceOk() (*float32, bool) 
 }
 
 // SetPrice sets field value
-func (o *GetInvoiceResponseInvoiceLineItemsInner) SetPrice(v float32) {
+func (o *LineItem) SetPrice(v float32) {
 	o.Price = v
 }
 
-func (o GetInvoiceResponseInvoiceLineItemsInner) MarshalJSON() ([]byte, error) {
+func (o LineItem) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -105,7 +105,7 @@ func (o GetInvoiceResponseInvoiceLineItemsInner) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o GetInvoiceResponseInvoiceLineItemsInner) ToMap() (map[string]interface{}, error) {
+func (o LineItem) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["invoiceId"] = o.InvoiceId
 	toSerialize["price"] = o.Price
@@ -117,7 +117,7 @@ func (o GetInvoiceResponseInvoiceLineItemsInner) ToMap() (map[string]interface{}
 	return toSerialize, nil
 }
 
-func (o *GetInvoiceResponseInvoiceLineItemsInner) UnmarshalJSON(data []byte) (err error) {
+func (o *LineItem) UnmarshalJSON(data []byte) (err error) {
 	// This validates that all required properties are included in the JSON object
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
@@ -140,15 +140,15 @@ func (o *GetInvoiceResponseInvoiceLineItemsInner) UnmarshalJSON(data []byte) (er
 		}
 	}
 
-	varGetInvoiceResponseInvoiceLineItemsInner := _GetInvoiceResponseInvoiceLineItemsInner{}
+	varLineItem := _LineItem{}
 
-	err = json.Unmarshal(data, &varGetInvoiceResponseInvoiceLineItemsInner)
+	err = json.Unmarshal(data, &varLineItem)
 
 	if err != nil {
 		return err
 	}
 
-	*o = GetInvoiceResponseInvoiceLineItemsInner(varGetInvoiceResponseInvoiceLineItemsInner)
+	*o = LineItem(varLineItem)
 
 	additionalProperties := make(map[string]interface{})
 
@@ -161,38 +161,38 @@ func (o *GetInvoiceResponseInvoiceLineItemsInner) UnmarshalJSON(data []byte) (er
 	return err
 }
 
-type NullableGetInvoiceResponseInvoiceLineItemsInner struct {
-	value *GetInvoiceResponseInvoiceLineItemsInner
+type NullableLineItem struct {
+	value *LineItem
 	isSet bool
 }
 
-func (v NullableGetInvoiceResponseInvoiceLineItemsInner) Get() *GetInvoiceResponseInvoiceLineItemsInner {
+func (v NullableLineItem) Get() *LineItem {
 	return v.value
 }
 
-func (v *NullableGetInvoiceResponseInvoiceLineItemsInner) Set(val *GetInvoiceResponseInvoiceLineItemsInner) {
+func (v *NullableLineItem) Set(val *LineItem) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableGetInvoiceResponseInvoiceLineItemsInner) IsSet() bool {
+func (v NullableLineItem) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableGetInvoiceResponseInvoiceLineItemsInner) Unset() {
+func (v *NullableLineItem) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableGetInvoiceResponseInvoiceLineItemsInner(val *GetInvoiceResponseInvoiceLineItemsInner) *NullableGetInvoiceResponseInvoiceLineItemsInner {
-	return &NullableGetInvoiceResponseInvoiceLineItemsInner{value: val, isSet: true}
+func NewNullableLineItem(val *LineItem) *NullableLineItem {
+	return &NullableLineItem{value: val, isSet: true}
 }
 
-func (v NullableGetInvoiceResponseInvoiceLineItemsInner) MarshalJSON() ([]byte, error) {
+func (v NullableLineItem) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableGetInvoiceResponseInvoiceLineItemsInner) UnmarshalJSON(src []byte) error {
+func (v *NullableLineItem) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

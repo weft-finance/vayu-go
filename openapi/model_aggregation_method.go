@@ -16,11 +16,11 @@ import (
 	"fmt"
 )
 
-// checks if the GetMeterResponseMeterAggregationMethod type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &GetMeterResponseMeterAggregationMethod{}
+// checks if the AggregationMethod type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &AggregationMethod{}
 
-// GetMeterResponseMeterAggregationMethod The aggregation method defines how the events should be summed to represent a usage value.
-type GetMeterResponseMeterAggregationMethod struct {
+// AggregationMethod The aggregation method defines how the events should be summed to represent a usage value.
+type AggregationMethod struct {
 	Operator AggregationOperator `json:"operator"`
 	// The field inside the \"data\" property to apply the aggregation method to.
 	Field *string `json:"field,omitempty"`
@@ -29,28 +29,28 @@ type GetMeterResponseMeterAggregationMethod struct {
 	AdditionalProperties map[string]interface{}
 }
 
-type _GetMeterResponseMeterAggregationMethod GetMeterResponseMeterAggregationMethod
+type _AggregationMethod AggregationMethod
 
-// NewGetMeterResponseMeterAggregationMethod instantiates a new GetMeterResponseMeterAggregationMethod object
+// NewAggregationMethod instantiates a new AggregationMethod object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGetMeterResponseMeterAggregationMethod(operator AggregationOperator) *GetMeterResponseMeterAggregationMethod {
-	this := GetMeterResponseMeterAggregationMethod{}
+func NewAggregationMethod(operator AggregationOperator) *AggregationMethod {
+	this := AggregationMethod{}
 	this.Operator = operator
 	return &this
 }
 
-// NewGetMeterResponseMeterAggregationMethodWithDefaults instantiates a new GetMeterResponseMeterAggregationMethod object
+// NewAggregationMethodWithDefaults instantiates a new AggregationMethod object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewGetMeterResponseMeterAggregationMethodWithDefaults() *GetMeterResponseMeterAggregationMethod {
-	this := GetMeterResponseMeterAggregationMethod{}
+func NewAggregationMethodWithDefaults() *AggregationMethod {
+	this := AggregationMethod{}
 	return &this
 }
 
 // GetOperator returns the Operator field value
-func (o *GetMeterResponseMeterAggregationMethod) GetOperator() AggregationOperator {
+func (o *AggregationMethod) GetOperator() AggregationOperator {
 	if o == nil {
 		var ret AggregationOperator
 		return ret
@@ -61,7 +61,7 @@ func (o *GetMeterResponseMeterAggregationMethod) GetOperator() AggregationOperat
 
 // GetOperatorOk returns a tuple with the Operator field value
 // and a boolean to check if the value has been set.
-func (o *GetMeterResponseMeterAggregationMethod) GetOperatorOk() (*AggregationOperator, bool) {
+func (o *AggregationMethod) GetOperatorOk() (*AggregationOperator, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -69,12 +69,12 @@ func (o *GetMeterResponseMeterAggregationMethod) GetOperatorOk() (*AggregationOp
 }
 
 // SetOperator sets field value
-func (o *GetMeterResponseMeterAggregationMethod) SetOperator(v AggregationOperator) {
+func (o *AggregationMethod) SetOperator(v AggregationOperator) {
 	o.Operator = v
 }
 
 // GetField returns the Field field value if set, zero value otherwise.
-func (o *GetMeterResponseMeterAggregationMethod) GetField() string {
+func (o *AggregationMethod) GetField() string {
 	if o == nil || IsNil(o.Field) {
 		var ret string
 		return ret
@@ -84,7 +84,7 @@ func (o *GetMeterResponseMeterAggregationMethod) GetField() string {
 
 // GetFieldOk returns a tuple with the Field field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetMeterResponseMeterAggregationMethod) GetFieldOk() (*string, bool) {
+func (o *AggregationMethod) GetFieldOk() (*string, bool) {
 	if o == nil || IsNil(o.Field) {
 		return nil, false
 	}
@@ -92,7 +92,7 @@ func (o *GetMeterResponseMeterAggregationMethod) GetFieldOk() (*string, bool) {
 }
 
 // HasField returns a boolean if a field has been set.
-func (o *GetMeterResponseMeterAggregationMethod) HasField() bool {
+func (o *AggregationMethod) HasField() bool {
 	if o != nil && !IsNil(o.Field) {
 		return true
 	}
@@ -101,12 +101,12 @@ func (o *GetMeterResponseMeterAggregationMethod) HasField() bool {
 }
 
 // SetField gets a reference to the given string and assigns it to the Field field.
-func (o *GetMeterResponseMeterAggregationMethod) SetField(v string) {
+func (o *AggregationMethod) SetField(v string) {
 	o.Field = &v
 }
 
 // GetInstanceKey returns the InstanceKey field value if set, zero value otherwise.
-func (o *GetMeterResponseMeterAggregationMethod) GetInstanceKey() string {
+func (o *AggregationMethod) GetInstanceKey() string {
 	if o == nil || IsNil(o.InstanceKey) {
 		var ret string
 		return ret
@@ -116,7 +116,7 @@ func (o *GetMeterResponseMeterAggregationMethod) GetInstanceKey() string {
 
 // GetInstanceKeyOk returns a tuple with the InstanceKey field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetMeterResponseMeterAggregationMethod) GetInstanceKeyOk() (*string, bool) {
+func (o *AggregationMethod) GetInstanceKeyOk() (*string, bool) {
 	if o == nil || IsNil(o.InstanceKey) {
 		return nil, false
 	}
@@ -124,7 +124,7 @@ func (o *GetMeterResponseMeterAggregationMethod) GetInstanceKeyOk() (*string, bo
 }
 
 // HasInstanceKey returns a boolean if a field has been set.
-func (o *GetMeterResponseMeterAggregationMethod) HasInstanceKey() bool {
+func (o *AggregationMethod) HasInstanceKey() bool {
 	if o != nil && !IsNil(o.InstanceKey) {
 		return true
 	}
@@ -133,11 +133,11 @@ func (o *GetMeterResponseMeterAggregationMethod) HasInstanceKey() bool {
 }
 
 // SetInstanceKey gets a reference to the given string and assigns it to the InstanceKey field.
-func (o *GetMeterResponseMeterAggregationMethod) SetInstanceKey(v string) {
+func (o *AggregationMethod) SetInstanceKey(v string) {
 	o.InstanceKey = &v
 }
 
-func (o GetMeterResponseMeterAggregationMethod) MarshalJSON() ([]byte, error) {
+func (o AggregationMethod) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -145,7 +145,7 @@ func (o GetMeterResponseMeterAggregationMethod) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o GetMeterResponseMeterAggregationMethod) ToMap() (map[string]interface{}, error) {
+func (o AggregationMethod) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["operator"] = o.Operator
 	if !IsNil(o.Field) {
@@ -162,7 +162,7 @@ func (o GetMeterResponseMeterAggregationMethod) ToMap() (map[string]interface{},
 	return toSerialize, nil
 }
 
-func (o *GetMeterResponseMeterAggregationMethod) UnmarshalJSON(data []byte) (err error) {
+func (o *AggregationMethod) UnmarshalJSON(data []byte) (err error) {
 	// This validates that all required properties are included in the JSON object
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
@@ -184,15 +184,15 @@ func (o *GetMeterResponseMeterAggregationMethod) UnmarshalJSON(data []byte) (err
 		}
 	}
 
-	varGetMeterResponseMeterAggregationMethod := _GetMeterResponseMeterAggregationMethod{}
+	varAggregationMethod := _AggregationMethod{}
 
-	err = json.Unmarshal(data, &varGetMeterResponseMeterAggregationMethod)
+	err = json.Unmarshal(data, &varAggregationMethod)
 
 	if err != nil {
 		return err
 	}
 
-	*o = GetMeterResponseMeterAggregationMethod(varGetMeterResponseMeterAggregationMethod)
+	*o = AggregationMethod(varAggregationMethod)
 
 	additionalProperties := make(map[string]interface{})
 
@@ -206,38 +206,38 @@ func (o *GetMeterResponseMeterAggregationMethod) UnmarshalJSON(data []byte) (err
 	return err
 }
 
-type NullableGetMeterResponseMeterAggregationMethod struct {
-	value *GetMeterResponseMeterAggregationMethod
+type NullableAggregationMethod struct {
+	value *AggregationMethod
 	isSet bool
 }
 
-func (v NullableGetMeterResponseMeterAggregationMethod) Get() *GetMeterResponseMeterAggregationMethod {
+func (v NullableAggregationMethod) Get() *AggregationMethod {
 	return v.value
 }
 
-func (v *NullableGetMeterResponseMeterAggregationMethod) Set(val *GetMeterResponseMeterAggregationMethod) {
+func (v *NullableAggregationMethod) Set(val *AggregationMethod) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableGetMeterResponseMeterAggregationMethod) IsSet() bool {
+func (v NullableAggregationMethod) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableGetMeterResponseMeterAggregationMethod) Unset() {
+func (v *NullableAggregationMethod) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableGetMeterResponseMeterAggregationMethod(val *GetMeterResponseMeterAggregationMethod) *NullableGetMeterResponseMeterAggregationMethod {
-	return &NullableGetMeterResponseMeterAggregationMethod{value: val, isSet: true}
+func NewNullableAggregationMethod(val *AggregationMethod) *NullableAggregationMethod {
+	return &NullableAggregationMethod{value: val, isSet: true}
 }
 
-func (v NullableGetMeterResponseMeterAggregationMethod) MarshalJSON() ([]byte, error) {
+func (v NullableAggregationMethod) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableGetMeterResponseMeterAggregationMethod) UnmarshalJSON(src []byte) error {
+func (v *NullableAggregationMethod) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

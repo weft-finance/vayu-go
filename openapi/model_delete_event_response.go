@@ -16,39 +16,39 @@ import (
 	"fmt"
 )
 
-// checks if the DeleteEventByRefIdResponse type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &DeleteEventByRefIdResponse{}
+// checks if the DeleteEventResponse type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &DeleteEventResponse{}
 
-// DeleteEventByRefIdResponse struct for DeleteEventByRefIdResponse
-type DeleteEventByRefIdResponse struct {
-	Event DeleteEventByRefIdResponseEvent `json:"event"`
+// DeleteEventResponse struct for DeleteEventResponse
+type DeleteEventResponse struct {
+	Event DeleteEventResponseEvent `json:"event"`
 	AdditionalProperties map[string]interface{}
 }
 
-type _DeleteEventByRefIdResponse DeleteEventByRefIdResponse
+type _DeleteEventResponse DeleteEventResponse
 
-// NewDeleteEventByRefIdResponse instantiates a new DeleteEventByRefIdResponse object
+// NewDeleteEventResponse instantiates a new DeleteEventResponse object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDeleteEventByRefIdResponse(event DeleteEventByRefIdResponseEvent) *DeleteEventByRefIdResponse {
-	this := DeleteEventByRefIdResponse{}
+func NewDeleteEventResponse(event DeleteEventResponseEvent) *DeleteEventResponse {
+	this := DeleteEventResponse{}
 	this.Event = event
 	return &this
 }
 
-// NewDeleteEventByRefIdResponseWithDefaults instantiates a new DeleteEventByRefIdResponse object
+// NewDeleteEventResponseWithDefaults instantiates a new DeleteEventResponse object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewDeleteEventByRefIdResponseWithDefaults() *DeleteEventByRefIdResponse {
-	this := DeleteEventByRefIdResponse{}
+func NewDeleteEventResponseWithDefaults() *DeleteEventResponse {
+	this := DeleteEventResponse{}
 	return &this
 }
 
 // GetEvent returns the Event field value
-func (o *DeleteEventByRefIdResponse) GetEvent() DeleteEventByRefIdResponseEvent {
+func (o *DeleteEventResponse) GetEvent() DeleteEventResponseEvent {
 	if o == nil {
-		var ret DeleteEventByRefIdResponseEvent
+		var ret DeleteEventResponseEvent
 		return ret
 	}
 
@@ -57,7 +57,7 @@ func (o *DeleteEventByRefIdResponse) GetEvent() DeleteEventByRefIdResponseEvent 
 
 // GetEventOk returns a tuple with the Event field value
 // and a boolean to check if the value has been set.
-func (o *DeleteEventByRefIdResponse) GetEventOk() (*DeleteEventByRefIdResponseEvent, bool) {
+func (o *DeleteEventResponse) GetEventOk() (*DeleteEventResponseEvent, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -65,11 +65,11 @@ func (o *DeleteEventByRefIdResponse) GetEventOk() (*DeleteEventByRefIdResponseEv
 }
 
 // SetEvent sets field value
-func (o *DeleteEventByRefIdResponse) SetEvent(v DeleteEventByRefIdResponseEvent) {
+func (o *DeleteEventResponse) SetEvent(v DeleteEventResponseEvent) {
 	o.Event = v
 }
 
-func (o DeleteEventByRefIdResponse) MarshalJSON() ([]byte, error) {
+func (o DeleteEventResponse) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -77,7 +77,7 @@ func (o DeleteEventByRefIdResponse) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o DeleteEventByRefIdResponse) ToMap() (map[string]interface{}, error) {
+func (o DeleteEventResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["event"] = o.Event
 
@@ -88,7 +88,7 @@ func (o DeleteEventByRefIdResponse) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *DeleteEventByRefIdResponse) UnmarshalJSON(data []byte) (err error) {
+func (o *DeleteEventResponse) UnmarshalJSON(data []byte) (err error) {
 	// This validates that all required properties are included in the JSON object
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
@@ -110,15 +110,15 @@ func (o *DeleteEventByRefIdResponse) UnmarshalJSON(data []byte) (err error) {
 		}
 	}
 
-	varDeleteEventByRefIdResponse := _DeleteEventByRefIdResponse{}
+	varDeleteEventResponse := _DeleteEventResponse{}
 
-	err = json.Unmarshal(data, &varDeleteEventByRefIdResponse)
+	err = json.Unmarshal(data, &varDeleteEventResponse)
 
 	if err != nil {
 		return err
 	}
 
-	*o = DeleteEventByRefIdResponse(varDeleteEventByRefIdResponse)
+	*o = DeleteEventResponse(varDeleteEventResponse)
 
 	additionalProperties := make(map[string]interface{})
 
@@ -130,38 +130,38 @@ func (o *DeleteEventByRefIdResponse) UnmarshalJSON(data []byte) (err error) {
 	return err
 }
 
-type NullableDeleteEventByRefIdResponse struct {
-	value *DeleteEventByRefIdResponse
+type NullableDeleteEventResponse struct {
+	value *DeleteEventResponse
 	isSet bool
 }
 
-func (v NullableDeleteEventByRefIdResponse) Get() *DeleteEventByRefIdResponse {
+func (v NullableDeleteEventResponse) Get() *DeleteEventResponse {
 	return v.value
 }
 
-func (v *NullableDeleteEventByRefIdResponse) Set(val *DeleteEventByRefIdResponse) {
+func (v *NullableDeleteEventResponse) Set(val *DeleteEventResponse) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableDeleteEventByRefIdResponse) IsSet() bool {
+func (v NullableDeleteEventResponse) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableDeleteEventByRefIdResponse) Unset() {
+func (v *NullableDeleteEventResponse) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableDeleteEventByRefIdResponse(val *DeleteEventByRefIdResponse) *NullableDeleteEventByRefIdResponse {
-	return &NullableDeleteEventByRefIdResponse{value: val, isSet: true}
+func NewNullableDeleteEventResponse(val *DeleteEventResponse) *NullableDeleteEventResponse {
+	return &NullableDeleteEventResponse{value: val, isSet: true}
 }
 
-func (v NullableDeleteEventByRefIdResponse) MarshalJSON() ([]byte, error) {
+func (v NullableDeleteEventResponse) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableDeleteEventByRefIdResponse) UnmarshalJSON(src []byte) error {
+func (v *NullableDeleteEventResponse) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

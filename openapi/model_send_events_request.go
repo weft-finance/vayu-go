@@ -21,7 +21,7 @@ var _ MappedNullable = &SendEventsRequest{}
 
 // SendEventsRequest struct for SendEventsRequest
 type SendEventsRequest struct {
-	Events []EventsDryRunRequestEventsInner `json:"events"`
+	Events []Event `json:"events"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -31,7 +31,7 @@ type _SendEventsRequest SendEventsRequest
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSendEventsRequest(events []EventsDryRunRequestEventsInner) *SendEventsRequest {
+func NewSendEventsRequest(events []Event) *SendEventsRequest {
 	this := SendEventsRequest{}
 	this.Events = events
 	return &this
@@ -46,9 +46,9 @@ func NewSendEventsRequestWithDefaults() *SendEventsRequest {
 }
 
 // GetEvents returns the Events field value
-func (o *SendEventsRequest) GetEvents() []EventsDryRunRequestEventsInner {
+func (o *SendEventsRequest) GetEvents() []Event {
 	if o == nil {
-		var ret []EventsDryRunRequestEventsInner
+		var ret []Event
 		return ret
 	}
 
@@ -57,7 +57,7 @@ func (o *SendEventsRequest) GetEvents() []EventsDryRunRequestEventsInner {
 
 // GetEventsOk returns a tuple with the Events field value
 // and a boolean to check if the value has been set.
-func (o *SendEventsRequest) GetEventsOk() ([]EventsDryRunRequestEventsInner, bool) {
+func (o *SendEventsRequest) GetEventsOk() ([]Event, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -65,7 +65,7 @@ func (o *SendEventsRequest) GetEventsOk() ([]EventsDryRunRequestEventsInner, boo
 }
 
 // SetEvents sets field value
-func (o *SendEventsRequest) SetEvents(v []EventsDryRunRequestEventsInner) {
+func (o *SendEventsRequest) SetEvents(v []Event) {
 	o.Events = v
 }
 

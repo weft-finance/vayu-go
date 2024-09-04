@@ -26,7 +26,7 @@ type GetMeterResponseMeter struct {
 	Name string `json:"name"`
 	// The name of the event that the meter is tracking.
 	EventName string `json:"eventName"`
-	AggregationMethod GetMeterResponseMeterAggregationMethod `json:"aggregationMethod"`
+	AggregationMethod AggregationMethod `json:"aggregationMethod"`
 	Filter *Filter `json:"filter,omitempty"`
 	Id string `json:"id"`
 	CreatedAt time.Time `json:"createdAt"`
@@ -41,7 +41,7 @@ type _GetMeterResponseMeter GetMeterResponseMeter
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGetMeterResponseMeter(name string, eventName string, aggregationMethod GetMeterResponseMeterAggregationMethod, id string, createdAt time.Time, updatedAt time.Time, deletedAt string) *GetMeterResponseMeter {
+func NewGetMeterResponseMeter(name string, eventName string, aggregationMethod AggregationMethod, id string, createdAt time.Time, updatedAt time.Time, deletedAt string) *GetMeterResponseMeter {
 	this := GetMeterResponseMeter{}
 	this.Name = name
 	this.EventName = eventName
@@ -110,9 +110,9 @@ func (o *GetMeterResponseMeter) SetEventName(v string) {
 }
 
 // GetAggregationMethod returns the AggregationMethod field value
-func (o *GetMeterResponseMeter) GetAggregationMethod() GetMeterResponseMeterAggregationMethod {
+func (o *GetMeterResponseMeter) GetAggregationMethod() AggregationMethod {
 	if o == nil {
-		var ret GetMeterResponseMeterAggregationMethod
+		var ret AggregationMethod
 		return ret
 	}
 
@@ -121,7 +121,7 @@ func (o *GetMeterResponseMeter) GetAggregationMethod() GetMeterResponseMeterAggr
 
 // GetAggregationMethodOk returns a tuple with the AggregationMethod field value
 // and a boolean to check if the value has been set.
-func (o *GetMeterResponseMeter) GetAggregationMethodOk() (*GetMeterResponseMeterAggregationMethod, bool) {
+func (o *GetMeterResponseMeter) GetAggregationMethodOk() (*AggregationMethod, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -129,7 +129,7 @@ func (o *GetMeterResponseMeter) GetAggregationMethodOk() (*GetMeterResponseMeter
 }
 
 // SetAggregationMethod sets field value
-func (o *GetMeterResponseMeter) SetAggregationMethod(v GetMeterResponseMeterAggregationMethod) {
+func (o *GetMeterResponseMeter) SetAggregationMethod(v AggregationMethod) {
 	o.AggregationMethod = v
 }
 
