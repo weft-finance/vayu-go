@@ -13,8 +13,9 @@ type MetersAPI struct {
 	vayuClient *client.VayuClient
 }
 
-type Meter = openapi.GetMeterResponseMeter
+type Meter = openapi.Meter
 type ListMetersResponse = openapi.ListMetersResponse
+type GetMeterResponse = openapi.GetMeterResponse
 
 func NewMetersAPI(client *client.VayuClient) *MetersAPI {
 	return &MetersAPI{
@@ -47,7 +48,7 @@ func (c *MetersAPI) ListMeters(limit *float32, cursor *string) (*ListMetersRespo
 	return response, nil
 }
 
-func (c *MetersAPI) GetMeter(meterId string) (*Meter, error) {
+func (c *MetersAPI) GetMeter(meterId string) (*GetMeterResponse, error) {
 	if !c.vayuClient.IsLoggedIn() {
 		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
 	}
@@ -62,5 +63,5 @@ func (c *MetersAPI) GetMeter(meterId string) (*Meter, error) {
 		return nil, err
 	}
 
-	return &response.Meter, nil
+	return response, nil
 }

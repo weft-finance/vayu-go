@@ -24,7 +24,7 @@ type UpdateMeterRequest struct {
 	Name *string `json:"name,omitempty"`
 	// The name of the event that the meter is tracking.
 	EventName *string `json:"eventName,omitempty"`
-	AggregationMethod *GetMeterResponseMeterAggregationMethod `json:"aggregationMethod,omitempty"`
+	AggregationMethod *AggregationMethod `json:"aggregationMethod,omitempty"`
 	Filter *Filter `json:"filter,omitempty"`
 }
 
@@ -110,9 +110,9 @@ func (o *UpdateMeterRequest) SetEventName(v string) {
 }
 
 // GetAggregationMethod returns the AggregationMethod field value if set, zero value otherwise.
-func (o *UpdateMeterRequest) GetAggregationMethod() GetMeterResponseMeterAggregationMethod {
+func (o *UpdateMeterRequest) GetAggregationMethod() AggregationMethod {
 	if o == nil || IsNil(o.AggregationMethod) {
-		var ret GetMeterResponseMeterAggregationMethod
+		var ret AggregationMethod
 		return ret
 	}
 	return *o.AggregationMethod
@@ -120,7 +120,7 @@ func (o *UpdateMeterRequest) GetAggregationMethod() GetMeterResponseMeterAggrega
 
 // GetAggregationMethodOk returns a tuple with the AggregationMethod field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *UpdateMeterRequest) GetAggregationMethodOk() (*GetMeterResponseMeterAggregationMethod, bool) {
+func (o *UpdateMeterRequest) GetAggregationMethodOk() (*AggregationMethod, bool) {
 	if o == nil || IsNil(o.AggregationMethod) {
 		return nil, false
 	}
@@ -136,8 +136,8 @@ func (o *UpdateMeterRequest) HasAggregationMethod() bool {
 	return false
 }
 
-// SetAggregationMethod gets a reference to the given GetMeterResponseMeterAggregationMethod and assigns it to the AggregationMethod field.
-func (o *UpdateMeterRequest) SetAggregationMethod(v GetMeterResponseMeterAggregationMethod) {
+// SetAggregationMethod gets a reference to the given AggregationMethod and assigns it to the AggregationMethod field.
+func (o *UpdateMeterRequest) SetAggregationMethod(v AggregationMethod) {
 	o.AggregationMethod = &v
 }
 

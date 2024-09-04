@@ -16,6 +16,9 @@ type ContractsAPI struct {
 type Contract = openapi.GetContractResponseContract
 type ListContractsResponse = openapi.ListContractsResponse
 type CreateContractRequest = openapi.CreateContractRequest
+type GetContractResponse = openapi.GetContractResponse
+type CreateContractResponse = openapi.CreateContractResponse
+type DeleteContractResponse = openapi.DeleteContractResponse
 
 func NewContractsAPI(client *client.VayuClient) *ContractsAPI {
 	return &ContractsAPI{
@@ -53,7 +56,7 @@ func (c *ContractsAPI) ListContracts(limit *float32, cursor *string) (*ListContr
 	return response, nil
 }
 
-func (c *ContractsAPI) GetContract(contractId string) (*Contract, error) {
+func (c *ContractsAPI) GetContract(contractId string) (*GetContractResponse, error) {
 	if !c.vayuClient.IsLoggedIn() {
 		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
 	}
@@ -68,10 +71,10 @@ func (c *ContractsAPI) GetContract(contractId string) (*Contract, error) {
 		return nil, err
 	}
 
-	return &response.Contract, nil
+	return response, nil
 }
 
-func (c *ContractsAPI) CreateContract(input CreateContractRequest) (*Contract, error) {
+func (c *ContractsAPI) CreateContract(input CreateContractRequest) (*CreateContractResponse, error) {
 	if !c.vayuClient.IsLoggedIn() {
 		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
 	}
@@ -87,10 +90,10 @@ func (c *ContractsAPI) CreateContract(input CreateContractRequest) (*Contract, e
 		return nil, err
 	}
 
-	return &response.Contract, nil
+	return response, nil
 }
 
-func (c *ContractsAPI) DeleteContract(contractId string) (*Contract, error) {
+func (c *ContractsAPI) DeleteContract(contractId string) (*DeleteContractResponse, error) {
 	if !c.vayuClient.IsLoggedIn() {
 		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
 	}
@@ -105,5 +108,5 @@ func (c *ContractsAPI) DeleteContract(contractId string) (*Contract, error) {
 		return nil, err
 	}
 
-	return &response.Contract, nil
+	return response, nil
 }

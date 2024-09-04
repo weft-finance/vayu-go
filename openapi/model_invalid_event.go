@@ -16,42 +16,42 @@ import (
 	"fmt"
 )
 
-// checks if the SendEventsResponseInvalidEventsInner type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &SendEventsResponseInvalidEventsInner{}
+// checks if the InvalidEvent type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &InvalidEvent{}
 
-// SendEventsResponseInvalidEventsInner struct for SendEventsResponseInvalidEventsInner
-type SendEventsResponseInvalidEventsInner struct {
-	Event EventsDryRunRequestEventsInner `json:"event"`
+// InvalidEvent struct for InvalidEvent
+type InvalidEvent struct {
+	Event Event `json:"event"`
 	// The error message indicating the reason the event failed validation.
 	Error string `json:"error"`
 	AdditionalProperties map[string]interface{}
 }
 
-type _SendEventsResponseInvalidEventsInner SendEventsResponseInvalidEventsInner
+type _InvalidEvent InvalidEvent
 
-// NewSendEventsResponseInvalidEventsInner instantiates a new SendEventsResponseInvalidEventsInner object
+// NewInvalidEvent instantiates a new InvalidEvent object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSendEventsResponseInvalidEventsInner(event EventsDryRunRequestEventsInner, error_ string) *SendEventsResponseInvalidEventsInner {
-	this := SendEventsResponseInvalidEventsInner{}
+func NewInvalidEvent(event Event, error_ string) *InvalidEvent {
+	this := InvalidEvent{}
 	this.Event = event
 	this.Error = error_
 	return &this
 }
 
-// NewSendEventsResponseInvalidEventsInnerWithDefaults instantiates a new SendEventsResponseInvalidEventsInner object
+// NewInvalidEventWithDefaults instantiates a new InvalidEvent object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewSendEventsResponseInvalidEventsInnerWithDefaults() *SendEventsResponseInvalidEventsInner {
-	this := SendEventsResponseInvalidEventsInner{}
+func NewInvalidEventWithDefaults() *InvalidEvent {
+	this := InvalidEvent{}
 	return &this
 }
 
 // GetEvent returns the Event field value
-func (o *SendEventsResponseInvalidEventsInner) GetEvent() EventsDryRunRequestEventsInner {
+func (o *InvalidEvent) GetEvent() Event {
 	if o == nil {
-		var ret EventsDryRunRequestEventsInner
+		var ret Event
 		return ret
 	}
 
@@ -60,7 +60,7 @@ func (o *SendEventsResponseInvalidEventsInner) GetEvent() EventsDryRunRequestEve
 
 // GetEventOk returns a tuple with the Event field value
 // and a boolean to check if the value has been set.
-func (o *SendEventsResponseInvalidEventsInner) GetEventOk() (*EventsDryRunRequestEventsInner, bool) {
+func (o *InvalidEvent) GetEventOk() (*Event, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -68,12 +68,12 @@ func (o *SendEventsResponseInvalidEventsInner) GetEventOk() (*EventsDryRunReques
 }
 
 // SetEvent sets field value
-func (o *SendEventsResponseInvalidEventsInner) SetEvent(v EventsDryRunRequestEventsInner) {
+func (o *InvalidEvent) SetEvent(v Event) {
 	o.Event = v
 }
 
 // GetError returns the Error field value
-func (o *SendEventsResponseInvalidEventsInner) GetError() string {
+func (o *InvalidEvent) GetError() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -84,7 +84,7 @@ func (o *SendEventsResponseInvalidEventsInner) GetError() string {
 
 // GetErrorOk returns a tuple with the Error field value
 // and a boolean to check if the value has been set.
-func (o *SendEventsResponseInvalidEventsInner) GetErrorOk() (*string, bool) {
+func (o *InvalidEvent) GetErrorOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -92,11 +92,11 @@ func (o *SendEventsResponseInvalidEventsInner) GetErrorOk() (*string, bool) {
 }
 
 // SetError sets field value
-func (o *SendEventsResponseInvalidEventsInner) SetError(v string) {
+func (o *InvalidEvent) SetError(v string) {
 	o.Error = v
 }
 
-func (o SendEventsResponseInvalidEventsInner) MarshalJSON() ([]byte, error) {
+func (o InvalidEvent) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -104,7 +104,7 @@ func (o SendEventsResponseInvalidEventsInner) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o SendEventsResponseInvalidEventsInner) ToMap() (map[string]interface{}, error) {
+func (o InvalidEvent) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["event"] = o.Event
 	toSerialize["error"] = o.Error
@@ -116,7 +116,7 @@ func (o SendEventsResponseInvalidEventsInner) ToMap() (map[string]interface{}, e
 	return toSerialize, nil
 }
 
-func (o *SendEventsResponseInvalidEventsInner) UnmarshalJSON(data []byte) (err error) {
+func (o *InvalidEvent) UnmarshalJSON(data []byte) (err error) {
 	// This validates that all required properties are included in the JSON object
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
@@ -139,15 +139,15 @@ func (o *SendEventsResponseInvalidEventsInner) UnmarshalJSON(data []byte) (err e
 		}
 	}
 
-	varSendEventsResponseInvalidEventsInner := _SendEventsResponseInvalidEventsInner{}
+	varInvalidEvent := _InvalidEvent{}
 
-	err = json.Unmarshal(data, &varSendEventsResponseInvalidEventsInner)
+	err = json.Unmarshal(data, &varInvalidEvent)
 
 	if err != nil {
 		return err
 	}
 
-	*o = SendEventsResponseInvalidEventsInner(varSendEventsResponseInvalidEventsInner)
+	*o = InvalidEvent(varInvalidEvent)
 
 	additionalProperties := make(map[string]interface{})
 
@@ -160,38 +160,38 @@ func (o *SendEventsResponseInvalidEventsInner) UnmarshalJSON(data []byte) (err e
 	return err
 }
 
-type NullableSendEventsResponseInvalidEventsInner struct {
-	value *SendEventsResponseInvalidEventsInner
+type NullableInvalidEvent struct {
+	value *InvalidEvent
 	isSet bool
 }
 
-func (v NullableSendEventsResponseInvalidEventsInner) Get() *SendEventsResponseInvalidEventsInner {
+func (v NullableInvalidEvent) Get() *InvalidEvent {
 	return v.value
 }
 
-func (v *NullableSendEventsResponseInvalidEventsInner) Set(val *SendEventsResponseInvalidEventsInner) {
+func (v *NullableInvalidEvent) Set(val *InvalidEvent) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableSendEventsResponseInvalidEventsInner) IsSet() bool {
+func (v NullableInvalidEvent) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableSendEventsResponseInvalidEventsInner) Unset() {
+func (v *NullableInvalidEvent) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableSendEventsResponseInvalidEventsInner(val *SendEventsResponseInvalidEventsInner) *NullableSendEventsResponseInvalidEventsInner {
-	return &NullableSendEventsResponseInvalidEventsInner{value: val, isSet: true}
+func NewNullableInvalidEvent(val *InvalidEvent) *NullableInvalidEvent {
+	return &NullableInvalidEvent{value: val, isSet: true}
 }
 
-func (v NullableSendEventsResponseInvalidEventsInner) MarshalJSON() ([]byte, error) {
+func (v NullableInvalidEvent) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableSendEventsResponseInvalidEventsInner) UnmarshalJSON(src []byte) error {
+func (v *NullableInvalidEvent) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

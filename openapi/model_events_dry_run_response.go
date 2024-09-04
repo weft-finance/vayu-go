@@ -16,60 +16,60 @@ import (
 	"fmt"
 )
 
-// checks if the GetEventByRefIdResponse type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &GetEventByRefIdResponse{}
+// checks if the EventsDryRunResponse type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &EventsDryRunResponse{}
 
-// GetEventByRefIdResponse struct for GetEventByRefIdResponse
-type GetEventByRefIdResponse struct {
-	Event GetEventByRefIdResponseEvent `json:"event"`
+// EventsDryRunResponse struct for EventsDryRunResponse
+type EventsDryRunResponse struct {
+	Events []EventsDryRunResponseObject `json:"events"`
 	AdditionalProperties map[string]interface{}
 }
 
-type _GetEventByRefIdResponse GetEventByRefIdResponse
+type _EventsDryRunResponse EventsDryRunResponse
 
-// NewGetEventByRefIdResponse instantiates a new GetEventByRefIdResponse object
+// NewEventsDryRunResponse instantiates a new EventsDryRunResponse object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGetEventByRefIdResponse(event GetEventByRefIdResponseEvent) *GetEventByRefIdResponse {
-	this := GetEventByRefIdResponse{}
-	this.Event = event
+func NewEventsDryRunResponse(events []EventsDryRunResponseObject) *EventsDryRunResponse {
+	this := EventsDryRunResponse{}
+	this.Events = events
 	return &this
 }
 
-// NewGetEventByRefIdResponseWithDefaults instantiates a new GetEventByRefIdResponse object
+// NewEventsDryRunResponseWithDefaults instantiates a new EventsDryRunResponse object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewGetEventByRefIdResponseWithDefaults() *GetEventByRefIdResponse {
-	this := GetEventByRefIdResponse{}
+func NewEventsDryRunResponseWithDefaults() *EventsDryRunResponse {
+	this := EventsDryRunResponse{}
 	return &this
 }
 
-// GetEvent returns the Event field value
-func (o *GetEventByRefIdResponse) GetEvent() GetEventByRefIdResponseEvent {
+// GetEvents returns the Events field value
+func (o *EventsDryRunResponse) GetEvents() []EventsDryRunResponseObject {
 	if o == nil {
-		var ret GetEventByRefIdResponseEvent
+		var ret []EventsDryRunResponseObject
 		return ret
 	}
 
-	return o.Event
+	return o.Events
 }
 
-// GetEventOk returns a tuple with the Event field value
+// GetEventsOk returns a tuple with the Events field value
 // and a boolean to check if the value has been set.
-func (o *GetEventByRefIdResponse) GetEventOk() (*GetEventByRefIdResponseEvent, bool) {
+func (o *EventsDryRunResponse) GetEventsOk() ([]EventsDryRunResponseObject, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Event, true
+	return o.Events, true
 }
 
-// SetEvent sets field value
-func (o *GetEventByRefIdResponse) SetEvent(v GetEventByRefIdResponseEvent) {
-	o.Event = v
+// SetEvents sets field value
+func (o *EventsDryRunResponse) SetEvents(v []EventsDryRunResponseObject) {
+	o.Events = v
 }
 
-func (o GetEventByRefIdResponse) MarshalJSON() ([]byte, error) {
+func (o EventsDryRunResponse) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -77,9 +77,9 @@ func (o GetEventByRefIdResponse) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o GetEventByRefIdResponse) ToMap() (map[string]interface{}, error) {
+func (o EventsDryRunResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["event"] = o.Event
+	toSerialize["events"] = o.Events
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -88,12 +88,12 @@ func (o GetEventByRefIdResponse) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *GetEventByRefIdResponse) UnmarshalJSON(data []byte) (err error) {
+func (o *EventsDryRunResponse) UnmarshalJSON(data []byte) (err error) {
 	// This validates that all required properties are included in the JSON object
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"event",
+		"events",
 	}
 
 	allProperties := make(map[string]interface{})
@@ -110,58 +110,58 @@ func (o *GetEventByRefIdResponse) UnmarshalJSON(data []byte) (err error) {
 		}
 	}
 
-	varGetEventByRefIdResponse := _GetEventByRefIdResponse{}
+	varEventsDryRunResponse := _EventsDryRunResponse{}
 
-	err = json.Unmarshal(data, &varGetEventByRefIdResponse)
+	err = json.Unmarshal(data, &varEventsDryRunResponse)
 
 	if err != nil {
 		return err
 	}
 
-	*o = GetEventByRefIdResponse(varGetEventByRefIdResponse)
+	*o = EventsDryRunResponse(varEventsDryRunResponse)
 
 	additionalProperties := make(map[string]interface{})
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "event")
+		delete(additionalProperties, "events")
 		o.AdditionalProperties = additionalProperties
 	}
 
 	return err
 }
 
-type NullableGetEventByRefIdResponse struct {
-	value *GetEventByRefIdResponse
+type NullableEventsDryRunResponse struct {
+	value *EventsDryRunResponse
 	isSet bool
 }
 
-func (v NullableGetEventByRefIdResponse) Get() *GetEventByRefIdResponse {
+func (v NullableEventsDryRunResponse) Get() *EventsDryRunResponse {
 	return v.value
 }
 
-func (v *NullableGetEventByRefIdResponse) Set(val *GetEventByRefIdResponse) {
+func (v *NullableEventsDryRunResponse) Set(val *EventsDryRunResponse) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableGetEventByRefIdResponse) IsSet() bool {
+func (v NullableEventsDryRunResponse) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableGetEventByRefIdResponse) Unset() {
+func (v *NullableEventsDryRunResponse) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableGetEventByRefIdResponse(val *GetEventByRefIdResponse) *NullableGetEventByRefIdResponse {
-	return &NullableGetEventByRefIdResponse{value: val, isSet: true}
+func NewNullableEventsDryRunResponse(val *EventsDryRunResponse) *NullableEventsDryRunResponse {
+	return &NullableEventsDryRunResponse{value: val, isSet: true}
 }
 
-func (v NullableGetEventByRefIdResponse) MarshalJSON() ([]byte, error) {
+func (v NullableEventsDryRunResponse) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableGetEventByRefIdResponse) UnmarshalJSON(src []byte) error {
+func (v *NullableEventsDryRunResponse) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

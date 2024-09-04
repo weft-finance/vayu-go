@@ -16,30 +16,30 @@ import (
 	"fmt"
 )
 
-// checks if the EventsDryRunResponseInnerMeterWithValuesInner type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &EventsDryRunResponseInnerMeterWithValuesInner{}
+// checks if the EventsDryRunResponseObjectMeterWithValuesInner type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &EventsDryRunResponseObjectMeterWithValuesInner{}
 
-// EventsDryRunResponseInnerMeterWithValuesInner struct for EventsDryRunResponseInnerMeterWithValuesInner
-type EventsDryRunResponseInnerMeterWithValuesInner struct {
+// EventsDryRunResponseObjectMeterWithValuesInner struct for EventsDryRunResponseObjectMeterWithValuesInner
+type EventsDryRunResponseObjectMeterWithValuesInner struct {
 	// The name of the meter
 	Name string `json:"name"`
 	// The name of the event that the meter is tracking.
 	EventName string `json:"eventName"`
-	AggregationMethod GetMeterResponseMeterAggregationMethod `json:"aggregationMethod"`
+	AggregationMethod AggregationMethod `json:"aggregationMethod"`
 	Filter *Filter `json:"filter,omitempty"`
 	Value float32 `json:"value"`
 	InstanceValue interface{} `json:"instanceValue,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
-type _EventsDryRunResponseInnerMeterWithValuesInner EventsDryRunResponseInnerMeterWithValuesInner
+type _EventsDryRunResponseObjectMeterWithValuesInner EventsDryRunResponseObjectMeterWithValuesInner
 
-// NewEventsDryRunResponseInnerMeterWithValuesInner instantiates a new EventsDryRunResponseInnerMeterWithValuesInner object
+// NewEventsDryRunResponseObjectMeterWithValuesInner instantiates a new EventsDryRunResponseObjectMeterWithValuesInner object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewEventsDryRunResponseInnerMeterWithValuesInner(name string, eventName string, aggregationMethod GetMeterResponseMeterAggregationMethod, value float32) *EventsDryRunResponseInnerMeterWithValuesInner {
-	this := EventsDryRunResponseInnerMeterWithValuesInner{}
+func NewEventsDryRunResponseObjectMeterWithValuesInner(name string, eventName string, aggregationMethod AggregationMethod, value float32) *EventsDryRunResponseObjectMeterWithValuesInner {
+	this := EventsDryRunResponseObjectMeterWithValuesInner{}
 	this.Name = name
 	this.EventName = eventName
 	this.AggregationMethod = aggregationMethod
@@ -47,16 +47,16 @@ func NewEventsDryRunResponseInnerMeterWithValuesInner(name string, eventName str
 	return &this
 }
 
-// NewEventsDryRunResponseInnerMeterWithValuesInnerWithDefaults instantiates a new EventsDryRunResponseInnerMeterWithValuesInner object
+// NewEventsDryRunResponseObjectMeterWithValuesInnerWithDefaults instantiates a new EventsDryRunResponseObjectMeterWithValuesInner object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewEventsDryRunResponseInnerMeterWithValuesInnerWithDefaults() *EventsDryRunResponseInnerMeterWithValuesInner {
-	this := EventsDryRunResponseInnerMeterWithValuesInner{}
+func NewEventsDryRunResponseObjectMeterWithValuesInnerWithDefaults() *EventsDryRunResponseObjectMeterWithValuesInner {
+	this := EventsDryRunResponseObjectMeterWithValuesInner{}
 	return &this
 }
 
 // GetName returns the Name field value
-func (o *EventsDryRunResponseInnerMeterWithValuesInner) GetName() string {
+func (o *EventsDryRunResponseObjectMeterWithValuesInner) GetName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -67,7 +67,7 @@ func (o *EventsDryRunResponseInnerMeterWithValuesInner) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-func (o *EventsDryRunResponseInnerMeterWithValuesInner) GetNameOk() (*string, bool) {
+func (o *EventsDryRunResponseObjectMeterWithValuesInner) GetNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -75,12 +75,12 @@ func (o *EventsDryRunResponseInnerMeterWithValuesInner) GetNameOk() (*string, bo
 }
 
 // SetName sets field value
-func (o *EventsDryRunResponseInnerMeterWithValuesInner) SetName(v string) {
+func (o *EventsDryRunResponseObjectMeterWithValuesInner) SetName(v string) {
 	o.Name = v
 }
 
 // GetEventName returns the EventName field value
-func (o *EventsDryRunResponseInnerMeterWithValuesInner) GetEventName() string {
+func (o *EventsDryRunResponseObjectMeterWithValuesInner) GetEventName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -91,7 +91,7 @@ func (o *EventsDryRunResponseInnerMeterWithValuesInner) GetEventName() string {
 
 // GetEventNameOk returns a tuple with the EventName field value
 // and a boolean to check if the value has been set.
-func (o *EventsDryRunResponseInnerMeterWithValuesInner) GetEventNameOk() (*string, bool) {
+func (o *EventsDryRunResponseObjectMeterWithValuesInner) GetEventNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -99,14 +99,14 @@ func (o *EventsDryRunResponseInnerMeterWithValuesInner) GetEventNameOk() (*strin
 }
 
 // SetEventName sets field value
-func (o *EventsDryRunResponseInnerMeterWithValuesInner) SetEventName(v string) {
+func (o *EventsDryRunResponseObjectMeterWithValuesInner) SetEventName(v string) {
 	o.EventName = v
 }
 
 // GetAggregationMethod returns the AggregationMethod field value
-func (o *EventsDryRunResponseInnerMeterWithValuesInner) GetAggregationMethod() GetMeterResponseMeterAggregationMethod {
+func (o *EventsDryRunResponseObjectMeterWithValuesInner) GetAggregationMethod() AggregationMethod {
 	if o == nil {
-		var ret GetMeterResponseMeterAggregationMethod
+		var ret AggregationMethod
 		return ret
 	}
 
@@ -115,7 +115,7 @@ func (o *EventsDryRunResponseInnerMeterWithValuesInner) GetAggregationMethod() G
 
 // GetAggregationMethodOk returns a tuple with the AggregationMethod field value
 // and a boolean to check if the value has been set.
-func (o *EventsDryRunResponseInnerMeterWithValuesInner) GetAggregationMethodOk() (*GetMeterResponseMeterAggregationMethod, bool) {
+func (o *EventsDryRunResponseObjectMeterWithValuesInner) GetAggregationMethodOk() (*AggregationMethod, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -123,12 +123,12 @@ func (o *EventsDryRunResponseInnerMeterWithValuesInner) GetAggregationMethodOk()
 }
 
 // SetAggregationMethod sets field value
-func (o *EventsDryRunResponseInnerMeterWithValuesInner) SetAggregationMethod(v GetMeterResponseMeterAggregationMethod) {
+func (o *EventsDryRunResponseObjectMeterWithValuesInner) SetAggregationMethod(v AggregationMethod) {
 	o.AggregationMethod = v
 }
 
 // GetFilter returns the Filter field value if set, zero value otherwise.
-func (o *EventsDryRunResponseInnerMeterWithValuesInner) GetFilter() Filter {
+func (o *EventsDryRunResponseObjectMeterWithValuesInner) GetFilter() Filter {
 	if o == nil || IsNil(o.Filter) {
 		var ret Filter
 		return ret
@@ -138,7 +138,7 @@ func (o *EventsDryRunResponseInnerMeterWithValuesInner) GetFilter() Filter {
 
 // GetFilterOk returns a tuple with the Filter field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EventsDryRunResponseInnerMeterWithValuesInner) GetFilterOk() (*Filter, bool) {
+func (o *EventsDryRunResponseObjectMeterWithValuesInner) GetFilterOk() (*Filter, bool) {
 	if o == nil || IsNil(o.Filter) {
 		return nil, false
 	}
@@ -146,7 +146,7 @@ func (o *EventsDryRunResponseInnerMeterWithValuesInner) GetFilterOk() (*Filter, 
 }
 
 // HasFilter returns a boolean if a field has been set.
-func (o *EventsDryRunResponseInnerMeterWithValuesInner) HasFilter() bool {
+func (o *EventsDryRunResponseObjectMeterWithValuesInner) HasFilter() bool {
 	if o != nil && !IsNil(o.Filter) {
 		return true
 	}
@@ -155,12 +155,12 @@ func (o *EventsDryRunResponseInnerMeterWithValuesInner) HasFilter() bool {
 }
 
 // SetFilter gets a reference to the given Filter and assigns it to the Filter field.
-func (o *EventsDryRunResponseInnerMeterWithValuesInner) SetFilter(v Filter) {
+func (o *EventsDryRunResponseObjectMeterWithValuesInner) SetFilter(v Filter) {
 	o.Filter = &v
 }
 
 // GetValue returns the Value field value
-func (o *EventsDryRunResponseInnerMeterWithValuesInner) GetValue() float32 {
+func (o *EventsDryRunResponseObjectMeterWithValuesInner) GetValue() float32 {
 	if o == nil {
 		var ret float32
 		return ret
@@ -171,7 +171,7 @@ func (o *EventsDryRunResponseInnerMeterWithValuesInner) GetValue() float32 {
 
 // GetValueOk returns a tuple with the Value field value
 // and a boolean to check if the value has been set.
-func (o *EventsDryRunResponseInnerMeterWithValuesInner) GetValueOk() (*float32, bool) {
+func (o *EventsDryRunResponseObjectMeterWithValuesInner) GetValueOk() (*float32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -179,12 +179,12 @@ func (o *EventsDryRunResponseInnerMeterWithValuesInner) GetValueOk() (*float32, 
 }
 
 // SetValue sets field value
-func (o *EventsDryRunResponseInnerMeterWithValuesInner) SetValue(v float32) {
+func (o *EventsDryRunResponseObjectMeterWithValuesInner) SetValue(v float32) {
 	o.Value = v
 }
 
 // GetInstanceValue returns the InstanceValue field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *EventsDryRunResponseInnerMeterWithValuesInner) GetInstanceValue() interface{} {
+func (o *EventsDryRunResponseObjectMeterWithValuesInner) GetInstanceValue() interface{} {
 	if o == nil {
 		var ret interface{}
 		return ret
@@ -195,7 +195,7 @@ func (o *EventsDryRunResponseInnerMeterWithValuesInner) GetInstanceValue() inter
 // GetInstanceValueOk returns a tuple with the InstanceValue field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *EventsDryRunResponseInnerMeterWithValuesInner) GetInstanceValueOk() (*interface{}, bool) {
+func (o *EventsDryRunResponseObjectMeterWithValuesInner) GetInstanceValueOk() (*interface{}, bool) {
 	if o == nil || IsNil(o.InstanceValue) {
 		return nil, false
 	}
@@ -203,7 +203,7 @@ func (o *EventsDryRunResponseInnerMeterWithValuesInner) GetInstanceValueOk() (*i
 }
 
 // HasInstanceValue returns a boolean if a field has been set.
-func (o *EventsDryRunResponseInnerMeterWithValuesInner) HasInstanceValue() bool {
+func (o *EventsDryRunResponseObjectMeterWithValuesInner) HasInstanceValue() bool {
 	if o != nil && !IsNil(o.InstanceValue) {
 		return true
 	}
@@ -212,11 +212,11 @@ func (o *EventsDryRunResponseInnerMeterWithValuesInner) HasInstanceValue() bool 
 }
 
 // SetInstanceValue gets a reference to the given interface{} and assigns it to the InstanceValue field.
-func (o *EventsDryRunResponseInnerMeterWithValuesInner) SetInstanceValue(v interface{}) {
+func (o *EventsDryRunResponseObjectMeterWithValuesInner) SetInstanceValue(v interface{}) {
 	o.InstanceValue = v
 }
 
-func (o EventsDryRunResponseInnerMeterWithValuesInner) MarshalJSON() ([]byte, error) {
+func (o EventsDryRunResponseObjectMeterWithValuesInner) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -224,7 +224,7 @@ func (o EventsDryRunResponseInnerMeterWithValuesInner) MarshalJSON() ([]byte, er
 	return json.Marshal(toSerialize)
 }
 
-func (o EventsDryRunResponseInnerMeterWithValuesInner) ToMap() (map[string]interface{}, error) {
+func (o EventsDryRunResponseObjectMeterWithValuesInner) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["name"] = o.Name
 	toSerialize["eventName"] = o.EventName
@@ -244,7 +244,7 @@ func (o EventsDryRunResponseInnerMeterWithValuesInner) ToMap() (map[string]inter
 	return toSerialize, nil
 }
 
-func (o *EventsDryRunResponseInnerMeterWithValuesInner) UnmarshalJSON(data []byte) (err error) {
+func (o *EventsDryRunResponseObjectMeterWithValuesInner) UnmarshalJSON(data []byte) (err error) {
 	// This validates that all required properties are included in the JSON object
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
@@ -269,15 +269,15 @@ func (o *EventsDryRunResponseInnerMeterWithValuesInner) UnmarshalJSON(data []byt
 		}
 	}
 
-	varEventsDryRunResponseInnerMeterWithValuesInner := _EventsDryRunResponseInnerMeterWithValuesInner{}
+	varEventsDryRunResponseObjectMeterWithValuesInner := _EventsDryRunResponseObjectMeterWithValuesInner{}
 
-	err = json.Unmarshal(data, &varEventsDryRunResponseInnerMeterWithValuesInner)
+	err = json.Unmarshal(data, &varEventsDryRunResponseObjectMeterWithValuesInner)
 
 	if err != nil {
 		return err
 	}
 
-	*o = EventsDryRunResponseInnerMeterWithValuesInner(varEventsDryRunResponseInnerMeterWithValuesInner)
+	*o = EventsDryRunResponseObjectMeterWithValuesInner(varEventsDryRunResponseObjectMeterWithValuesInner)
 
 	additionalProperties := make(map[string]interface{})
 
@@ -294,38 +294,38 @@ func (o *EventsDryRunResponseInnerMeterWithValuesInner) UnmarshalJSON(data []byt
 	return err
 }
 
-type NullableEventsDryRunResponseInnerMeterWithValuesInner struct {
-	value *EventsDryRunResponseInnerMeterWithValuesInner
+type NullableEventsDryRunResponseObjectMeterWithValuesInner struct {
+	value *EventsDryRunResponseObjectMeterWithValuesInner
 	isSet bool
 }
 
-func (v NullableEventsDryRunResponseInnerMeterWithValuesInner) Get() *EventsDryRunResponseInnerMeterWithValuesInner {
+func (v NullableEventsDryRunResponseObjectMeterWithValuesInner) Get() *EventsDryRunResponseObjectMeterWithValuesInner {
 	return v.value
 }
 
-func (v *NullableEventsDryRunResponseInnerMeterWithValuesInner) Set(val *EventsDryRunResponseInnerMeterWithValuesInner) {
+func (v *NullableEventsDryRunResponseObjectMeterWithValuesInner) Set(val *EventsDryRunResponseObjectMeterWithValuesInner) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableEventsDryRunResponseInnerMeterWithValuesInner) IsSet() bool {
+func (v NullableEventsDryRunResponseObjectMeterWithValuesInner) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableEventsDryRunResponseInnerMeterWithValuesInner) Unset() {
+func (v *NullableEventsDryRunResponseObjectMeterWithValuesInner) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableEventsDryRunResponseInnerMeterWithValuesInner(val *EventsDryRunResponseInnerMeterWithValuesInner) *NullableEventsDryRunResponseInnerMeterWithValuesInner {
-	return &NullableEventsDryRunResponseInnerMeterWithValuesInner{value: val, isSet: true}
+func NewNullableEventsDryRunResponseObjectMeterWithValuesInner(val *EventsDryRunResponseObjectMeterWithValuesInner) *NullableEventsDryRunResponseObjectMeterWithValuesInner {
+	return &NullableEventsDryRunResponseObjectMeterWithValuesInner{value: val, isSet: true}
 }
 
-func (v NullableEventsDryRunResponseInnerMeterWithValuesInner) MarshalJSON() ([]byte, error) {
+func (v NullableEventsDryRunResponseObjectMeterWithValuesInner) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableEventsDryRunResponseInnerMeterWithValuesInner) UnmarshalJSON(src []byte) error {
+func (v *NullableEventsDryRunResponseObjectMeterWithValuesInner) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

@@ -22,9 +22,9 @@ var _ MappedNullable = &SendEventsResponse{}
 // SendEventsResponse struct for SendEventsResponse
 type SendEventsResponse struct {
 	// An array of events that were successfully processed and sent to the queue.
-	ValidEvents []EventsDryRunRequestEventsInner `json:"validEvents"`
+	ValidEvents []Event `json:"validEvents"`
 	// An array of events that failed validation and were not sent to the queue. Each object contains the event and the error message.
-	InvalidEvents []SendEventsResponseInvalidEventsInner `json:"invalidEvents"`
+	InvalidEvents []InvalidEvent `json:"invalidEvents"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -34,7 +34,7 @@ type _SendEventsResponse SendEventsResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSendEventsResponse(validEvents []EventsDryRunRequestEventsInner, invalidEvents []SendEventsResponseInvalidEventsInner) *SendEventsResponse {
+func NewSendEventsResponse(validEvents []Event, invalidEvents []InvalidEvent) *SendEventsResponse {
 	this := SendEventsResponse{}
 	this.ValidEvents = validEvents
 	this.InvalidEvents = invalidEvents
@@ -50,9 +50,9 @@ func NewSendEventsResponseWithDefaults() *SendEventsResponse {
 }
 
 // GetValidEvents returns the ValidEvents field value
-func (o *SendEventsResponse) GetValidEvents() []EventsDryRunRequestEventsInner {
+func (o *SendEventsResponse) GetValidEvents() []Event {
 	if o == nil {
-		var ret []EventsDryRunRequestEventsInner
+		var ret []Event
 		return ret
 	}
 
@@ -61,7 +61,7 @@ func (o *SendEventsResponse) GetValidEvents() []EventsDryRunRequestEventsInner {
 
 // GetValidEventsOk returns a tuple with the ValidEvents field value
 // and a boolean to check if the value has been set.
-func (o *SendEventsResponse) GetValidEventsOk() ([]EventsDryRunRequestEventsInner, bool) {
+func (o *SendEventsResponse) GetValidEventsOk() ([]Event, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -69,14 +69,14 @@ func (o *SendEventsResponse) GetValidEventsOk() ([]EventsDryRunRequestEventsInne
 }
 
 // SetValidEvents sets field value
-func (o *SendEventsResponse) SetValidEvents(v []EventsDryRunRequestEventsInner) {
+func (o *SendEventsResponse) SetValidEvents(v []Event) {
 	o.ValidEvents = v
 }
 
 // GetInvalidEvents returns the InvalidEvents field value
-func (o *SendEventsResponse) GetInvalidEvents() []SendEventsResponseInvalidEventsInner {
+func (o *SendEventsResponse) GetInvalidEvents() []InvalidEvent {
 	if o == nil {
-		var ret []SendEventsResponseInvalidEventsInner
+		var ret []InvalidEvent
 		return ret
 	}
 
@@ -85,7 +85,7 @@ func (o *SendEventsResponse) GetInvalidEvents() []SendEventsResponseInvalidEvent
 
 // GetInvalidEventsOk returns a tuple with the InvalidEvents field value
 // and a boolean to check if the value has been set.
-func (o *SendEventsResponse) GetInvalidEventsOk() ([]SendEventsResponseInvalidEventsInner, bool) {
+func (o *SendEventsResponse) GetInvalidEventsOk() ([]InvalidEvent, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -93,7 +93,7 @@ func (o *SendEventsResponse) GetInvalidEventsOk() ([]SendEventsResponseInvalidEv
 }
 
 // SetInvalidEvents sets field value
-func (o *SendEventsResponse) SetInvalidEvents(v []SendEventsResponseInvalidEventsInner) {
+func (o *SendEventsResponse) SetInvalidEvents(v []InvalidEvent) {
 	o.InvalidEvents = v
 }
 

@@ -45,7 +45,11 @@ tags:
   - name: webhooks
     description: The webhooks tag is used for endpoints related to webhook management.
 components:
-  securitySchemes: {}
+  securitySchemes:
+    BearerAuthorizer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   requestBodies:
     CreateCustomerRequest:
       required: true
@@ -261,18 +265,18 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/SendEventsResponse"
-    GetEventByRefIdResponse:
+    GetEventResponse:
       description: response contains the event matching the provided refId
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/GetEventByRefIdResponse"
-    DeleteEventByRefIdResponse:
+            $ref: "#/components/schemas/GetEventResponse"
+    DeleteEventResponse:
       description: Contains the event that was deleted
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/DeleteEventByRefIdResponse"
+            $ref: "#/components/schemas/DeleteEventResponse"
     GetProductsUsageReportResponse:
       description: response contains the products usage report
       content:
@@ -506,6 +510,23 @@ components:
         - Last
       description: The aggregation method defines how the events should be summed to
         represent a usage value.
+    AggregationMethod:
+      type: object
+      properties:
+        operator:
+          $ref: "#/components/schemas/AggregationOperator"
+        field:
+          type: string
+          description: The field inside the "data" property to apply the aggregation
+            method to.
+        instanceKey:
+          type: string
+          description: The fields that is used to group different events together when
+            measuring the usage.
+      required:
+        - operator
+      description: The aggregation method defines how the events should be summed to
+        represent a usage value.
     CriterionOperator:
       type: string
       enum:
@@ -573,22 +594,7 @@ components:
               minLength: 1
               description: The name of the event that the meter is tracking.
             aggregationMethod:
-              type: object
-              properties:
-                operator:
-                  $ref: "#/components/schemas/AggregationOperator"
-                field:
-                  type: string
-                  description: The field inside the "data" property to apply the aggregation
-                    method to.
-                instanceKey:
-                  type: string
-                  description: The fields that is used to group different events together when
-                    measuring the usage.
-              required:
-                - operator
-              description: The aggregation method defines how the events should be summed to
-                represent a usage value.
+              $ref: "#/components/schemas/AggregationMethod"
             filter:
               $ref: "#/components/schemas/Filter"
             id:
@@ -623,22 +629,7 @@ components:
           minLength: 1
           description: The name of the event that the meter is tracking.
         aggregationMethod:
-          type: object
-          properties:
-            operator:
-              $ref: "#/components/schemas/AggregationOperator"
-            field:
-              type: string
-              description: The field inside the "data" property to apply the aggregation
-                method to.
-            instanceKey:
-              type: string
-              description: The fields that is used to group different events together when
-                measuring the usage.
-          required:
-            - operator
-          description: The aggregation method defines how the events should be summed to
-            represent a usage value.
+          $ref: "#/components/schemas/AggregationMethod"
         filter:
           $ref: "#/components/schemas/Filter"
       additionalProperties: false
@@ -657,22 +648,7 @@ components:
               minLength: 1
               description: The name of the event that the meter is tracking.
             aggregationMethod:
-              type: object
-              properties:
-                operator:
-                  $ref: "#/components/schemas/AggregationOperator"
-                field:
-                  type: string
-                  description: The field inside the "data" property to apply the aggregation
-                    method to.
-                instanceKey:
-                  type: string
-                  description: The fields that is used to group different events together when
-                    measuring the usage.
-              required:
-                - operator
-              description: The aggregation method defines how the events should be summed to
-                represent a usage value.
+              $ref: "#/components/schemas/AggregationMethod"
             filter:
               $ref: "#/components/schemas/Filter"
             id:
@@ -710,22 +686,7 @@ components:
               minLength: 1
               description: The name of the event that the meter is tracking.
             aggregationMethod:
-              type: object
-              properties:
-                operator:
-                  $ref: "#/components/schemas/AggregationOperator"
-                field:
-                  type: string
-                  description: The field inside the "data" property to apply the aggregation
-                    method to.
-                instanceKey:
-                  type: string
-                  description: The fields that is used to group different events together when
-                    measuring the usage.
-              required:
-                - operator
-              description: The aggregation method defines how the events should be summed to
-                represent a usage value.
+              $ref: "#/components/schemas/AggregationMethod"
             filter:
               $ref: "#/components/schemas/Filter"
             id:
@@ -765,22 +726,7 @@ components:
                 minLength: 1
                 description: The name of the event that the meter is tracking.
               aggregationMethod:
-                type: object
-                properties:
-                  operator:
-                    $ref: "#/components/schemas/AggregationOperator"
-                  field:
-                    type: string
-                    description: The field inside the "data" property to apply the aggregation
-                      method to.
-                  instanceKey:
-                    type: string
-                    description: The fields that is used to group different events together when
-                      measuring the usage.
-                required:
-                  - operator
-                description: The aggregation method defines how the events should be summed to
-                  represent a usage value.
+                $ref: "#/components/schemas/AggregationMethod"
               filter:
                 $ref: "#/components/schemas/Filter"
               id:
@@ -1175,6 +1121,20 @@ components:
         - startTime
         - endTime
       description: The billing cycle of the invoice, consists of a start and end date
+    LineItem:
+      type: object
+      properties:
+        invoiceId:
+          type: string
+          pattern: ^[0-9a-fA-F]{24}$
+          description: The id of the invoice that the line item is a part of
+        price:
+          type: number
+          minimum: 0
+          description: The price of the line item
+      required:
+        - invoiceId
+        - price
     GetInvoiceResponse:
       type: object
       properties:
@@ -1199,19 +1159,7 @@ components:
             lineItems:
               type: array
               items:
-                type: object
-                properties:
-                  invoiceId:
-                    type: string
-                    pattern: ^[0-9a-fA-F]{24}$
-                    description: The id of the invoice that the line item is a part of
-                  price:
-                    type: number
-                    minimum: 0
-                    description: The price of the line item
-                required:
-                  - invoiceId
-                  - price
+                $ref: "#/components/schemas/LineItem"
             amount:
               type: number
               description: The total amount of the invoice
@@ -1263,19 +1211,7 @@ components:
               lineItems:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    invoiceId:
-                      type: string
-                      pattern: ^[0-9a-fA-F]{24}$
-                      description: The id of the invoice that the line item is a part of
-                    price:
-                      type: number
-                      minimum: 0
-                      description: The price of the line item
-                  required:
-                    - invoiceId
-                    - price
+                  $ref: "#/components/schemas/LineItem"
               amount:
                 type: number
                 description: The total amount of the invoice
@@ -1324,138 +1260,137 @@ components:
             to expire every hour.
       required:
         - accessToken
+    Event:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The distinctive label assigned to an event, serving as a critical
+            identifier for categorizing and pricing events within the system's
+            backend infrastructure.
+          example: api_call
+        timestamp:
+          type: string
+          description: The temporal marker denoting the exact moment of event occurrence.
+            The timestamp is formatted as an ISO 8601 string and is expressed in
+            Coordinated Universal Time (UTC). i.e. YYYY-MM-DDTHH:MM:SS.SSSZ
+          format: date-time
+          example: 2023-09-13T18:25:43.511Z
+        customerAlias:
+          type: string
+          minLength: 1
+          description: A pseudonymous or otherwise obfuscated identifier uniquely assigned
+            to each customer.
+          example: customer_12345
+        ref:
+          type: string
+          description: A universally unique identifier (UUID) or other form of
+            high-entropy string serving as an immutable reference for each event
+            entry.
+          example: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
+        data:
+          type: object
+          nullable: true
+          additionalProperties:
+            type: string
+          description: A schema-less JSON object encapsulating miscellaneous attributes
+            and metrics associated with the event.
+          example:
+            key1: processing_duration
+            key2: api_url
+      required:
+        - name
+        - timestamp
+        - customerAlias
+        - ref
     EventsDryRunRequest:
       type: object
       properties:
         events:
           type: array
           items:
-            type: object
-            properties:
-              name:
-                type: string
-                description: The distinctive label assigned to an event, serving as a critical
-                  identifier for categorizing and pricing events within the
-                  system's backend infrastructure.
-                example: api_call
-              timestamp:
-                type: string
-                description: The temporal marker denoting the exact moment of event occurrence.
-                  The timestamp is formatted as an ISO 8601 string and is
-                  expressed in Coordinated Universal Time (UTC). i.e.
-                  YYYY-MM-DDTHH:MM:SS.SSSZ
-                format: date-time
-                example: 2023-09-13T18:25:43.511Z
-              customerAlias:
-                type: string
-                minLength: 1
-                description: A pseudonymous or otherwise obfuscated identifier uniquely assigned
-                  to each customer.
-                example: customer_12345
-              ref:
-                type: string
-                description: A universally unique identifier (UUID) or other form of
-                  high-entropy string serving as an immutable reference for each
-                  event entry.
-                example: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
-              data:
-                type: object
-                nullable: true
-                additionalProperties:
-                  nullable: true
-                description: A schema-less JSON object encapsulating miscellaneous attributes
-                  and metrics associated with the event.
-                example:
-                  key1: processing_duration
-                  key2: api_url
-            required:
-              - name
-              - timestamp
-              - customerAlias
-              - ref
+            $ref: "#/components/schemas/Event"
           minItems: 1
           maxItems: 1000
       required:
         - events
-    EventsDryRunResponse:
-      type: array
-      items:
-        type: object
-        properties:
-          event:
-            type: object
-            properties:
-              timestamp:
-                type: string
-                format: date-time
-              customerAlias:
-                type: string
-                minLength: 1
-              accountId:
-                type: string
-                pattern: ^[0-9a-fA-F]{24}$
-              data:
-                type: object
-                nullable: true
-                additionalProperties:
-                  nullable: true
-              ref:
-                type: string
-              name:
-                type: string
-            required:
-              - timestamp
-              - customerAlias
-              - accountId
-              - ref
-              - name
-          matchedCustomer:
-            type: string
-            nullable: true
-          meterWithValues:
-            type: array
-            items:
+    Meter:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: The name of the meter
+        eventName:
+          type: string
+          minLength: 1
+          description: The name of the event that the meter is tracking.
+        aggregationMethod:
+          $ref: "#/components/schemas/AggregationMethod"
+        filter:
+          $ref: "#/components/schemas/Filter"
+      required:
+        - name
+        - eventName
+        - aggregationMethod
+    EventsDryRunResponseObject:
+      type: object
+      properties:
+        event:
+          type: object
+          properties:
+            timestamp:
+              type: string
+              format: date-time
+            customerAlias:
+              type: string
+              minLength: 1
+            accountId:
+              type: string
+              pattern: ^[0-9a-fA-F]{24}$
+            data:
               type: object
-              properties:
-                name:
-                  type: string
-                  minLength: 1
-                  description: The name of the meter
-                eventName:
-                  type: string
-                  minLength: 1
-                  description: The name of the event that the meter is tracking.
-                aggregationMethod:
-                  type: object
-                  properties:
-                    operator:
-                      $ref: "#/components/schemas/AggregationOperator"
-                    field:
-                      type: string
-                      description: The field inside the "data" property to apply the aggregation
-                        method to.
-                    instanceKey:
-                      type: string
-                      description: The fields that is used to group different events together when
-                        measuring the usage.
-                  required:
-                    - operator
-                  description: The aggregation method defines how the events should be summed to
-                    represent a usage value.
-                filter:
-                  $ref: "#/components/schemas/Filter"
-                value:
-                  type: number
-                instanceValue:
-                  nullable: true
-              required:
-                - name
-                - eventName
-                - aggregationMethod
-                - value
-        required:
-          - event
-          - meterWithValues
+              nullable: true
+              additionalProperties:
+                type: string
+            ref:
+              type: string
+            name:
+              type: string
+          required:
+            - timestamp
+            - customerAlias
+            - accountId
+            - ref
+            - name
+        matchedCustomer:
+          type: string
+          nullable: true
+        meterWithValues:
+          type: array
+          items:
+            allOf:
+              - $ref: "#/components/schemas/Meter"
+              - type: object
+                properties:
+                  value:
+                    type: number
+                  instanceValue:
+                    nullable: true
+                required:
+                  - value
+      required:
+        - event
+        - meterWithValues
+    EventsDryRunResponse:
+      type: object
+      properties:
+        events:
+          type: array
+          items:
+            $ref: "#/components/schemas/EventsDryRunResponseObject"
+      required:
+        - events
     QueryEventsResponse:
       type: object
       properties:
@@ -1494,7 +1429,7 @@ components:
                 type: object
                 nullable: true
                 additionalProperties:
-                  nullable: true
+                  type: string
                 description: A schema-less JSON object encapsulating miscellaneous attributes
                   and metrics associated with the event.
                 example:
@@ -1525,167 +1460,42 @@ components:
         events:
           type: array
           items:
-            type: object
-            properties:
-              name:
-                type: string
-                description: The distinctive label assigned to an event, serving as a critical
-                  identifier for categorizing and pricing events within the
-                  system's backend infrastructure.
-                example: api_call
-              timestamp:
-                type: string
-                description: The temporal marker denoting the exact moment of event occurrence.
-                  The timestamp is formatted as an ISO 8601 string and is
-                  expressed in Coordinated Universal Time (UTC). i.e.
-                  YYYY-MM-DDTHH:MM:SS.SSSZ
-                format: date-time
-                example: 2023-09-13T18:25:43.511Z
-              customerAlias:
-                type: string
-                minLength: 1
-                description: A pseudonymous or otherwise obfuscated identifier uniquely assigned
-                  to each customer.
-                example: customer_12345
-              ref:
-                type: string
-                description: A universally unique identifier (UUID) or other form of
-                  high-entropy string serving as an immutable reference for each
-                  event entry.
-                example: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
-              data:
-                type: object
-                nullable: true
-                additionalProperties:
-                  nullable: true
-                description: A schema-less JSON object encapsulating miscellaneous attributes
-                  and metrics associated with the event.
-                example:
-                  key1: processing_duration
-                  key2: api_url
-            required:
-              - name
-              - timestamp
-              - customerAlias
-              - ref
+            $ref: "#/components/schemas/Event"
           minItems: 1
           maxItems: 1000
       required:
         - events
+    InvalidEvent:
+      type: object
+      properties:
+        event:
+          $ref: "#/components/schemas/Event"
+        error:
+          type: string
+          description: The error message indicating the reason the event failed validation.
+          example: Event ref already exists.
+      required:
+        - event
+        - error
     SendEventsResponse:
       type: object
       properties:
         validEvents:
           type: array
           items:
-            type: object
-            properties:
-              name:
-                type: string
-                description: The distinctive label assigned to an event, serving as a critical
-                  identifier for categorizing and pricing events within the
-                  system's backend infrastructure.
-                example: api_call
-              timestamp:
-                type: string
-                description: The temporal marker denoting the exact moment of event occurrence.
-                  The timestamp is formatted as an ISO 8601 string and is
-                  expressed in Coordinated Universal Time (UTC). i.e.
-                  YYYY-MM-DDTHH:MM:SS.SSSZ
-                format: date-time
-                example: 2023-09-13T18:25:43.511Z
-              customerAlias:
-                type: string
-                minLength: 1
-                description: A pseudonymous or otherwise obfuscated identifier uniquely assigned
-                  to each customer.
-                example: customer_12345
-              ref:
-                type: string
-                description: A universally unique identifier (UUID) or other form of
-                  high-entropy string serving as an immutable reference for each
-                  event entry.
-                example: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
-              data:
-                type: object
-                nullable: true
-                additionalProperties:
-                  nullable: true
-                description: A schema-less JSON object encapsulating miscellaneous attributes
-                  and metrics associated with the event.
-                example:
-                  key1: processing_duration
-                  key2: api_url
-            required:
-              - name
-              - timestamp
-              - customerAlias
-              - ref
+            $ref: "#/components/schemas/Event"
           description: An array of events that were successfully processed and sent to the
             queue.
         invalidEvents:
           type: array
           items:
-            type: object
-            properties:
-              event:
-                type: object
-                properties:
-                  name:
-                    type: string
-                    description: The distinctive label assigned to an event, serving as a critical
-                      identifier for categorizing and pricing events within the
-                      system's backend infrastructure.
-                    example: api_call
-                  timestamp:
-                    type: string
-                    description: The temporal marker denoting the exact moment of event occurrence.
-                      The timestamp is formatted as an ISO 8601 string and is
-                      expressed in Coordinated Universal Time (UTC). i.e.
-                      YYYY-MM-DDTHH:MM:SS.SSSZ
-                    format: date-time
-                    example: 2023-09-13T18:25:43.511Z
-                  customerAlias:
-                    type: string
-                    minLength: 1
-                    description: A pseudonymous or otherwise obfuscated identifier uniquely assigned
-                      to each customer.
-                    example: customer_12345
-                  ref:
-                    type: string
-                    description: A universally unique identifier (UUID) or other form of
-                      high-entropy string serving as an immutable reference for
-                      each event entry.
-                    example: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
-                  data:
-                    type: object
-                    nullable: true
-                    additionalProperties:
-                      nullable: true
-                    description: A schema-less JSON object encapsulating miscellaneous attributes
-                      and metrics associated with the event.
-                    example:
-                      key1: processing_duration
-                      key2: api_url
-                required:
-                  - name
-                  - timestamp
-                  - customerAlias
-                  - ref
-              error:
-                type: string
-                description: The error message indicating the reason the event failed
-                  validation.
-                example: Event ref already exists.
-            required:
-              - event
-              - error
+            $ref: "#/components/schemas/InvalidEvent"
           description: An array of events that failed validation and were not sent to the
             queue. Each object contains the event and the error message.
       required:
         - validEvents
         - invalidEvents
-    GetEventByRefIdResponse:
+    GetEventResponse:
       type: object
       properties:
         event:
@@ -1721,7 +1531,7 @@ components:
               type: object
               nullable: true
               additionalProperties:
-                nullable: true
+                type: string
               description: A schema-less JSON object encapsulating miscellaneous attributes
                 and metrics associated with the event.
               example:
@@ -1746,7 +1556,7 @@ components:
           description: The event matching the provided refId
       required:
         - event
-    DeleteEventByRefIdResponse:
+    DeleteEventResponse:
       type: object
       properties:
         event:
@@ -1782,7 +1592,7 @@ components:
               type: object
               nullable: true
               additionalProperties:
-                nullable: true
+                type: string
               description: A schema-less JSON object encapsulating miscellaneous attributes
                 and metrics associated with the event.
               example:
@@ -2151,14 +1961,9 @@ paths:
       description: Create a new Customer.
       summary: Create Customer
       security:
-        - CognitoServerAuthorizer: []
+        - BearerAuthorizer: []
       requestBody:
         $ref: "#/components/requestBodies/CreateCustomerRequest"
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-create-external-customer/invocations
       responses:
         "200":
           $ref: "#/components/responses/CreateCustomerResponse"
@@ -2170,34 +1975,6 @@ paths:
           description: Too Many Requests
         "500":
           description: Internal Server Error
-    options:
-      tags:
-        - customers
-      x-amazon-apigateway-integration:
-        requestTemplates:
-          application/json: '{ "statusCode": 200 }'
-        type: mock
-        responses:
-          default:
-            responseParameters:
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
-              method.response.header.Access-Control-Allow-Methods: "'*'"
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-            statusCode: 200
-      responses:
-        "200":
-          description: Default response for OPTIONS method
-          headers:
-            Access-Control-Allow-Headers:
-              schema:
-                type: string
-            Access-Control-Allow-Methods:
-              schema:
-                type: string
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-          content: {}
     get:
       tags:
         - customers
@@ -2205,12 +1982,7 @@ paths:
       description: Get a list of Customers.
       summary: List Customers
       security:
-        - CognitoServerAuthorizer: []
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-list-external-customers/invocations
+        - BearerAuthorizer: []
       parameters:
         - schema:
             $ref: "#/components/schemas/Limit"
@@ -2241,12 +2013,7 @@ paths:
       description: Get a Customer by id.
       summary: Get Customer
       security:
-        - CognitoServerAuthorizer: []
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-get-external-customer/invocations
+        - BearerAuthorizer: []
       parameters:
         - schema:
             $ref: "#/components/schemas/CustomerId"
@@ -2266,40 +2033,6 @@ paths:
           description: Too Many Requests
         "500":
           description: Internal Server Error
-    options:
-      tags:
-        - customers
-      x-amazon-apigateway-integration:
-        requestTemplates:
-          application/json: '{ "statusCode": 200 }'
-        type: mock
-        responses:
-          default:
-            responseParameters:
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
-              method.response.header.Access-Control-Allow-Methods: "'*'"
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-            statusCode: 200
-      parameters:
-        - schema:
-            $ref: "#/components/schemas/CustomerId"
-          required: true
-          in: path
-          name: customerId
-      responses:
-        "200":
-          description: Default response for OPTIONS method
-          headers:
-            Access-Control-Allow-Headers:
-              schema:
-                type: string
-            Access-Control-Allow-Methods:
-              schema:
-                type: string
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-          content: {}
     put:
       tags:
         - customers
@@ -2307,14 +2040,9 @@ paths:
       description: Update a Customer by id.
       summary: Update Customer
       security:
-        - CognitoServerAuthorizer: []
+        - BearerAuthorizer: []
       requestBody:
         $ref: "#/components/requestBodies/UpdateCustomerRequest"
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-update-external-customer/invocations
       parameters:
         - schema:
             $ref: "#/components/schemas/CustomerId"
@@ -2341,12 +2069,7 @@ paths:
       description: Delete a Customer by id.
       summary: Delete Customer
       security:
-        - CognitoServerAuthorizer: []
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-delete-external-customer/invocations
+        - BearerAuthorizer: []
       parameters:
         - schema:
             $ref: "#/components/schemas/CustomerId"
@@ -2374,12 +2097,7 @@ paths:
       description: Get a Meter by id.
       summary: Get Meter
       security:
-        - CognitoServerAuthorizer: []
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-get-external-meter/invocations
+        - BearerAuthorizer: []
       parameters:
         - schema:
             $ref: "#/components/schemas/MeterId"
@@ -2399,40 +2117,6 @@ paths:
           description: Too Many Requests
         "500":
           description: Internal Server Error
-    options:
-      tags:
-        - meters
-      x-amazon-apigateway-integration:
-        requestTemplates:
-          application/json: '{ "statusCode": 200 }'
-        type: mock
-        responses:
-          default:
-            responseParameters:
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
-              method.response.header.Access-Control-Allow-Methods: "'*'"
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-            statusCode: 200
-      parameters:
-        - schema:
-            $ref: "#/components/schemas/MeterId"
-          required: true
-          in: path
-          name: meterId
-      responses:
-        "200":
-          description: Default response for OPTIONS method
-          headers:
-            Access-Control-Allow-Headers:
-              schema:
-                type: string
-            Access-Control-Allow-Methods:
-              schema:
-                type: string
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-          content: {}
     put:
       tags:
         - meters
@@ -2440,14 +2124,9 @@ paths:
       description: Update a Meter by id.
       summary: Update Meter
       security:
-        - CognitoServerAuthorizer: []
+        - BearerAuthorizer: []
       requestBody:
         $ref: "#/components/requestBodies/UpdateMeterRequest"
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-update-external-meter/invocations
       parameters:
         - schema:
             $ref: "#/components/schemas/MeterId"
@@ -2474,12 +2153,7 @@ paths:
       description: Delete a Meter by id.
       summary: Delete Meter
       security:
-        - CognitoServerAuthorizer: []
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-delete-external-meter/invocations
+        - BearerAuthorizer: []
       parameters:
         - schema:
             $ref: "#/components/schemas/MeterId"
@@ -2507,12 +2181,7 @@ paths:
       description: Get a list of Meters.
       summary: List Meters
       security:
-        - CognitoServerAuthorizer: []
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-list-external-meters/invocations
+        - BearerAuthorizer: []
       parameters:
         - schema:
             $ref: "#/components/schemas/Limit"
@@ -2535,34 +2204,6 @@ paths:
           description: Too Many Requests
         "500":
           description: Internal Server Error
-    options:
-      tags:
-        - meters
-      x-amazon-apigateway-integration:
-        requestTemplates:
-          application/json: '{ "statusCode": 200 }'
-        type: mock
-        responses:
-          default:
-            responseParameters:
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
-              method.response.header.Access-Control-Allow-Methods: "'*'"
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-            statusCode: 200
-      responses:
-        "200":
-          description: Default response for OPTIONS method
-          headers:
-            Access-Control-Allow-Headers:
-              schema:
-                type: string
-            Access-Control-Allow-Methods:
-              schema:
-                type: string
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-          content: {}
   /plans/{planId}:
     get:
       tags:
@@ -2571,12 +2212,7 @@ paths:
       description: Get a Plan by id.
       summary: Get Plan
       security:
-        - CognitoServerAuthorizer: []
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-get-external-plan/invocations
+        - BearerAuthorizer: []
       parameters:
         - schema:
             $ref: "#/components/schemas/PlanId"
@@ -2596,40 +2232,6 @@ paths:
           description: Too Many Requests
         "500":
           description: Internal Server Error
-    options:
-      tags:
-        - plans
-      x-amazon-apigateway-integration:
-        requestTemplates:
-          application/json: '{ "statusCode": 200 }'
-        type: mock
-        responses:
-          default:
-            responseParameters:
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
-              method.response.header.Access-Control-Allow-Methods: "'*'"
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-            statusCode: 200
-      parameters:
-        - schema:
-            $ref: "#/components/schemas/PlanId"
-          required: true
-          in: path
-          name: planId
-      responses:
-        "200":
-          description: Default response for OPTIONS method
-          headers:
-            Access-Control-Allow-Headers:
-              schema:
-                type: string
-            Access-Control-Allow-Methods:
-              schema:
-                type: string
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-          content: {}
     delete:
       tags:
         - plans
@@ -2637,12 +2239,7 @@ paths:
       description: Delete a Plan by id.
       summary: Delete Plan
       security:
-        - CognitoServerAuthorizer: []
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-delete-external-plan/invocations
+        - BearerAuthorizer: []
       parameters:
         - schema:
             $ref: "#/components/schemas/PlanId"
@@ -2670,12 +2267,7 @@ paths:
       description: Get a list of Plans.
       summary: List Plans
       security:
-        - CognitoServerAuthorizer: []
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-list-external-plans/invocations
+        - BearerAuthorizer: []
       parameters:
         - schema:
             $ref: "#/components/schemas/Limit"
@@ -2698,34 +2290,6 @@ paths:
           description: Too Many Requests
         "500":
           description: Internal Server Error
-    options:
-      tags:
-        - plans
-      x-amazon-apigateway-integration:
-        requestTemplates:
-          application/json: '{ "statusCode": 200 }'
-        type: mock
-        responses:
-          default:
-            responseParameters:
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
-              method.response.header.Access-Control-Allow-Methods: "'*'"
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-            statusCode: 200
-      responses:
-        "200":
-          description: Default response for OPTIONS method
-          headers:
-            Access-Control-Allow-Headers:
-              schema:
-                type: string
-            Access-Control-Allow-Methods:
-              schema:
-                type: string
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-          content: {}
   /contracts/{contractId}:
     get:
       tags:
@@ -2734,12 +2298,7 @@ paths:
       description: Get a Contract by id.
       summary: Get Contract
       security:
-        - CognitoServerAuthorizer: []
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-get-external-contract/invocations
+        - BearerAuthorizer: []
       parameters:
         - schema:
             $ref: "#/components/schemas/ContractId"
@@ -2759,40 +2318,6 @@ paths:
           description: Too Many Requests
         "500":
           description: Internal Server Error
-    options:
-      tags:
-        - contracts
-      x-amazon-apigateway-integration:
-        requestTemplates:
-          application/json: '{ "statusCode": 200 }'
-        type: mock
-        responses:
-          default:
-            responseParameters:
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
-              method.response.header.Access-Control-Allow-Methods: "'*'"
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-            statusCode: 200
-      parameters:
-        - schema:
-            $ref: "#/components/schemas/ContractId"
-          required: true
-          in: path
-          name: contractId
-      responses:
-        "200":
-          description: Default response for OPTIONS method
-          headers:
-            Access-Control-Allow-Headers:
-              schema:
-                type: string
-            Access-Control-Allow-Methods:
-              schema:
-                type: string
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-          content: {}
     delete:
       tags:
         - contracts
@@ -2800,12 +2325,7 @@ paths:
       description: Delete a Contract by id.
       summary: Delete Contract
       security:
-        - CognitoServerAuthorizer: []
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-delete-external-contract/invocations
+        - BearerAuthorizer: []
       parameters:
         - schema:
             $ref: "#/components/schemas/ContractId"
@@ -2833,12 +2353,7 @@ paths:
       description: Get a list of Contracts.
       summary: List Contracts
       security:
-        - CognitoServerAuthorizer: []
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-list-external-contracts/invocations
+        - BearerAuthorizer: []
       parameters:
         - schema:
             $ref: "#/components/schemas/Limit"
@@ -2861,34 +2376,6 @@ paths:
           description: Too Many Requests
         "500":
           description: Internal Server Error
-    options:
-      tags:
-        - contracts
-      x-amazon-apigateway-integration:
-        requestTemplates:
-          application/json: '{ "statusCode": 200 }'
-        type: mock
-        responses:
-          default:
-            responseParameters:
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
-              method.response.header.Access-Control-Allow-Methods: "'*'"
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-            statusCode: 200
-      responses:
-        "200":
-          description: Default response for OPTIONS method
-          headers:
-            Access-Control-Allow-Headers:
-              schema:
-                type: string
-            Access-Control-Allow-Methods:
-              schema:
-                type: string
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-          content: {}
     post:
       tags:
         - contracts
@@ -2896,14 +2383,9 @@ paths:
       description: Create a new Contract.
       summary: Create Contract
       security:
-        - CognitoServerAuthorizer: []
+        - BearerAuthorizer: []
       requestBody:
         $ref: "#/components/requestBodies/CreateContractRequest"
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-create-external-contract/invocations
       responses:
         "200":
           $ref: "#/components/responses/CreateContractResponse"
@@ -2923,12 +2405,7 @@ paths:
       description: Get a Invoice by id.
       summary: Get Invoice
       security:
-        - CognitoServerAuthorizer: []
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-get-external-invoice/invocations
+        - BearerAuthorizer: []
       parameters:
         - schema:
             $ref: "#/components/schemas/InvoiceId"
@@ -2948,40 +2425,6 @@ paths:
           description: Too Many Requests
         "500":
           description: Internal Server Error
-    options:
-      tags:
-        - invoices
-      x-amazon-apigateway-integration:
-        requestTemplates:
-          application/json: '{ "statusCode": 200 }'
-        type: mock
-        responses:
-          default:
-            responseParameters:
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
-              method.response.header.Access-Control-Allow-Methods: "'*'"
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-            statusCode: 200
-      parameters:
-        - schema:
-            $ref: "#/components/schemas/InvoiceId"
-          required: true
-          in: path
-          name: invoiceId
-      responses:
-        "200":
-          description: Default response for OPTIONS method
-          headers:
-            Access-Control-Allow-Headers:
-              schema:
-                type: string
-            Access-Control-Allow-Methods:
-              schema:
-                type: string
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-          content: {}
   /invoices:
     get:
       tags:
@@ -2990,12 +2433,7 @@ paths:
       description: Get a list of Invoices.
       summary: List Invoices
       security:
-        - CognitoServerAuthorizer: []
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-list-external-invoices/invocations
+        - BearerAuthorizer: []
       parameters:
         - schema:
             $ref: "#/components/schemas/Limit"
@@ -3018,34 +2456,6 @@ paths:
           description: Too Many Requests
         "500":
           description: Internal Server Error
-    options:
-      tags:
-        - invoices
-      x-amazon-apigateway-integration:
-        requestTemplates:
-          application/json: '{ "statusCode": 200 }'
-        type: mock
-        responses:
-          default:
-            responseParameters:
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
-              method.response.header.Access-Control-Allow-Methods: "'*'"
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-            statusCode: 200
-      responses:
-        "200":
-          description: Default response for OPTIONS method
-          headers:
-            Access-Control-Allow-Headers:
-              schema:
-                type: string
-            Access-Control-Allow-Methods:
-              schema:
-                type: string
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-          content: {}
   /login:
     post:
       tags:
@@ -3058,11 +2468,6 @@ paths:
       summary: Login by obtaining a new access token
       requestBody:
         $ref: "#/components/requestBodies/LoginRequest"
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-external-login/invocations
       responses:
         "200":
           $ref: "#/components/responses/LoginResponse"
@@ -3074,34 +2479,6 @@ paths:
           description: Too Many Requests
         "500":
           description: Internal Server Error
-    options:
-      tags:
-        - auth
-      x-amazon-apigateway-integration:
-        requestTemplates:
-          application/json: '{ "statusCode": 200 }'
-        type: mock
-        responses:
-          default:
-            responseParameters:
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
-              method.response.header.Access-Control-Allow-Methods: "'*'"
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-            statusCode: 200
-      responses:
-        "200":
-          description: Default response for OPTIONS method
-          headers:
-            Access-Control-Allow-Headers:
-              schema:
-                type: string
-            Access-Control-Allow-Methods:
-              schema:
-                type: string
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-          content: {}
   /events/dry-run:
     post:
       tags:
@@ -3112,14 +2489,9 @@ paths:
         dry run and will not result in actual storage of the events."
       summary: Submit a batch of events for testing
       security:
-        - CognitoServerAuthorizer: []
+        - BearerAuthorizer: []
       requestBody:
         $ref: "#/components/requestBodies/EventsDryRunRequest"
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-dry-run-send-events/invocations
       responses:
         "200":
           $ref: "#/components/responses/EventsDryRunResponse"
@@ -3133,34 +2505,6 @@ paths:
           description: Too Many Requests
         "500":
           description: Internal Server Error
-    options:
-      tags:
-        - events
-      x-amazon-apigateway-integration:
-        requestTemplates:
-          application/json: '{ "statusCode": 200 }'
-        type: mock
-        responses:
-          default:
-            responseParameters:
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
-              method.response.header.Access-Control-Allow-Methods: "'*'"
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-            statusCode: 200
-      responses:
-        "200":
-          description: Default response for OPTIONS method
-          headers:
-            Access-Control-Allow-Headers:
-              schema:
-                type: string
-            Access-Control-Allow-Methods:
-              schema:
-                type: string
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-          content: {}
   /events:
     get:
       tags:
@@ -3170,12 +2514,7 @@ paths:
         optional event name can be provided to further filter the events.
       summary: Query events by timestamp period and optional event name
       security:
-        - CognitoServerAuthorizer: []
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-query-events/invocations
+        - BearerAuthorizer: []
       parameters:
         - schema:
             $ref: "#/components/schemas/StartTime"
@@ -3213,34 +2552,6 @@ paths:
           description: Too Many Requests
         "500":
           description: Internal Server Error
-    options:
-      tags:
-        - events
-      x-amazon-apigateway-integration:
-        requestTemplates:
-          application/json: '{ "statusCode": 200 }'
-        type: mock
-        responses:
-          default:
-            responseParameters:
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
-              method.response.header.Access-Control-Allow-Methods: "'*'"
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-            statusCode: 200
-      responses:
-        "200":
-          description: Default response for OPTIONS method
-          headers:
-            Access-Control-Allow-Headers:
-              schema:
-                type: string
-            Access-Control-Allow-Methods:
-              schema:
-                type: string
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-          content: {}
     post:
       tags:
         - events
@@ -3249,14 +2560,9 @@ paths:
         storage. Make sure to comply with the request schema for each event.
       summary: Submit a batch of events for ingestion
       security:
-        - CognitoServerAuthorizer: []
+        - BearerAuthorizer: []
       requestBody:
         $ref: "#/components/requestBodies/SendEventsRequest"
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-send-events/invocations
       responses:
         "200":
           $ref: "#/components/responses/SendEventsResponse"
@@ -3278,12 +2584,7 @@ paths:
       description: Use this endpoint to get a specific event using its reference ID.
       summary: Get event by refId
       security:
-        - CognitoServerAuthorizer: []
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-get-event-by-ref-id/invocations
+        - BearerAuthorizer: []
       parameters:
         - schema:
             $ref: "#/components/schemas/RefId"
@@ -3292,7 +2593,7 @@ paths:
           name: refId
       responses:
         "200":
-          $ref: "#/components/responses/GetEventByRefIdResponse"
+          $ref: "#/components/responses/GetEventResponse"
         "400":
           description: Bad Request
         "401":
@@ -3303,40 +2604,6 @@ paths:
           description: Too Many Requests
         "500":
           description: Internal Server Error
-    options:
-      tags:
-        - events
-      x-amazon-apigateway-integration:
-        requestTemplates:
-          application/json: '{ "statusCode": 200 }'
-        type: mock
-        responses:
-          default:
-            responseParameters:
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
-              method.response.header.Access-Control-Allow-Methods: "'*'"
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-            statusCode: 200
-      parameters:
-        - schema:
-            $ref: "#/components/schemas/RefId"
-          required: true
-          in: path
-          name: refId
-      responses:
-        "200":
-          description: Default response for OPTIONS method
-          headers:
-            Access-Control-Allow-Headers:
-              schema:
-                type: string
-            Access-Control-Allow-Methods:
-              schema:
-                type: string
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-          content: {}
     delete:
       tags:
         - events
@@ -3344,12 +2611,7 @@ paths:
       description: Use this endpoint to remove a specific event using its reference ID.
       summary: Delete an event by refId
       security:
-        - CognitoServerAuthorizer: []
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-delete-event-by-ref-id/invocations
+        - BearerAuthorizer: []
       parameters:
         - schema:
             $ref: "#/components/schemas/RefId"
@@ -3358,7 +2620,7 @@ paths:
           name: refId
       responses:
         "200":
-          $ref: "#/components/responses/DeleteEventByRefIdResponse"
+          $ref: "#/components/responses/DeleteEventResponse"
         "400":
           description: Bad Request
         "401":
@@ -3377,12 +2639,7 @@ paths:
       description: Use this endpoint to get the products usage report.
       summary: Get products usage report
       security:
-        - CognitoServerAuthorizer: []
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-external-get-products-usage-report/invocations
+        - BearerAuthorizer: []
       parameters:
         - schema:
             $ref: "#/components/schemas/ReportId"
@@ -3410,34 +2667,6 @@ paths:
           description: Too Many Requests
         "500":
           description: Internal Server Error
-    options:
-      tags:
-        - reports
-      x-amazon-apigateway-integration:
-        requestTemplates:
-          application/json: '{ "statusCode": 200 }'
-        type: mock
-        responses:
-          default:
-            responseParameters:
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
-              method.response.header.Access-Control-Allow-Methods: "'*'"
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-            statusCode: 200
-      responses:
-        "200":
-          description: Default response for OPTIONS method
-          headers:
-            Access-Control-Allow-Headers:
-              schema:
-                type: string
-            Access-Control-Allow-Methods:
-              schema:
-                type: string
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-          content: {}
   /report/commitment:
     get:
       tags:
@@ -3445,12 +2674,7 @@ paths:
       operationId: getCommitmentReportResponse
       summary: "Get commitment report "
       security:
-        - CognitoServerAuthorizer: []
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-external-get-commitment-report/invocations
+        - BearerAuthorizer: []
       parameters:
         - schema:
             $ref: "#/components/schemas/ReportId"
@@ -3468,34 +2692,6 @@ paths:
           description: Too Many Requests
         "500":
           description: Internal Server Error
-    options:
-      tags:
-        - reports
-      x-amazon-apigateway-integration:
-        requestTemplates:
-          application/json: '{ "statusCode": 200 }'
-        type: mock
-        responses:
-          default:
-            responseParameters:
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
-              method.response.header.Access-Control-Allow-Methods: "'*'"
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-            statusCode: 200
-      responses:
-        "200":
-          description: Default response for OPTIONS method
-          headers:
-            Access-Control-Allow-Headers:
-              schema:
-                type: string
-            Access-Control-Allow-Methods:
-              schema:
-                type: string
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-          content: {}
   /integrations/netsuite/sync-invoices:
     post:
       tags:
@@ -3504,14 +2700,9 @@ paths:
       description: This endpoint is used to sync invoices to NetSuite.
       summary: Sync invoices to NetSuite
       security:
-        - CognitoServerAuthorizer: []
+        - BearerAuthorizer: []
       requestBody:
         $ref: "#/components/requestBodies/NetSuiteSyncInvoicesRequest"
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-external-sync-invoice-to-netsuite/invocations
       responses:
         "200":
           $ref: "#/components/responses/NetSuiteSyncInvoicesResponse"
@@ -3523,34 +2714,6 @@ paths:
           description: Too Many Requests
         "500":
           description: Internal Server Error
-    options:
-      tags:
-        - integrations
-      x-amazon-apigateway-integration:
-        requestTemplates:
-          application/json: '{ "statusCode": 200 }'
-        type: mock
-        responses:
-          default:
-            responseParameters:
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
-              method.response.header.Access-Control-Allow-Methods: "'*'"
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-            statusCode: 200
-      responses:
-        "200":
-          description: Default response for OPTIONS method
-          headers:
-            Access-Control-Allow-Headers:
-              schema:
-                type: string
-            Access-Control-Allow-Methods:
-              schema:
-                type: string
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-          content: {}
   /integrations/netsuite/export-sales-order:
     post:
       tags:
@@ -3559,14 +2722,9 @@ paths:
       description: This endpoint is used to export sales order to NetSuite.
       summary: Export sales order to NetSuite
       security:
-        - CognitoServerAuthorizer: []
+        - BearerAuthorizer: []
       requestBody:
         $ref: "#/components/requestBodies/NetSuiteExportSalesOrderRequest"
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-external-export-sales-order-to-netsuite/invocations
       responses:
         "200":
           $ref: "#/components/responses/RequestSuccess"
@@ -3578,34 +2736,6 @@ paths:
           description: Too Many Requests
         "500":
           description: Internal Server Error
-    options:
-      tags:
-        - integrations
-      x-amazon-apigateway-integration:
-        requestTemplates:
-          application/json: '{ "statusCode": 200 }'
-        type: mock
-        responses:
-          default:
-            responseParameters:
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
-              method.response.header.Access-Control-Allow-Methods: "'*'"
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-            statusCode: 200
-      responses:
-        "200":
-          description: Default response for OPTIONS method
-          headers:
-            Access-Control-Allow-Headers:
-              schema:
-                type: string
-            Access-Control-Allow-Methods:
-              schema:
-                type: string
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-          content: {}
   /credits:
     get:
       tags:
@@ -3615,12 +2745,7 @@ paths:
         specific customer.
       summary: Retrieve credit ledger entries for customer.
       security:
-        - CognitoServerAuthorizer: []
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-external-list-credit-ledger-entries/invocations
+        - BearerAuthorizer: []
       parameters:
         - schema:
             $ref: "#/components/schemas/CustomerId"
@@ -3648,34 +2773,6 @@ paths:
           description: Too Many Requests
         "500":
           description: Internal Server Error
-    options:
-      tags:
-        - credits
-      x-amazon-apigateway-integration:
-        requestTemplates:
-          application/json: '{ "statusCode": 200 }'
-        type: mock
-        responses:
-          default:
-            responseParameters:
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
-              method.response.header.Access-Control-Allow-Methods: "'*'"
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-            statusCode: 200
-      responses:
-        "200":
-          description: Default response for OPTIONS method
-          headers:
-            Access-Control-Allow-Headers:
-              schema:
-                type: string
-            Access-Control-Allow-Methods:
-              schema:
-                type: string
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-          content: {}
   /credits/grant:
     post:
       tags:
@@ -3687,14 +2784,9 @@ paths:
             The granted credits will be added to the customer's account.
       summary: Grant credits to a customer credit ledger
       security:
-        - CognitoServerAuthorizer: []
+        - BearerAuthorizer: []
       requestBody:
         $ref: "#/components/requestBodies/GrantCreditsRequest"
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-external-grant-credits/invocations
       responses:
         "200":
           $ref: "#/components/responses/RequestSuccess"
@@ -3706,34 +2798,6 @@ paths:
           description: Too Many Requests
         "500":
           description: Internal Server Error
-    options:
-      tags:
-        - credits
-      x-amazon-apigateway-integration:
-        requestTemplates:
-          application/json: '{ "statusCode": 200 }'
-        type: mock
-        responses:
-          default:
-            responseParameters:
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
-              method.response.header.Access-Control-Allow-Methods: "'*'"
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-            statusCode: 200
-      responses:
-        "200":
-          description: Default response for OPTIONS method
-          headers:
-            Access-Control-Allow-Headers:
-              schema:
-                type: string
-            Access-Control-Allow-Methods:
-              schema:
-                type: string
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-          content: {}
   /credits/deduct:
     post:
       tags:
@@ -3746,14 +2810,9 @@ paths:
             The deducted credits will be subtracted from the customer's account.
       summary: Deduct credits from customer credit ledger
       security:
-        - CognitoServerAuthorizer: []
+        - BearerAuthorizer: []
       requestBody:
         $ref: "#/components/requestBodies/DeductCreditsRequest"
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-external-deduct-credits/invocations
       responses:
         "200":
           $ref: "#/components/responses/RequestSuccess"
@@ -3765,34 +2824,6 @@ paths:
           description: Too Many Requests
         "500":
           description: Internal Server Error
-    options:
-      tags:
-        - credits
-      x-amazon-apigateway-integration:
-        requestTemplates:
-          application/json: '{ "statusCode": 200 }'
-        type: mock
-        responses:
-          default:
-            responseParameters:
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
-              method.response.header.Access-Control-Allow-Methods: "'*'"
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-            statusCode: 200
-      responses:
-        "200":
-          description: Default response for OPTIONS method
-          headers:
-            Access-Control-Allow-Headers:
-              schema:
-                type: string
-            Access-Control-Allow-Methods:
-              schema:
-                type: string
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-          content: {}
   /webhook:
     post:
       tags:
@@ -3802,14 +2833,9 @@ paths:
         notifications.
       summary: Subscribe to webhooks
       security:
-        - CognitoServerAuthorizer: []
+        - BearerAuthorizer: []
       requestBody:
         $ref: "#/components/requestBodies/WebhookSubscribeRequest"
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Environment}-webhook-subscribe/invocations
       responses:
         "200":
           $ref: "#/components/responses/RequestSuccess"
@@ -3823,31 +2849,3 @@ paths:
           description: Too Many Requests
         "500":
           description: Internal Server Error
-    options:
-      tags:
-        - webhooks
-      x-amazon-apigateway-integration:
-        requestTemplates:
-          application/json: '{ "statusCode": 200 }'
-        type: mock
-        responses:
-          default:
-            responseParameters:
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
-              method.response.header.Access-Control-Allow-Methods: "'*'"
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-            statusCode: 200
-      responses:
-        "200":
-          description: Default response for OPTIONS method
-          headers:
-            Access-Control-Allow-Headers:
-              schema:
-                type: string
-            Access-Control-Allow-Methods:
-              schema:
-                type: string
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-          content: {}

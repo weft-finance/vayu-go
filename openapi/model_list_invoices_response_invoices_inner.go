@@ -29,7 +29,7 @@ type ListInvoicesResponseInvoicesInner struct {
 	// The name of the invoice, usually a description of the billing period
 	Name string `json:"name"`
 	BillingCycle Period `json:"billingCycle"`
-	LineItems []GetInvoiceResponseInvoiceLineItemsInner `json:"lineItems"`
+	LineItems []LineItem `json:"lineItems"`
 	// The total amount of the invoice
 	Amount float32 `json:"amount"`
 	Id string `json:"id"`
@@ -44,7 +44,7 @@ type _ListInvoicesResponseInvoicesInner ListInvoicesResponseInvoicesInner
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewListInvoicesResponseInvoicesInner(customerId string, name string, billingCycle Period, lineItems []GetInvoiceResponseInvoiceLineItemsInner, amount float32, id string, createdAt time.Time, updatedAt time.Time) *ListInvoicesResponseInvoicesInner {
+func NewListInvoicesResponseInvoicesInner(customerId string, name string, billingCycle Period, lineItems []LineItem, amount float32, id string, createdAt time.Time, updatedAt time.Time) *ListInvoicesResponseInvoicesInner {
 	this := ListInvoicesResponseInvoicesInner{}
 	this.CustomerId = customerId
 	this.Name = name
@@ -170,9 +170,9 @@ func (o *ListInvoicesResponseInvoicesInner) SetBillingCycle(v Period) {
 }
 
 // GetLineItems returns the LineItems field value
-func (o *ListInvoicesResponseInvoicesInner) GetLineItems() []GetInvoiceResponseInvoiceLineItemsInner {
+func (o *ListInvoicesResponseInvoicesInner) GetLineItems() []LineItem {
 	if o == nil {
-		var ret []GetInvoiceResponseInvoiceLineItemsInner
+		var ret []LineItem
 		return ret
 	}
 
@@ -181,7 +181,7 @@ func (o *ListInvoicesResponseInvoicesInner) GetLineItems() []GetInvoiceResponseI
 
 // GetLineItemsOk returns a tuple with the LineItems field value
 // and a boolean to check if the value has been set.
-func (o *ListInvoicesResponseInvoicesInner) GetLineItemsOk() ([]GetInvoiceResponseInvoiceLineItemsInner, bool) {
+func (o *ListInvoicesResponseInvoicesInner) GetLineItemsOk() ([]LineItem, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -189,7 +189,7 @@ func (o *ListInvoicesResponseInvoicesInner) GetLineItemsOk() ([]GetInvoiceRespon
 }
 
 // SetLineItems sets field value
-func (o *ListInvoicesResponseInvoicesInner) SetLineItems(v []GetInvoiceResponseInvoiceLineItemsInner) {
+func (o *ListInvoicesResponseInvoicesInner) SetLineItems(v []LineItem) {
 	o.LineItems = v
 }
 

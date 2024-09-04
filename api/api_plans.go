@@ -15,6 +15,8 @@ type PlansAPI struct {
 
 type Plan = openapi.GetPlanResponsePlan
 type ListPlansResponse = openapi.ListPlansResponse
+type GetPlanResponse = openapi.GetPlanResponse
+type DeletePlanResponse = openapi.DeletePlanResponse
 
 func NewPlansAPI(client *client.VayuClient) *PlansAPI {
 	return &PlansAPI{

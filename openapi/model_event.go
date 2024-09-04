@@ -17,11 +17,11 @@ import (
 	"fmt"
 )
 
-// checks if the GetEventByRefIdResponseEvent type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &GetEventByRefIdResponseEvent{}
+// checks if the Event type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Event{}
 
-// GetEventByRefIdResponseEvent The event matching the provided refId
-type GetEventByRefIdResponseEvent struct {
+// Event struct for Event
+type Event struct {
 	// The distinctive label assigned to an event, serving as a critical identifier for categorizing and pricing events within the system's backend infrastructure.
 	Name string `json:"name"`
 	// The temporal marker denoting the exact moment of event occurrence. The timestamp is formatted as an ISO 8601 string and is expressed in Coordinated Universal Time (UTC). i.e. YYYY-MM-DDTHH:MM:SS.SSSZ
@@ -31,41 +31,35 @@ type GetEventByRefIdResponseEvent struct {
 	// A universally unique identifier (UUID) or other form of high-entropy string serving as an immutable reference for each event entry.
 	Ref string `json:"ref"`
 	// A schema-less JSON object encapsulating miscellaneous attributes and metrics associated with the event.
-	Data map[string]interface{} `json:"data,omitempty"`
-	Id string `json:"id"`
-	CreatedAt time.Time `json:"createdAt"`
-	UpdatedAt time.Time `json:"updatedAt"`
+	Data map[string]string `json:"data,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
-type _GetEventByRefIdResponseEvent GetEventByRefIdResponseEvent
+type _Event Event
 
-// NewGetEventByRefIdResponseEvent instantiates a new GetEventByRefIdResponseEvent object
+// NewEvent instantiates a new Event object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGetEventByRefIdResponseEvent(name string, timestamp time.Time, customerAlias string, ref string, id string, createdAt time.Time, updatedAt time.Time) *GetEventByRefIdResponseEvent {
-	this := GetEventByRefIdResponseEvent{}
+func NewEvent(name string, timestamp time.Time, customerAlias string, ref string) *Event {
+	this := Event{}
 	this.Name = name
 	this.Timestamp = timestamp
 	this.CustomerAlias = customerAlias
 	this.Ref = ref
-	this.Id = id
-	this.CreatedAt = createdAt
-	this.UpdatedAt = updatedAt
 	return &this
 }
 
-// NewGetEventByRefIdResponseEventWithDefaults instantiates a new GetEventByRefIdResponseEvent object
+// NewEventWithDefaults instantiates a new Event object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewGetEventByRefIdResponseEventWithDefaults() *GetEventByRefIdResponseEvent {
-	this := GetEventByRefIdResponseEvent{}
+func NewEventWithDefaults() *Event {
+	this := Event{}
 	return &this
 }
 
 // GetName returns the Name field value
-func (o *GetEventByRefIdResponseEvent) GetName() string {
+func (o *Event) GetName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -76,7 +70,7 @@ func (o *GetEventByRefIdResponseEvent) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-func (o *GetEventByRefIdResponseEvent) GetNameOk() (*string, bool) {
+func (o *Event) GetNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -84,12 +78,12 @@ func (o *GetEventByRefIdResponseEvent) GetNameOk() (*string, bool) {
 }
 
 // SetName sets field value
-func (o *GetEventByRefIdResponseEvent) SetName(v string) {
+func (o *Event) SetName(v string) {
 	o.Name = v
 }
 
 // GetTimestamp returns the Timestamp field value
-func (o *GetEventByRefIdResponseEvent) GetTimestamp() time.Time {
+func (o *Event) GetTimestamp() time.Time {
 	if o == nil {
 		var ret time.Time
 		return ret
@@ -100,7 +94,7 @@ func (o *GetEventByRefIdResponseEvent) GetTimestamp() time.Time {
 
 // GetTimestampOk returns a tuple with the Timestamp field value
 // and a boolean to check if the value has been set.
-func (o *GetEventByRefIdResponseEvent) GetTimestampOk() (*time.Time, bool) {
+func (o *Event) GetTimestampOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -108,12 +102,12 @@ func (o *GetEventByRefIdResponseEvent) GetTimestampOk() (*time.Time, bool) {
 }
 
 // SetTimestamp sets field value
-func (o *GetEventByRefIdResponseEvent) SetTimestamp(v time.Time) {
+func (o *Event) SetTimestamp(v time.Time) {
 	o.Timestamp = v
 }
 
 // GetCustomerAlias returns the CustomerAlias field value
-func (o *GetEventByRefIdResponseEvent) GetCustomerAlias() string {
+func (o *Event) GetCustomerAlias() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -124,7 +118,7 @@ func (o *GetEventByRefIdResponseEvent) GetCustomerAlias() string {
 
 // GetCustomerAliasOk returns a tuple with the CustomerAlias field value
 // and a boolean to check if the value has been set.
-func (o *GetEventByRefIdResponseEvent) GetCustomerAliasOk() (*string, bool) {
+func (o *Event) GetCustomerAliasOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -132,12 +126,12 @@ func (o *GetEventByRefIdResponseEvent) GetCustomerAliasOk() (*string, bool) {
 }
 
 // SetCustomerAlias sets field value
-func (o *GetEventByRefIdResponseEvent) SetCustomerAlias(v string) {
+func (o *Event) SetCustomerAlias(v string) {
 	o.CustomerAlias = v
 }
 
 // GetRef returns the Ref field value
-func (o *GetEventByRefIdResponseEvent) GetRef() string {
+func (o *Event) GetRef() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -148,7 +142,7 @@ func (o *GetEventByRefIdResponseEvent) GetRef() string {
 
 // GetRefOk returns a tuple with the Ref field value
 // and a boolean to check if the value has been set.
-func (o *GetEventByRefIdResponseEvent) GetRefOk() (*string, bool) {
+func (o *Event) GetRefOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -156,14 +150,14 @@ func (o *GetEventByRefIdResponseEvent) GetRefOk() (*string, bool) {
 }
 
 // SetRef sets field value
-func (o *GetEventByRefIdResponseEvent) SetRef(v string) {
+func (o *Event) SetRef(v string) {
 	o.Ref = v
 }
 
 // GetData returns the Data field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetEventByRefIdResponseEvent) GetData() map[string]interface{} {
+func (o *Event) GetData() map[string]string {
 	if o == nil {
-		var ret map[string]interface{}
+		var ret map[string]string
 		return ret
 	}
 	return o.Data
@@ -172,15 +166,15 @@ func (o *GetEventByRefIdResponseEvent) GetData() map[string]interface{} {
 // GetDataOk returns a tuple with the Data field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetEventByRefIdResponseEvent) GetDataOk() (map[string]interface{}, bool) {
+func (o *Event) GetDataOk() (*map[string]string, bool) {
 	if o == nil || IsNil(o.Data) {
-		return map[string]interface{}{}, false
+		return nil, false
 	}
-	return o.Data, true
+	return &o.Data, true
 }
 
 // HasData returns a boolean if a field has been set.
-func (o *GetEventByRefIdResponseEvent) HasData() bool {
+func (o *Event) HasData() bool {
 	if o != nil && !IsNil(o.Data) {
 		return true
 	}
@@ -188,84 +182,12 @@ func (o *GetEventByRefIdResponseEvent) HasData() bool {
 	return false
 }
 
-// SetData gets a reference to the given map[string]interface{} and assigns it to the Data field.
-func (o *GetEventByRefIdResponseEvent) SetData(v map[string]interface{}) {
+// SetData gets a reference to the given map[string]string and assigns it to the Data field.
+func (o *Event) SetData(v map[string]string) {
 	o.Data = v
 }
 
-// GetId returns the Id field value
-func (o *GetEventByRefIdResponseEvent) GetId() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.Id
-}
-
-// GetIdOk returns a tuple with the Id field value
-// and a boolean to check if the value has been set.
-func (o *GetEventByRefIdResponseEvent) GetIdOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Id, true
-}
-
-// SetId sets field value
-func (o *GetEventByRefIdResponseEvent) SetId(v string) {
-	o.Id = v
-}
-
-// GetCreatedAt returns the CreatedAt field value
-func (o *GetEventByRefIdResponseEvent) GetCreatedAt() time.Time {
-	if o == nil {
-		var ret time.Time
-		return ret
-	}
-
-	return o.CreatedAt
-}
-
-// GetCreatedAtOk returns a tuple with the CreatedAt field value
-// and a boolean to check if the value has been set.
-func (o *GetEventByRefIdResponseEvent) GetCreatedAtOk() (*time.Time, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.CreatedAt, true
-}
-
-// SetCreatedAt sets field value
-func (o *GetEventByRefIdResponseEvent) SetCreatedAt(v time.Time) {
-	o.CreatedAt = v
-}
-
-// GetUpdatedAt returns the UpdatedAt field value
-func (o *GetEventByRefIdResponseEvent) GetUpdatedAt() time.Time {
-	if o == nil {
-		var ret time.Time
-		return ret
-	}
-
-	return o.UpdatedAt
-}
-
-// GetUpdatedAtOk returns a tuple with the UpdatedAt field value
-// and a boolean to check if the value has been set.
-func (o *GetEventByRefIdResponseEvent) GetUpdatedAtOk() (*time.Time, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.UpdatedAt, true
-}
-
-// SetUpdatedAt sets field value
-func (o *GetEventByRefIdResponseEvent) SetUpdatedAt(v time.Time) {
-	o.UpdatedAt = v
-}
-
-func (o GetEventByRefIdResponseEvent) MarshalJSON() ([]byte, error) {
+func (o Event) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -273,7 +195,7 @@ func (o GetEventByRefIdResponseEvent) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o GetEventByRefIdResponseEvent) ToMap() (map[string]interface{}, error) {
+func (o Event) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["name"] = o.Name
 	toSerialize["timestamp"] = o.Timestamp
@@ -282,9 +204,6 @@ func (o GetEventByRefIdResponseEvent) ToMap() (map[string]interface{}, error) {
 	if o.Data != nil {
 		toSerialize["data"] = o.Data
 	}
-	toSerialize["id"] = o.Id
-	toSerialize["createdAt"] = o.CreatedAt
-	toSerialize["updatedAt"] = o.UpdatedAt
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -293,7 +212,7 @@ func (o GetEventByRefIdResponseEvent) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *GetEventByRefIdResponseEvent) UnmarshalJSON(data []byte) (err error) {
+func (o *Event) UnmarshalJSON(data []byte) (err error) {
 	// This validates that all required properties are included in the JSON object
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
@@ -302,9 +221,6 @@ func (o *GetEventByRefIdResponseEvent) UnmarshalJSON(data []byte) (err error) {
 		"timestamp",
 		"customerAlias",
 		"ref",
-		"id",
-		"createdAt",
-		"updatedAt",
 	}
 
 	allProperties := make(map[string]interface{})
@@ -321,15 +237,15 @@ func (o *GetEventByRefIdResponseEvent) UnmarshalJSON(data []byte) (err error) {
 		}
 	}
 
-	varGetEventByRefIdResponseEvent := _GetEventByRefIdResponseEvent{}
+	varEvent := _Event{}
 
-	err = json.Unmarshal(data, &varGetEventByRefIdResponseEvent)
+	err = json.Unmarshal(data, &varEvent)
 
 	if err != nil {
 		return err
 	}
 
-	*o = GetEventByRefIdResponseEvent(varGetEventByRefIdResponseEvent)
+	*o = Event(varEvent)
 
 	additionalProperties := make(map[string]interface{})
 
@@ -339,47 +255,44 @@ func (o *GetEventByRefIdResponseEvent) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "customerAlias")
 		delete(additionalProperties, "ref")
 		delete(additionalProperties, "data")
-		delete(additionalProperties, "id")
-		delete(additionalProperties, "createdAt")
-		delete(additionalProperties, "updatedAt")
 		o.AdditionalProperties = additionalProperties
 	}
 
 	return err
 }
 
-type NullableGetEventByRefIdResponseEvent struct {
-	value *GetEventByRefIdResponseEvent
+type NullableEvent struct {
+	value *Event
 	isSet bool
 }
 
-func (v NullableGetEventByRefIdResponseEvent) Get() *GetEventByRefIdResponseEvent {
+func (v NullableEvent) Get() *Event {
 	return v.value
 }
 
-func (v *NullableGetEventByRefIdResponseEvent) Set(val *GetEventByRefIdResponseEvent) {
+func (v *NullableEvent) Set(val *Event) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableGetEventByRefIdResponseEvent) IsSet() bool {
+func (v NullableEvent) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableGetEventByRefIdResponseEvent) Unset() {
+func (v *NullableEvent) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableGetEventByRefIdResponseEvent(val *GetEventByRefIdResponseEvent) *NullableGetEventByRefIdResponseEvent {
-	return &NullableGetEventByRefIdResponseEvent{value: val, isSet: true}
+func NewNullableEvent(val *Event) *NullableEvent {
+	return &NullableEvent{value: val, isSet: true}
 }
 
-func (v NullableGetEventByRefIdResponseEvent) MarshalJSON() ([]byte, error) {
+func (v NullableEvent) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableGetEventByRefIdResponseEvent) UnmarshalJSON(src []byte) error {
+func (v *NullableEvent) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

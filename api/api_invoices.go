@@ -14,6 +14,7 @@ type InvoicesAPI struct {
 }
 
 type Invoice = openapi.GetInvoiceResponseInvoice
+type GetInvoiceResponse = openapi.GetInvoiceResponse
 type ListInvoicesResponse = openapi.ListInvoicesResponse
 
 func NewInvoicesAPI(client *client.VayuClient) *InvoicesAPI {
@@ -47,7 +48,7 @@ func (c *InvoicesAPI) ListInvoices(limit *float32, cursor *string) (*ListInvoice
 	return response, nil
 }
 
-func (c *InvoicesAPI) GetInvoice(invoiceId string) (*Invoice, error) {
+func (c *InvoicesAPI) GetInvoice(invoiceId string) (*GetInvoiceResponse, error) {
 	if !c.vayuClient.IsLoggedIn() {
 		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
 	}
@@ -62,5 +63,5 @@ func (c *InvoicesAPI) GetInvoice(invoiceId string) (*Invoice, error) {
 		return nil, err
 	}
 
-	return &response.Invoice, nil
+	return response, nil
 }
