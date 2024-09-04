@@ -13,10 +13,14 @@ type CustomersAPI struct {
 	vayuClient *client.VayuClient
 }
 
-type ListCustomersResponse = openapi.ListCustomersResponse
 type Customer = openapi.CreateCustomerResponseCustomer
+type ListCustomersResponse = openapi.ListCustomersResponse
+type GetCustomerResponse = openapi.GetCustomerResponse
 type CreateCustomerRequest = openapi.CreateCustomerRequest
+type CreateCustomerResponse = openapi.CreateCustomerResponse
 type UpdateCustomerRequest = openapi.UpdateCustomerRequest
+type UpdateCustomerResponse = openapi.UpdateCustomerResponse
+type DeleteCustomerResponse = openapi.DeleteCustomerResponse
 
 func NewCustomersAPI(client *client.VayuClient) *CustomersAPI {
 	return &CustomersAPI{
@@ -58,7 +62,7 @@ func (c *CustomersAPI) ListCustomers(limit *float32, cursor *string) (*ListCusto
 	return response, nil
 }
 
-func (c *CustomersAPI) GetCustomer(customerId string) (*Customer, error) {
+func (c *CustomersAPI) GetCustomer(customerId string) (*GetCustomerResponse, error) {
 	if !c.vayuClient.IsLoggedIn() {
 		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
 	}
@@ -73,10 +77,10 @@ func (c *CustomersAPI) GetCustomer(customerId string) (*Customer, error) {
 		return nil, err
 	}
 
-	return &response.Customer, nil
+	return response, nil
 }
 
-func (c *CustomersAPI) CreateCustomer(payload CreateCustomerRequest) (*Customer, error) {
+func (c *CustomersAPI) CreateCustomer(payload CreateCustomerRequest) (*CreateCustomerResponse, error) {
 	if !c.vayuClient.IsLoggedIn() {
 		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
 	}
@@ -92,10 +96,10 @@ func (c *CustomersAPI) CreateCustomer(payload CreateCustomerRequest) (*Customer,
 		return nil, err
 	}
 
-	return &response.Customer, nil
+	return response, nil
 }
 
-func (c *CustomersAPI) UpdateCustomer(customerId string, payload UpdateCustomerRequest) (*Customer, error) {
+func (c *CustomersAPI) UpdateCustomer(customerId string, payload UpdateCustomerRequest) (*UpdateCustomerResponse, error) {
 	if !c.vayuClient.IsLoggedIn() {
 		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
 	}
@@ -111,10 +115,10 @@ func (c *CustomersAPI) UpdateCustomer(customerId string, payload UpdateCustomerR
 		return nil, err
 	}
 
-	return &response.Customer, nil
+	return response, nil
 }
 
-func (c *CustomersAPI) DeleteCustomer(customerId string) (*Customer, error) {
+func (c *CustomersAPI) DeleteCustomer(customerId string) (*DeleteCustomerResponse, error) {
 	if !c.vayuClient.IsLoggedIn() {
 		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
 	}
@@ -129,5 +133,5 @@ func (c *CustomersAPI) DeleteCustomer(customerId string) (*Customer, error) {
 		return nil, err
 	}
 
-	return &response.Customer, nil
+	return response, nil
 }

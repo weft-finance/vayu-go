@@ -13,37 +13,14 @@ type EventsAPI struct {
 	vayuClient *client.VayuClient
 }
 
-type Event = openapi.QueryEventsResponseEventsInner
+type Event = openapi.Event
+type GetEventResponse = openapi.GetEventResponse
+type DeleteEventResponse = openapi.DeleteEventResponse
 type SendEventsResponse = openapi.SendEventsResponse
-type SendEventsDryRunResponse = openapi.EventsDryRunResponseInner
+type EventsDryRunResponse = openapi.EventsDryRunResponse
+type QueryEventsResponse = openapi.QueryEventsResponse
 
-func convertGetToEvent(event *openapi.GetEventByRefIdResponseEvent) *Event {
-	return &Event{
-		Name:          event.Name,
-		Timestamp:     event.Timestamp,
-		CustomerAlias: event.CustomerAlias,
-		Ref:           event.Ref,
-		Data:          event.Data,
-		Id:            event.Id,
-		CreatedAt:     event.CreatedAt,
-		UpdatedAt:     event.UpdatedAt,
-	}
-}
-
-func convertDeleteToEvent(event *openapi.DeleteEventByRefIdResponseEvent) *Event {
-	return &Event{
-		Name:          event.Name,
-		Timestamp:     event.Timestamp,
-		CustomerAlias: event.CustomerAlias,
-		Ref:           event.Ref,
-		Data:          event.Data,
-		Id:            event.Id,
-		CreatedAt:     event.CreatedAt,
-		UpdatedAt:     event.UpdatedAt,
-	}
-}
-
-type QueryEventsPayload struct {
+type QueryEventsRequest struct {
 	StartTime time.Time
 	EndTime   time.Time
 	Name      string
@@ -57,8 +34,8 @@ func NewEventsAPI(client *client.VayuClient) *EventsAPI {
 	}
 }
 
-func NewQueryEventsPayload(startTime time.Time, endTime time.Time, name string, limit *float32, cursor *string) *QueryEventsPayload {
-	return &QueryEventsPayload{
+func NewQueryEventsRequest(startTime time.Time, endTime time.Time, name string, limit *float32, cursor *string) *QueryEventsRequest {
+	return &QueryEventsRequest{
 		StartTime: startTime,
 		EndTime:   endTime,
 		Name:      name,
@@ -67,7 +44,7 @@ func NewQueryEventsPayload(startTime time.Time, endTime time.Time, name string, 
 	}
 }
 
-func (e *EventsAPI) GetEvent(refId string) (*Event, error) {
+func (e *EventsAPI) GetEvent(refId string) (*GetEventResponse, error) {
 	if !e.vayuClient.IsLoggedIn() {
 		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
 	}
@@ -82,10 +59,10 @@ func (e *EventsAPI) GetEvent(refId string) (*Event, error) {
 		return nil, err
 	}
 
-	return convertGetToEvent(&response.Event), nil
+	return response, nil
 }
 
-func (e *EventsAPI) DeleteEvent(refId string) (*Event, error) {
+func (e *EventsAPI) DeleteEvent(refId string) (*DeleteEventResponse, error) {
 	if !e.vayuClient.IsLoggedIn() {
 		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
 	}
@@ -100,10 +77,10 @@ func (e *EventsAPI) DeleteEvent(refId string) (*Event, error) {
 		return nil, err
 	}
 
-	return convertDeleteToEvent(&response.Event), nil
+	return response, nil
 }
 
-func (e *EventsAPI) QueryEvents(payload QueryEventsPayload) ([]Event, error) {
+func (e *EventsAPI) QueryEvents(payload QueryEventsRequest) (*QueryEventsResponse, error) {
 	if !e.vayuClient.IsLoggedIn() {
 		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
 	}
@@ -130,21 +107,7 @@ func (e *EventsAPI) QueryEvents(payload QueryEventsPayload) ([]Event, error) {
 		return nil, err
 	}
 
-	return response.Events, nil
-}
-
-func convertEventsToSendEventsPayload(events []Event) []openapi.EventsDryRunRequestEventsInner {
-	convertedEvents := make([]openapi.EventsDryRunRequestEventsInner, len(events))
-	for i, event := range events {
-		convertedEvents[i] = openapi.EventsDryRunRequestEventsInner{
-			Name:          event.Name,
-			Timestamp:     event.Timestamp,
-			CustomerAlias: event.CustomerAlias,
-			Ref:           event.Ref,
-			Data:          event.Data,
-		}
-	}
-	return convertedEvents
+	return response, nil
 }
 
 func (e *EventsAPI) SendEvents(events []Event) (*SendEventsResponse, error) {
@@ -156,7 +119,7 @@ func (e *EventsAPI) SendEvents(events []Event) (*SendEventsResponse, error) {
 	defer cancel()
 
 	request := e.vayuClient.Client.EventsAPI.SendEvents(ctx)
-	request = request.SendEventsRequest(openapi.SendEventsRequest{Events: convertEventsToSendEventsPayload(events)})
+	request = request.SendEventsRequest(openapi.SendEventsRequest{Events: events})
 	response, _, err := request.Execute()
 
 	if err != nil {
@@ -166,7 +129,7 @@ func (e *EventsAPI) SendEvents(events []Event) (*SendEventsResponse, error) {
 	return response, nil
 }
 
-func (e *EventsAPI) SendEventsDryRun(events []Event) ([]SendEventsDryRunResponse, error) {
+func (e *EventsAPI) SendEventsDryRun(events []Event) (*EventsDryRunResponse, error) {
 	if !e.vayuClient.IsLoggedIn() {
 		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
 	}
@@ -175,7 +138,7 @@ func (e *EventsAPI) SendEventsDryRun(events []Event) ([]SendEventsDryRunResponse
 	defer cancel()
 
 	request := e.vayuClient.Client.EventsAPI.SendEventsDryRun(ctx)
-	request = request.EventsDryRunRequest(openapi.EventsDryRunRequest{Events: convertEventsToSendEventsPayload(events)})
+	request = request.EventsDryRunRequest(openapi.EventsDryRunRequest{Events: events})
 	response, _, err := request.Execute()
 
 	if err != nil {

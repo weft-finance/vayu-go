@@ -47,36 +47,49 @@ func (v *Vayu) IsLoggedIn() bool {
 // Types
 
 type (
-	Contract              = api.Contract
-	ListContractsResponse = api.ListContractsResponse
-	CreateContractRequest = api.CreateContractRequest
+	Contract               = api.Contract
+	ListContractsResponse  = api.ListContractsResponse
+	GetContractResponse    = api.GetContractResponse
+	CreateContractRequest  = api.CreateContractRequest
+	CreateContractResponse = api.CreateContractResponse
+	DeleteContractResponse = api.DeleteContractResponse
 )
 
 type (
-	Customer              = api.Customer
-	ListCustomersResponse = api.ListCustomersResponse
-	CreateCustomerRequest = api.CreateCustomerRequest
-	UpdateCustomerRequest = api.UpdateCustomerRequest
+	Customer               = api.Customer
+	ListCustomersResponse  = api.ListCustomersResponse
+	GetCustomerResponse    = api.GetCustomerResponse
+	CreateCustomerRequest  = api.CreateCustomerRequest
+	CreateCustomerResponse = api.CreateCustomerResponse
+	UpdateCustomerRequest  = api.UpdateCustomerRequest
+	UpdateCustomerResponse = api.UpdateCustomerResponse
+	DeleteCustomerResponse = api.DeleteCustomerResponse
 )
 
 type (
-	Event                    = api.Event
-	SendEventsResponse       = api.SendEventsResponse
-	SendEventsDryRunResponse = api.SendEventsDryRunResponse
-	QueryEventsPayload       = api.QueryEventsPayload
+	Event                = api.Event
+	GetEventResponse     = api.GetEventResponse
+	DeleteEventResponse  = api.DeleteEventResponse
+	SendEventsResponse   = api.SendEventsResponse
+	EventsDryRunResponse = api.EventsDryRunResponse
+	QueryEventsResponse  = api.QueryEventsResponse
 )
 
 type (
 	Invoice              = api.Invoice
+	GetInvoiceResponse   = api.GetInvoiceResponse
 	ListInvoicesResponse = api.ListInvoicesResponse
 )
 
 type (
 	Meter              = api.Meter
 	ListMetersResponse = api.ListMetersResponse
+	GetMeterResponse   = api.GetMeterResponse
 )
 
 type (
-	Plan              = api.Plan
-	ListPlansResponse = api.ListPlansResponse
+	Plan               = api.Plan
+	ListPlansResponse  = api.ListPlansResponse
+	GetPlanResponse    = api.GetPlanResponse
+	DeletePlanResponse = api.DeletePlanResponse
 )
