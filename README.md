@@ -79,7 +79,7 @@ To fetch events occurring within a specified timestamp range:
 
 ```go
 limit := float32(10.0)
-eventsQuery := VayuSDK.QueryEventsPayload{
+eventsQuery := VayuSDK.QueryEventsRequest{
     StartTime: time.Date(2024, 9, 1, 0, 0, 0, 0, time.UTC),
     EndTime:   time.Date(2024, 9, 30, 23, 59, 59, 999, time.UTC),
     Name:      "api_call",
@@ -231,7 +231,7 @@ If you have any questions or need further assistance, please contact Vayu at `te
 
 ## License
 
-This project is licensed under the Apache-2.0 license.
+This project is licensed under the MIT License.
 
 ---
 
