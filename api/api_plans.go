@@ -49,7 +49,7 @@ func (c *PlansAPI) ListPlans(limit *float32, cursor *string) (*ListPlansResponse
 	return response, nil
 }
 
-func (c *PlansAPI) GetPlan(planId string) (*Plan, error) {
+func (c *PlansAPI) GetPlan(planId string) (*GetPlanResponse, error) {
 	if !c.vayuClient.IsLoggedIn() {
 		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
 	}
@@ -64,10 +64,10 @@ func (c *PlansAPI) GetPlan(planId string) (*Plan, error) {
 		return nil, err
 	}
 
-	return &response.Plan, nil
+	return response, nil
 }
 
-func (c *PlansAPI) DeletePlan(planId string) (*Plan, error) {
+func (c *PlansAPI) DeletePlan(planId string) (*DeletePlanResponse, error) {
 	if !c.vayuClient.IsLoggedIn() {
 		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
 	}
@@ -82,5 +82,5 @@ func (c *PlansAPI) DeletePlan(planId string) (*Plan, error) {
 		return nil, err
 	}
 
-	return &response.Plan, nil
+	return response, nil
 }
