@@ -21,7 +21,7 @@ var _ MappedNullable = &DeletePlanResponse{}
 
 // DeletePlanResponse struct for DeletePlanResponse
 type DeletePlanResponse struct {
-	Plan GetPlanResponsePlan `json:"plan"`
+	Plan DeletePlanResponsePlan `json:"plan"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -31,7 +31,7 @@ type _DeletePlanResponse DeletePlanResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDeletePlanResponse(plan GetPlanResponsePlan) *DeletePlanResponse {
+func NewDeletePlanResponse(plan DeletePlanResponsePlan) *DeletePlanResponse {
 	this := DeletePlanResponse{}
 	this.Plan = plan
 	return &this
@@ -46,9 +46,9 @@ func NewDeletePlanResponseWithDefaults() *DeletePlanResponse {
 }
 
 // GetPlan returns the Plan field value
-func (o *DeletePlanResponse) GetPlan() GetPlanResponsePlan {
+func (o *DeletePlanResponse) GetPlan() DeletePlanResponsePlan {
 	if o == nil {
-		var ret GetPlanResponsePlan
+		var ret DeletePlanResponsePlan
 		return ret
 	}
 
@@ -57,7 +57,7 @@ func (o *DeletePlanResponse) GetPlan() GetPlanResponsePlan {
 
 // GetPlanOk returns a tuple with the Plan field value
 // and a boolean to check if the value has been set.
-func (o *DeletePlanResponse) GetPlanOk() (*GetPlanResponsePlan, bool) {
+func (o *DeletePlanResponse) GetPlanOk() (*DeletePlanResponsePlan, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -65,7 +65,7 @@ func (o *DeletePlanResponse) GetPlanOk() (*GetPlanResponsePlan, bool) {
 }
 
 // SetPlan sets field value
-func (o *DeletePlanResponse) SetPlan(v GetPlanResponsePlan) {
+func (o *DeletePlanResponse) SetPlan(v DeletePlanResponsePlan) {
 	o.Plan = v
 }
 

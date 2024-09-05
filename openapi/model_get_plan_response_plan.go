@@ -29,7 +29,6 @@ type GetPlanResponsePlan struct {
 	Id string `json:"id"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
-	DeletedAt string `json:"deletedAt"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -39,7 +38,7 @@ type _GetPlanResponsePlan GetPlanResponsePlan
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGetPlanResponsePlan(name string, status PlanStatus, billingData PlanBillingData, id string, createdAt time.Time, updatedAt time.Time, deletedAt string) *GetPlanResponsePlan {
+func NewGetPlanResponsePlan(name string, status PlanStatus, billingData PlanBillingData, id string, createdAt time.Time, updatedAt time.Time) *GetPlanResponsePlan {
 	this := GetPlanResponsePlan{}
 	this.Name = name
 	this.Status = status
@@ -47,7 +46,6 @@ func NewGetPlanResponsePlan(name string, status PlanStatus, billingData PlanBill
 	this.Id = id
 	this.CreatedAt = createdAt
 	this.UpdatedAt = updatedAt
-	this.DeletedAt = deletedAt
 	return &this
 }
 
@@ -203,30 +201,6 @@ func (o *GetPlanResponsePlan) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = v
 }
 
-// GetDeletedAt returns the DeletedAt field value
-func (o *GetPlanResponsePlan) GetDeletedAt() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.DeletedAt
-}
-
-// GetDeletedAtOk returns a tuple with the DeletedAt field value
-// and a boolean to check if the value has been set.
-func (o *GetPlanResponsePlan) GetDeletedAtOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.DeletedAt, true
-}
-
-// SetDeletedAt sets field value
-func (o *GetPlanResponsePlan) SetDeletedAt(v string) {
-	o.DeletedAt = v
-}
-
 func (o GetPlanResponsePlan) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -243,7 +217,6 @@ func (o GetPlanResponsePlan) ToMap() (map[string]interface{}, error) {
 	toSerialize["id"] = o.Id
 	toSerialize["createdAt"] = o.CreatedAt
 	toSerialize["updatedAt"] = o.UpdatedAt
-	toSerialize["deletedAt"] = o.DeletedAt
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -263,7 +236,6 @@ func (o *GetPlanResponsePlan) UnmarshalJSON(data []byte) (err error) {
 		"id",
 		"createdAt",
 		"updatedAt",
-		"deletedAt",
 	}
 
 	allProperties := make(map[string]interface{})
@@ -299,7 +271,6 @@ func (o *GetPlanResponsePlan) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "id")
 		delete(additionalProperties, "createdAt")
 		delete(additionalProperties, "updatedAt")
-		delete(additionalProperties, "deletedAt")
 		o.AdditionalProperties = additionalProperties
 	}
 

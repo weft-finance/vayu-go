@@ -17,11 +17,11 @@ import (
 	"fmt"
 )
 
-// checks if the ListPlansResponsePlansInner type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &ListPlansResponsePlansInner{}
+// checks if the DeletePlanResponsePlan type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &DeletePlanResponsePlan{}
 
-// ListPlansResponsePlansInner struct for ListPlansResponsePlansInner
-type ListPlansResponsePlansInner struct {
+// DeletePlanResponsePlan struct for DeletePlanResponsePlan
+type DeletePlanResponsePlan struct {
 	// The name of the plan
 	Name string `json:"name"`
 	Status PlanStatus `json:"status"`
@@ -29,36 +29,38 @@ type ListPlansResponsePlansInner struct {
 	Id string `json:"id"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
+	DeletedAt string `json:"deletedAt"`
 	AdditionalProperties map[string]interface{}
 }
 
-type _ListPlansResponsePlansInner ListPlansResponsePlansInner
+type _DeletePlanResponsePlan DeletePlanResponsePlan
 
-// NewListPlansResponsePlansInner instantiates a new ListPlansResponsePlansInner object
+// NewDeletePlanResponsePlan instantiates a new DeletePlanResponsePlan object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewListPlansResponsePlansInner(name string, status PlanStatus, billingData PlanBillingData, id string, createdAt time.Time, updatedAt time.Time) *ListPlansResponsePlansInner {
-	this := ListPlansResponsePlansInner{}
+func NewDeletePlanResponsePlan(name string, status PlanStatus, billingData PlanBillingData, id string, createdAt time.Time, updatedAt time.Time, deletedAt string) *DeletePlanResponsePlan {
+	this := DeletePlanResponsePlan{}
 	this.Name = name
 	this.Status = status
 	this.BillingData = billingData
 	this.Id = id
 	this.CreatedAt = createdAt
 	this.UpdatedAt = updatedAt
+	this.DeletedAt = deletedAt
 	return &this
 }
 
-// NewListPlansResponsePlansInnerWithDefaults instantiates a new ListPlansResponsePlansInner object
+// NewDeletePlanResponsePlanWithDefaults instantiates a new DeletePlanResponsePlan object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewListPlansResponsePlansInnerWithDefaults() *ListPlansResponsePlansInner {
-	this := ListPlansResponsePlansInner{}
+func NewDeletePlanResponsePlanWithDefaults() *DeletePlanResponsePlan {
+	this := DeletePlanResponsePlan{}
 	return &this
 }
 
 // GetName returns the Name field value
-func (o *ListPlansResponsePlansInner) GetName() string {
+func (o *DeletePlanResponsePlan) GetName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -69,7 +71,7 @@ func (o *ListPlansResponsePlansInner) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-func (o *ListPlansResponsePlansInner) GetNameOk() (*string, bool) {
+func (o *DeletePlanResponsePlan) GetNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -77,12 +79,12 @@ func (o *ListPlansResponsePlansInner) GetNameOk() (*string, bool) {
 }
 
 // SetName sets field value
-func (o *ListPlansResponsePlansInner) SetName(v string) {
+func (o *DeletePlanResponsePlan) SetName(v string) {
 	o.Name = v
 }
 
 // GetStatus returns the Status field value
-func (o *ListPlansResponsePlansInner) GetStatus() PlanStatus {
+func (o *DeletePlanResponsePlan) GetStatus() PlanStatus {
 	if o == nil {
 		var ret PlanStatus
 		return ret
@@ -93,7 +95,7 @@ func (o *ListPlansResponsePlansInner) GetStatus() PlanStatus {
 
 // GetStatusOk returns a tuple with the Status field value
 // and a boolean to check if the value has been set.
-func (o *ListPlansResponsePlansInner) GetStatusOk() (*PlanStatus, bool) {
+func (o *DeletePlanResponsePlan) GetStatusOk() (*PlanStatus, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -101,12 +103,12 @@ func (o *ListPlansResponsePlansInner) GetStatusOk() (*PlanStatus, bool) {
 }
 
 // SetStatus sets field value
-func (o *ListPlansResponsePlansInner) SetStatus(v PlanStatus) {
+func (o *DeletePlanResponsePlan) SetStatus(v PlanStatus) {
 	o.Status = v
 }
 
 // GetBillingData returns the BillingData field value
-func (o *ListPlansResponsePlansInner) GetBillingData() PlanBillingData {
+func (o *DeletePlanResponsePlan) GetBillingData() PlanBillingData {
 	if o == nil {
 		var ret PlanBillingData
 		return ret
@@ -117,7 +119,7 @@ func (o *ListPlansResponsePlansInner) GetBillingData() PlanBillingData {
 
 // GetBillingDataOk returns a tuple with the BillingData field value
 // and a boolean to check if the value has been set.
-func (o *ListPlansResponsePlansInner) GetBillingDataOk() (*PlanBillingData, bool) {
+func (o *DeletePlanResponsePlan) GetBillingDataOk() (*PlanBillingData, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -125,12 +127,12 @@ func (o *ListPlansResponsePlansInner) GetBillingDataOk() (*PlanBillingData, bool
 }
 
 // SetBillingData sets field value
-func (o *ListPlansResponsePlansInner) SetBillingData(v PlanBillingData) {
+func (o *DeletePlanResponsePlan) SetBillingData(v PlanBillingData) {
 	o.BillingData = v
 }
 
 // GetId returns the Id field value
-func (o *ListPlansResponsePlansInner) GetId() string {
+func (o *DeletePlanResponsePlan) GetId() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -141,7 +143,7 @@ func (o *ListPlansResponsePlansInner) GetId() string {
 
 // GetIdOk returns a tuple with the Id field value
 // and a boolean to check if the value has been set.
-func (o *ListPlansResponsePlansInner) GetIdOk() (*string, bool) {
+func (o *DeletePlanResponsePlan) GetIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -149,12 +151,12 @@ func (o *ListPlansResponsePlansInner) GetIdOk() (*string, bool) {
 }
 
 // SetId sets field value
-func (o *ListPlansResponsePlansInner) SetId(v string) {
+func (o *DeletePlanResponsePlan) SetId(v string) {
 	o.Id = v
 }
 
 // GetCreatedAt returns the CreatedAt field value
-func (o *ListPlansResponsePlansInner) GetCreatedAt() time.Time {
+func (o *DeletePlanResponsePlan) GetCreatedAt() time.Time {
 	if o == nil {
 		var ret time.Time
 		return ret
@@ -165,7 +167,7 @@ func (o *ListPlansResponsePlansInner) GetCreatedAt() time.Time {
 
 // GetCreatedAtOk returns a tuple with the CreatedAt field value
 // and a boolean to check if the value has been set.
-func (o *ListPlansResponsePlansInner) GetCreatedAtOk() (*time.Time, bool) {
+func (o *DeletePlanResponsePlan) GetCreatedAtOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -173,12 +175,12 @@ func (o *ListPlansResponsePlansInner) GetCreatedAtOk() (*time.Time, bool) {
 }
 
 // SetCreatedAt sets field value
-func (o *ListPlansResponsePlansInner) SetCreatedAt(v time.Time) {
+func (o *DeletePlanResponsePlan) SetCreatedAt(v time.Time) {
 	o.CreatedAt = v
 }
 
 // GetUpdatedAt returns the UpdatedAt field value
-func (o *ListPlansResponsePlansInner) GetUpdatedAt() time.Time {
+func (o *DeletePlanResponsePlan) GetUpdatedAt() time.Time {
 	if o == nil {
 		var ret time.Time
 		return ret
@@ -189,7 +191,7 @@ func (o *ListPlansResponsePlansInner) GetUpdatedAt() time.Time {
 
 // GetUpdatedAtOk returns a tuple with the UpdatedAt field value
 // and a boolean to check if the value has been set.
-func (o *ListPlansResponsePlansInner) GetUpdatedAtOk() (*time.Time, bool) {
+func (o *DeletePlanResponsePlan) GetUpdatedAtOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -197,11 +199,35 @@ func (o *ListPlansResponsePlansInner) GetUpdatedAtOk() (*time.Time, bool) {
 }
 
 // SetUpdatedAt sets field value
-func (o *ListPlansResponsePlansInner) SetUpdatedAt(v time.Time) {
+func (o *DeletePlanResponsePlan) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = v
 }
 
-func (o ListPlansResponsePlansInner) MarshalJSON() ([]byte, error) {
+// GetDeletedAt returns the DeletedAt field value
+func (o *DeletePlanResponsePlan) GetDeletedAt() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.DeletedAt
+}
+
+// GetDeletedAtOk returns a tuple with the DeletedAt field value
+// and a boolean to check if the value has been set.
+func (o *DeletePlanResponsePlan) GetDeletedAtOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.DeletedAt, true
+}
+
+// SetDeletedAt sets field value
+func (o *DeletePlanResponsePlan) SetDeletedAt(v string) {
+	o.DeletedAt = v
+}
+
+func (o DeletePlanResponsePlan) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -209,7 +235,7 @@ func (o ListPlansResponsePlansInner) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o ListPlansResponsePlansInner) ToMap() (map[string]interface{}, error) {
+func (o DeletePlanResponsePlan) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["name"] = o.Name
 	toSerialize["status"] = o.Status
@@ -217,6 +243,7 @@ func (o ListPlansResponsePlansInner) ToMap() (map[string]interface{}, error) {
 	toSerialize["id"] = o.Id
 	toSerialize["createdAt"] = o.CreatedAt
 	toSerialize["updatedAt"] = o.UpdatedAt
+	toSerialize["deletedAt"] = o.DeletedAt
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -225,7 +252,7 @@ func (o ListPlansResponsePlansInner) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *ListPlansResponsePlansInner) UnmarshalJSON(data []byte) (err error) {
+func (o *DeletePlanResponsePlan) UnmarshalJSON(data []byte) (err error) {
 	// This validates that all required properties are included in the JSON object
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
@@ -236,6 +263,7 @@ func (o *ListPlansResponsePlansInner) UnmarshalJSON(data []byte) (err error) {
 		"id",
 		"createdAt",
 		"updatedAt",
+		"deletedAt",
 	}
 
 	allProperties := make(map[string]interface{})
@@ -252,15 +280,15 @@ func (o *ListPlansResponsePlansInner) UnmarshalJSON(data []byte) (err error) {
 		}
 	}
 
-	varListPlansResponsePlansInner := _ListPlansResponsePlansInner{}
+	varDeletePlanResponsePlan := _DeletePlanResponsePlan{}
 
-	err = json.Unmarshal(data, &varListPlansResponsePlansInner)
+	err = json.Unmarshal(data, &varDeletePlanResponsePlan)
 
 	if err != nil {
 		return err
 	}
 
-	*o = ListPlansResponsePlansInner(varListPlansResponsePlansInner)
+	*o = DeletePlanResponsePlan(varDeletePlanResponsePlan)
 
 	additionalProperties := make(map[string]interface{})
 
@@ -271,44 +299,45 @@ func (o *ListPlansResponsePlansInner) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "id")
 		delete(additionalProperties, "createdAt")
 		delete(additionalProperties, "updatedAt")
+		delete(additionalProperties, "deletedAt")
 		o.AdditionalProperties = additionalProperties
 	}
 
 	return err
 }
 
-type NullableListPlansResponsePlansInner struct {
-	value *ListPlansResponsePlansInner
+type NullableDeletePlanResponsePlan struct {
+	value *DeletePlanResponsePlan
 	isSet bool
 }
 
-func (v NullableListPlansResponsePlansInner) Get() *ListPlansResponsePlansInner {
+func (v NullableDeletePlanResponsePlan) Get() *DeletePlanResponsePlan {
 	return v.value
 }
 
-func (v *NullableListPlansResponsePlansInner) Set(val *ListPlansResponsePlansInner) {
+func (v *NullableDeletePlanResponsePlan) Set(val *DeletePlanResponsePlan) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableListPlansResponsePlansInner) IsSet() bool {
+func (v NullableDeletePlanResponsePlan) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableListPlansResponsePlansInner) Unset() {
+func (v *NullableDeletePlanResponsePlan) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableListPlansResponsePlansInner(val *ListPlansResponsePlansInner) *NullableListPlansResponsePlansInner {
-	return &NullableListPlansResponsePlansInner{value: val, isSet: true}
+func NewNullableDeletePlanResponsePlan(val *DeletePlanResponsePlan) *NullableDeletePlanResponsePlan {
+	return &NullableDeletePlanResponsePlan{value: val, isSet: true}
 }
 
-func (v NullableListPlansResponsePlansInner) MarshalJSON() ([]byte, error) {
+func (v NullableDeletePlanResponsePlan) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableListPlansResponsePlansInner) UnmarshalJSON(src []byte) error {
+func (v *NullableDeletePlanResponsePlan) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

@@ -21,7 +21,7 @@ var _ MappedNullable = &ListPlansResponse{}
 
 // ListPlansResponse struct for ListPlansResponse
 type ListPlansResponse struct {
-	Plans []ListPlansResponsePlansInner `json:"plans"`
+	Plans []GetPlanResponsePlan `json:"plans"`
 	Total float32 `json:"total"`
 	HasMore bool `json:"hasMore"`
 	NextCursor *string `json:"nextCursor,omitempty"`
@@ -34,7 +34,7 @@ type _ListPlansResponse ListPlansResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewListPlansResponse(plans []ListPlansResponsePlansInner, total float32, hasMore bool) *ListPlansResponse {
+func NewListPlansResponse(plans []GetPlanResponsePlan, total float32, hasMore bool) *ListPlansResponse {
 	this := ListPlansResponse{}
 	this.Plans = plans
 	this.Total = total
@@ -51,9 +51,9 @@ func NewListPlansResponseWithDefaults() *ListPlansResponse {
 }
 
 // GetPlans returns the Plans field value
-func (o *ListPlansResponse) GetPlans() []ListPlansResponsePlansInner {
+func (o *ListPlansResponse) GetPlans() []GetPlanResponsePlan {
 	if o == nil {
-		var ret []ListPlansResponsePlansInner
+		var ret []GetPlanResponsePlan
 		return ret
 	}
 
@@ -62,7 +62,7 @@ func (o *ListPlansResponse) GetPlans() []ListPlansResponsePlansInner {
 
 // GetPlansOk returns a tuple with the Plans field value
 // and a boolean to check if the value has been set.
-func (o *ListPlansResponse) GetPlansOk() ([]ListPlansResponsePlansInner, bool) {
+func (o *ListPlansResponse) GetPlansOk() ([]GetPlanResponsePlan, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -70,7 +70,7 @@ func (o *ListPlansResponse) GetPlansOk() ([]ListPlansResponsePlansInner, bool) {
 }
 
 // SetPlans sets field value
-func (o *ListPlansResponse) SetPlans(v []ListPlansResponsePlansInner) {
+func (o *ListPlansResponse) SetPlans(v []GetPlanResponsePlan) {
 	o.Plans = v
 }
 

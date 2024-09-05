@@ -33,7 +33,6 @@ type GetContractResponseContract struct {
 	Id string `json:"id"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
-	DeletedAt string `json:"deletedAt"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -43,7 +42,7 @@ type _GetContractResponseContract GetContractResponseContract
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGetContractResponseContract(startDate time.Time, customerId string, planId string, id string, createdAt time.Time, updatedAt time.Time, deletedAt string) *GetContractResponseContract {
+func NewGetContractResponseContract(startDate time.Time, customerId string, planId string, id string, createdAt time.Time, updatedAt time.Time) *GetContractResponseContract {
 	this := GetContractResponseContract{}
 	this.StartDate = startDate
 	this.CustomerId = customerId
@@ -51,7 +50,6 @@ func NewGetContractResponseContract(startDate time.Time, customerId string, plan
 	this.Id = id
 	this.CreatedAt = createdAt
 	this.UpdatedAt = updatedAt
-	this.DeletedAt = deletedAt
 	return &this
 }
 
@@ -239,30 +237,6 @@ func (o *GetContractResponseContract) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = v
 }
 
-// GetDeletedAt returns the DeletedAt field value
-func (o *GetContractResponseContract) GetDeletedAt() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.DeletedAt
-}
-
-// GetDeletedAtOk returns a tuple with the DeletedAt field value
-// and a boolean to check if the value has been set.
-func (o *GetContractResponseContract) GetDeletedAtOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.DeletedAt, true
-}
-
-// SetDeletedAt sets field value
-func (o *GetContractResponseContract) SetDeletedAt(v string) {
-	o.DeletedAt = v
-}
-
 func (o GetContractResponseContract) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -282,7 +256,6 @@ func (o GetContractResponseContract) ToMap() (map[string]interface{}, error) {
 	toSerialize["id"] = o.Id
 	toSerialize["createdAt"] = o.CreatedAt
 	toSerialize["updatedAt"] = o.UpdatedAt
-	toSerialize["deletedAt"] = o.DeletedAt
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -302,7 +275,6 @@ func (o *GetContractResponseContract) UnmarshalJSON(data []byte) (err error) {
 		"id",
 		"createdAt",
 		"updatedAt",
-		"deletedAt",
 	}
 
 	allProperties := make(map[string]interface{})
@@ -339,7 +311,6 @@ func (o *GetContractResponseContract) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "id")
 		delete(additionalProperties, "createdAt")
 		delete(additionalProperties, "updatedAt")
-		delete(additionalProperties, "deletedAt")
 		o.AdditionalProperties = additionalProperties
 	}
 

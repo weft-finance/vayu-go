@@ -21,7 +21,7 @@ var _ MappedNullable = &ListMetersResponse{}
 
 // ListMetersResponse struct for ListMetersResponse
 type ListMetersResponse struct {
-	Meters []ListMetersResponseMetersInner `json:"meters"`
+	Meters []GetMeterResponseMeter `json:"meters"`
 	Total float32 `json:"total"`
 	HasMore bool `json:"hasMore"`
 	NextCursor *string `json:"nextCursor,omitempty"`
@@ -34,7 +34,7 @@ type _ListMetersResponse ListMetersResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewListMetersResponse(meters []ListMetersResponseMetersInner, total float32, hasMore bool) *ListMetersResponse {
+func NewListMetersResponse(meters []GetMeterResponseMeter, total float32, hasMore bool) *ListMetersResponse {
 	this := ListMetersResponse{}
 	this.Meters = meters
 	this.Total = total
@@ -51,9 +51,9 @@ func NewListMetersResponseWithDefaults() *ListMetersResponse {
 }
 
 // GetMeters returns the Meters field value
-func (o *ListMetersResponse) GetMeters() []ListMetersResponseMetersInner {
+func (o *ListMetersResponse) GetMeters() []GetMeterResponseMeter {
 	if o == nil {
-		var ret []ListMetersResponseMetersInner
+		var ret []GetMeterResponseMeter
 		return ret
 	}
 
@@ -62,7 +62,7 @@ func (o *ListMetersResponse) GetMeters() []ListMetersResponseMetersInner {
 
 // GetMetersOk returns a tuple with the Meters field value
 // and a boolean to check if the value has been set.
-func (o *ListMetersResponse) GetMetersOk() ([]ListMetersResponseMetersInner, bool) {
+func (o *ListMetersResponse) GetMetersOk() ([]GetMeterResponseMeter, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -70,7 +70,7 @@ func (o *ListMetersResponse) GetMetersOk() ([]ListMetersResponseMetersInner, boo
 }
 
 // SetMeters sets field value
-func (o *ListMetersResponse) SetMeters(v []ListMetersResponseMetersInner) {
+func (o *ListMetersResponse) SetMeters(v []GetMeterResponseMeter) {
 	o.Meters = v
 }
 

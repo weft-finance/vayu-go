@@ -17,11 +17,11 @@ import (
 	"fmt"
 )
 
-// checks if the ListContractsResponseContractsInner type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &ListContractsResponseContractsInner{}
+// checks if the DeleteContractResponseContract type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &DeleteContractResponseContract{}
 
-// ListContractsResponseContractsInner struct for ListContractsResponseContractsInner
-type ListContractsResponseContractsInner struct {
+// DeleteContractResponseContract struct for DeleteContractResponseContract
+type DeleteContractResponseContract struct {
 	// The start date of the contract
 	StartDate time.Time `json:"startDate"`
 	// The end date of the contract
@@ -33,36 +33,38 @@ type ListContractsResponseContractsInner struct {
 	Id string `json:"id"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
+	DeletedAt string `json:"deletedAt"`
 	AdditionalProperties map[string]interface{}
 }
 
-type _ListContractsResponseContractsInner ListContractsResponseContractsInner
+type _DeleteContractResponseContract DeleteContractResponseContract
 
-// NewListContractsResponseContractsInner instantiates a new ListContractsResponseContractsInner object
+// NewDeleteContractResponseContract instantiates a new DeleteContractResponseContract object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewListContractsResponseContractsInner(startDate time.Time, customerId string, planId string, id string, createdAt time.Time, updatedAt time.Time) *ListContractsResponseContractsInner {
-	this := ListContractsResponseContractsInner{}
+func NewDeleteContractResponseContract(startDate time.Time, customerId string, planId string, id string, createdAt time.Time, updatedAt time.Time, deletedAt string) *DeleteContractResponseContract {
+	this := DeleteContractResponseContract{}
 	this.StartDate = startDate
 	this.CustomerId = customerId
 	this.PlanId = planId
 	this.Id = id
 	this.CreatedAt = createdAt
 	this.UpdatedAt = updatedAt
+	this.DeletedAt = deletedAt
 	return &this
 }
 
-// NewListContractsResponseContractsInnerWithDefaults instantiates a new ListContractsResponseContractsInner object
+// NewDeleteContractResponseContractWithDefaults instantiates a new DeleteContractResponseContract object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewListContractsResponseContractsInnerWithDefaults() *ListContractsResponseContractsInner {
-	this := ListContractsResponseContractsInner{}
+func NewDeleteContractResponseContractWithDefaults() *DeleteContractResponseContract {
+	this := DeleteContractResponseContract{}
 	return &this
 }
 
 // GetStartDate returns the StartDate field value
-func (o *ListContractsResponseContractsInner) GetStartDate() time.Time {
+func (o *DeleteContractResponseContract) GetStartDate() time.Time {
 	if o == nil {
 		var ret time.Time
 		return ret
@@ -73,7 +75,7 @@ func (o *ListContractsResponseContractsInner) GetStartDate() time.Time {
 
 // GetStartDateOk returns a tuple with the StartDate field value
 // and a boolean to check if the value has been set.
-func (o *ListContractsResponseContractsInner) GetStartDateOk() (*time.Time, bool) {
+func (o *DeleteContractResponseContract) GetStartDateOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -81,12 +83,12 @@ func (o *ListContractsResponseContractsInner) GetStartDateOk() (*time.Time, bool
 }
 
 // SetStartDate sets field value
-func (o *ListContractsResponseContractsInner) SetStartDate(v time.Time) {
+func (o *DeleteContractResponseContract) SetStartDate(v time.Time) {
 	o.StartDate = v
 }
 
 // GetEndDate returns the EndDate field value if set, zero value otherwise.
-func (o *ListContractsResponseContractsInner) GetEndDate() time.Time {
+func (o *DeleteContractResponseContract) GetEndDate() time.Time {
 	if o == nil || IsNil(o.EndDate) {
 		var ret time.Time
 		return ret
@@ -96,7 +98,7 @@ func (o *ListContractsResponseContractsInner) GetEndDate() time.Time {
 
 // GetEndDateOk returns a tuple with the EndDate field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ListContractsResponseContractsInner) GetEndDateOk() (*time.Time, bool) {
+func (o *DeleteContractResponseContract) GetEndDateOk() (*time.Time, bool) {
 	if o == nil || IsNil(o.EndDate) {
 		return nil, false
 	}
@@ -104,7 +106,7 @@ func (o *ListContractsResponseContractsInner) GetEndDateOk() (*time.Time, bool) 
 }
 
 // HasEndDate returns a boolean if a field has been set.
-func (o *ListContractsResponseContractsInner) HasEndDate() bool {
+func (o *DeleteContractResponseContract) HasEndDate() bool {
 	if o != nil && !IsNil(o.EndDate) {
 		return true
 	}
@@ -113,12 +115,12 @@ func (o *ListContractsResponseContractsInner) HasEndDate() bool {
 }
 
 // SetEndDate gets a reference to the given time.Time and assigns it to the EndDate field.
-func (o *ListContractsResponseContractsInner) SetEndDate(v time.Time) {
+func (o *DeleteContractResponseContract) SetEndDate(v time.Time) {
 	o.EndDate = &v
 }
 
 // GetCustomerId returns the CustomerId field value
-func (o *ListContractsResponseContractsInner) GetCustomerId() string {
+func (o *DeleteContractResponseContract) GetCustomerId() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -129,7 +131,7 @@ func (o *ListContractsResponseContractsInner) GetCustomerId() string {
 
 // GetCustomerIdOk returns a tuple with the CustomerId field value
 // and a boolean to check if the value has been set.
-func (o *ListContractsResponseContractsInner) GetCustomerIdOk() (*string, bool) {
+func (o *DeleteContractResponseContract) GetCustomerIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -137,12 +139,12 @@ func (o *ListContractsResponseContractsInner) GetCustomerIdOk() (*string, bool) 
 }
 
 // SetCustomerId sets field value
-func (o *ListContractsResponseContractsInner) SetCustomerId(v string) {
+func (o *DeleteContractResponseContract) SetCustomerId(v string) {
 	o.CustomerId = v
 }
 
 // GetPlanId returns the PlanId field value
-func (o *ListContractsResponseContractsInner) GetPlanId() string {
+func (o *DeleteContractResponseContract) GetPlanId() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -153,7 +155,7 @@ func (o *ListContractsResponseContractsInner) GetPlanId() string {
 
 // GetPlanIdOk returns a tuple with the PlanId field value
 // and a boolean to check if the value has been set.
-func (o *ListContractsResponseContractsInner) GetPlanIdOk() (*string, bool) {
+func (o *DeleteContractResponseContract) GetPlanIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -161,12 +163,12 @@ func (o *ListContractsResponseContractsInner) GetPlanIdOk() (*string, bool) {
 }
 
 // SetPlanId sets field value
-func (o *ListContractsResponseContractsInner) SetPlanId(v string) {
+func (o *DeleteContractResponseContract) SetPlanId(v string) {
 	o.PlanId = v
 }
 
 // GetId returns the Id field value
-func (o *ListContractsResponseContractsInner) GetId() string {
+func (o *DeleteContractResponseContract) GetId() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -177,7 +179,7 @@ func (o *ListContractsResponseContractsInner) GetId() string {
 
 // GetIdOk returns a tuple with the Id field value
 // and a boolean to check if the value has been set.
-func (o *ListContractsResponseContractsInner) GetIdOk() (*string, bool) {
+func (o *DeleteContractResponseContract) GetIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -185,12 +187,12 @@ func (o *ListContractsResponseContractsInner) GetIdOk() (*string, bool) {
 }
 
 // SetId sets field value
-func (o *ListContractsResponseContractsInner) SetId(v string) {
+func (o *DeleteContractResponseContract) SetId(v string) {
 	o.Id = v
 }
 
 // GetCreatedAt returns the CreatedAt field value
-func (o *ListContractsResponseContractsInner) GetCreatedAt() time.Time {
+func (o *DeleteContractResponseContract) GetCreatedAt() time.Time {
 	if o == nil {
 		var ret time.Time
 		return ret
@@ -201,7 +203,7 @@ func (o *ListContractsResponseContractsInner) GetCreatedAt() time.Time {
 
 // GetCreatedAtOk returns a tuple with the CreatedAt field value
 // and a boolean to check if the value has been set.
-func (o *ListContractsResponseContractsInner) GetCreatedAtOk() (*time.Time, bool) {
+func (o *DeleteContractResponseContract) GetCreatedAtOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -209,12 +211,12 @@ func (o *ListContractsResponseContractsInner) GetCreatedAtOk() (*time.Time, bool
 }
 
 // SetCreatedAt sets field value
-func (o *ListContractsResponseContractsInner) SetCreatedAt(v time.Time) {
+func (o *DeleteContractResponseContract) SetCreatedAt(v time.Time) {
 	o.CreatedAt = v
 }
 
 // GetUpdatedAt returns the UpdatedAt field value
-func (o *ListContractsResponseContractsInner) GetUpdatedAt() time.Time {
+func (o *DeleteContractResponseContract) GetUpdatedAt() time.Time {
 	if o == nil {
 		var ret time.Time
 		return ret
@@ -225,7 +227,7 @@ func (o *ListContractsResponseContractsInner) GetUpdatedAt() time.Time {
 
 // GetUpdatedAtOk returns a tuple with the UpdatedAt field value
 // and a boolean to check if the value has been set.
-func (o *ListContractsResponseContractsInner) GetUpdatedAtOk() (*time.Time, bool) {
+func (o *DeleteContractResponseContract) GetUpdatedAtOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -233,11 +235,35 @@ func (o *ListContractsResponseContractsInner) GetUpdatedAtOk() (*time.Time, bool
 }
 
 // SetUpdatedAt sets field value
-func (o *ListContractsResponseContractsInner) SetUpdatedAt(v time.Time) {
+func (o *DeleteContractResponseContract) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = v
 }
 
-func (o ListContractsResponseContractsInner) MarshalJSON() ([]byte, error) {
+// GetDeletedAt returns the DeletedAt field value
+func (o *DeleteContractResponseContract) GetDeletedAt() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.DeletedAt
+}
+
+// GetDeletedAtOk returns a tuple with the DeletedAt field value
+// and a boolean to check if the value has been set.
+func (o *DeleteContractResponseContract) GetDeletedAtOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.DeletedAt, true
+}
+
+// SetDeletedAt sets field value
+func (o *DeleteContractResponseContract) SetDeletedAt(v string) {
+	o.DeletedAt = v
+}
+
+func (o DeleteContractResponseContract) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -245,7 +271,7 @@ func (o ListContractsResponseContractsInner) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o ListContractsResponseContractsInner) ToMap() (map[string]interface{}, error) {
+func (o DeleteContractResponseContract) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["startDate"] = o.StartDate
 	if !IsNil(o.EndDate) {
@@ -256,6 +282,7 @@ func (o ListContractsResponseContractsInner) ToMap() (map[string]interface{}, er
 	toSerialize["id"] = o.Id
 	toSerialize["createdAt"] = o.CreatedAt
 	toSerialize["updatedAt"] = o.UpdatedAt
+	toSerialize["deletedAt"] = o.DeletedAt
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -264,7 +291,7 @@ func (o ListContractsResponseContractsInner) ToMap() (map[string]interface{}, er
 	return toSerialize, nil
 }
 
-func (o *ListContractsResponseContractsInner) UnmarshalJSON(data []byte) (err error) {
+func (o *DeleteContractResponseContract) UnmarshalJSON(data []byte) (err error) {
 	// This validates that all required properties are included in the JSON object
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
@@ -275,6 +302,7 @@ func (o *ListContractsResponseContractsInner) UnmarshalJSON(data []byte) (err er
 		"id",
 		"createdAt",
 		"updatedAt",
+		"deletedAt",
 	}
 
 	allProperties := make(map[string]interface{})
@@ -291,15 +319,15 @@ func (o *ListContractsResponseContractsInner) UnmarshalJSON(data []byte) (err er
 		}
 	}
 
-	varListContractsResponseContractsInner := _ListContractsResponseContractsInner{}
+	varDeleteContractResponseContract := _DeleteContractResponseContract{}
 
-	err = json.Unmarshal(data, &varListContractsResponseContractsInner)
+	err = json.Unmarshal(data, &varDeleteContractResponseContract)
 
 	if err != nil {
 		return err
 	}
 
-	*o = ListContractsResponseContractsInner(varListContractsResponseContractsInner)
+	*o = DeleteContractResponseContract(varDeleteContractResponseContract)
 
 	additionalProperties := make(map[string]interface{})
 
@@ -311,44 +339,45 @@ func (o *ListContractsResponseContractsInner) UnmarshalJSON(data []byte) (err er
 		delete(additionalProperties, "id")
 		delete(additionalProperties, "createdAt")
 		delete(additionalProperties, "updatedAt")
+		delete(additionalProperties, "deletedAt")
 		o.AdditionalProperties = additionalProperties
 	}
 
 	return err
 }
 
-type NullableListContractsResponseContractsInner struct {
-	value *ListContractsResponseContractsInner
+type NullableDeleteContractResponseContract struct {
+	value *DeleteContractResponseContract
 	isSet bool
 }
 
-func (v NullableListContractsResponseContractsInner) Get() *ListContractsResponseContractsInner {
+func (v NullableDeleteContractResponseContract) Get() *DeleteContractResponseContract {
 	return v.value
 }
 
-func (v *NullableListContractsResponseContractsInner) Set(val *ListContractsResponseContractsInner) {
+func (v *NullableDeleteContractResponseContract) Set(val *DeleteContractResponseContract) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableListContractsResponseContractsInner) IsSet() bool {
+func (v NullableDeleteContractResponseContract) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableListContractsResponseContractsInner) Unset() {
+func (v *NullableDeleteContractResponseContract) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableListContractsResponseContractsInner(val *ListContractsResponseContractsInner) *NullableListContractsResponseContractsInner {
-	return &NullableListContractsResponseContractsInner{value: val, isSet: true}
+func NewNullableDeleteContractResponseContract(val *DeleteContractResponseContract) *NullableDeleteContractResponseContract {
+	return &NullableDeleteContractResponseContract{value: val, isSet: true}
 }
 
-func (v NullableListContractsResponseContractsInner) MarshalJSON() ([]byte, error) {
+func (v NullableDeleteContractResponseContract) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableListContractsResponseContractsInner) UnmarshalJSON(src []byte) error {
+func (v *NullableDeleteContractResponseContract) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

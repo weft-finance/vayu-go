@@ -17,11 +17,11 @@ import (
 	"fmt"
 )
 
-// checks if the ListCustomersResponseCustomersInner type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &ListCustomersResponseCustomersInner{}
+// checks if the DeleteCustomerResponseCustomer type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &DeleteCustomerResponseCustomer{}
 
-// ListCustomersResponseCustomersInner struct for ListCustomersResponseCustomersInner
-type ListCustomersResponseCustomersInner struct {
+// DeleteCustomerResponseCustomer struct for DeleteCustomerResponseCustomer
+type DeleteCustomerResponseCustomer struct {
 	// The name of the customer
 	Name string `json:"name"`
 	// The alias of the customer used to match events to the customer.
@@ -29,34 +29,36 @@ type ListCustomersResponseCustomersInner struct {
 	Id string `json:"id"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
+	DeletedAt string `json:"deletedAt"`
 	AdditionalProperties map[string]interface{}
 }
 
-type _ListCustomersResponseCustomersInner ListCustomersResponseCustomersInner
+type _DeleteCustomerResponseCustomer DeleteCustomerResponseCustomer
 
-// NewListCustomersResponseCustomersInner instantiates a new ListCustomersResponseCustomersInner object
+// NewDeleteCustomerResponseCustomer instantiates a new DeleteCustomerResponseCustomer object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewListCustomersResponseCustomersInner(name string, id string, createdAt time.Time, updatedAt time.Time) *ListCustomersResponseCustomersInner {
-	this := ListCustomersResponseCustomersInner{}
+func NewDeleteCustomerResponseCustomer(name string, id string, createdAt time.Time, updatedAt time.Time, deletedAt string) *DeleteCustomerResponseCustomer {
+	this := DeleteCustomerResponseCustomer{}
 	this.Name = name
 	this.Id = id
 	this.CreatedAt = createdAt
 	this.UpdatedAt = updatedAt
+	this.DeletedAt = deletedAt
 	return &this
 }
 
-// NewListCustomersResponseCustomersInnerWithDefaults instantiates a new ListCustomersResponseCustomersInner object
+// NewDeleteCustomerResponseCustomerWithDefaults instantiates a new DeleteCustomerResponseCustomer object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewListCustomersResponseCustomersInnerWithDefaults() *ListCustomersResponseCustomersInner {
-	this := ListCustomersResponseCustomersInner{}
+func NewDeleteCustomerResponseCustomerWithDefaults() *DeleteCustomerResponseCustomer {
+	this := DeleteCustomerResponseCustomer{}
 	return &this
 }
 
 // GetName returns the Name field value
-func (o *ListCustomersResponseCustomersInner) GetName() string {
+func (o *DeleteCustomerResponseCustomer) GetName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -67,7 +69,7 @@ func (o *ListCustomersResponseCustomersInner) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-func (o *ListCustomersResponseCustomersInner) GetNameOk() (*string, bool) {
+func (o *DeleteCustomerResponseCustomer) GetNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -75,12 +77,12 @@ func (o *ListCustomersResponseCustomersInner) GetNameOk() (*string, bool) {
 }
 
 // SetName sets field value
-func (o *ListCustomersResponseCustomersInner) SetName(v string) {
+func (o *DeleteCustomerResponseCustomer) SetName(v string) {
 	o.Name = v
 }
 
 // GetAlias returns the Alias field value if set, zero value otherwise.
-func (o *ListCustomersResponseCustomersInner) GetAlias() string {
+func (o *DeleteCustomerResponseCustomer) GetAlias() string {
 	if o == nil || IsNil(o.Alias) {
 		var ret string
 		return ret
@@ -90,7 +92,7 @@ func (o *ListCustomersResponseCustomersInner) GetAlias() string {
 
 // GetAliasOk returns a tuple with the Alias field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ListCustomersResponseCustomersInner) GetAliasOk() (*string, bool) {
+func (o *DeleteCustomerResponseCustomer) GetAliasOk() (*string, bool) {
 	if o == nil || IsNil(o.Alias) {
 		return nil, false
 	}
@@ -98,7 +100,7 @@ func (o *ListCustomersResponseCustomersInner) GetAliasOk() (*string, bool) {
 }
 
 // HasAlias returns a boolean if a field has been set.
-func (o *ListCustomersResponseCustomersInner) HasAlias() bool {
+func (o *DeleteCustomerResponseCustomer) HasAlias() bool {
 	if o != nil && !IsNil(o.Alias) {
 		return true
 	}
@@ -107,12 +109,12 @@ func (o *ListCustomersResponseCustomersInner) HasAlias() bool {
 }
 
 // SetAlias gets a reference to the given string and assigns it to the Alias field.
-func (o *ListCustomersResponseCustomersInner) SetAlias(v string) {
+func (o *DeleteCustomerResponseCustomer) SetAlias(v string) {
 	o.Alias = &v
 }
 
 // GetId returns the Id field value
-func (o *ListCustomersResponseCustomersInner) GetId() string {
+func (o *DeleteCustomerResponseCustomer) GetId() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -123,7 +125,7 @@ func (o *ListCustomersResponseCustomersInner) GetId() string {
 
 // GetIdOk returns a tuple with the Id field value
 // and a boolean to check if the value has been set.
-func (o *ListCustomersResponseCustomersInner) GetIdOk() (*string, bool) {
+func (o *DeleteCustomerResponseCustomer) GetIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -131,12 +133,12 @@ func (o *ListCustomersResponseCustomersInner) GetIdOk() (*string, bool) {
 }
 
 // SetId sets field value
-func (o *ListCustomersResponseCustomersInner) SetId(v string) {
+func (o *DeleteCustomerResponseCustomer) SetId(v string) {
 	o.Id = v
 }
 
 // GetCreatedAt returns the CreatedAt field value
-func (o *ListCustomersResponseCustomersInner) GetCreatedAt() time.Time {
+func (o *DeleteCustomerResponseCustomer) GetCreatedAt() time.Time {
 	if o == nil {
 		var ret time.Time
 		return ret
@@ -147,7 +149,7 @@ func (o *ListCustomersResponseCustomersInner) GetCreatedAt() time.Time {
 
 // GetCreatedAtOk returns a tuple with the CreatedAt field value
 // and a boolean to check if the value has been set.
-func (o *ListCustomersResponseCustomersInner) GetCreatedAtOk() (*time.Time, bool) {
+func (o *DeleteCustomerResponseCustomer) GetCreatedAtOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -155,12 +157,12 @@ func (o *ListCustomersResponseCustomersInner) GetCreatedAtOk() (*time.Time, bool
 }
 
 // SetCreatedAt sets field value
-func (o *ListCustomersResponseCustomersInner) SetCreatedAt(v time.Time) {
+func (o *DeleteCustomerResponseCustomer) SetCreatedAt(v time.Time) {
 	o.CreatedAt = v
 }
 
 // GetUpdatedAt returns the UpdatedAt field value
-func (o *ListCustomersResponseCustomersInner) GetUpdatedAt() time.Time {
+func (o *DeleteCustomerResponseCustomer) GetUpdatedAt() time.Time {
 	if o == nil {
 		var ret time.Time
 		return ret
@@ -171,7 +173,7 @@ func (o *ListCustomersResponseCustomersInner) GetUpdatedAt() time.Time {
 
 // GetUpdatedAtOk returns a tuple with the UpdatedAt field value
 // and a boolean to check if the value has been set.
-func (o *ListCustomersResponseCustomersInner) GetUpdatedAtOk() (*time.Time, bool) {
+func (o *DeleteCustomerResponseCustomer) GetUpdatedAtOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -179,11 +181,35 @@ func (o *ListCustomersResponseCustomersInner) GetUpdatedAtOk() (*time.Time, bool
 }
 
 // SetUpdatedAt sets field value
-func (o *ListCustomersResponseCustomersInner) SetUpdatedAt(v time.Time) {
+func (o *DeleteCustomerResponseCustomer) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = v
 }
 
-func (o ListCustomersResponseCustomersInner) MarshalJSON() ([]byte, error) {
+// GetDeletedAt returns the DeletedAt field value
+func (o *DeleteCustomerResponseCustomer) GetDeletedAt() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.DeletedAt
+}
+
+// GetDeletedAtOk returns a tuple with the DeletedAt field value
+// and a boolean to check if the value has been set.
+func (o *DeleteCustomerResponseCustomer) GetDeletedAtOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.DeletedAt, true
+}
+
+// SetDeletedAt sets field value
+func (o *DeleteCustomerResponseCustomer) SetDeletedAt(v string) {
+	o.DeletedAt = v
+}
+
+func (o DeleteCustomerResponseCustomer) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -191,7 +217,7 @@ func (o ListCustomersResponseCustomersInner) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o ListCustomersResponseCustomersInner) ToMap() (map[string]interface{}, error) {
+func (o DeleteCustomerResponseCustomer) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["name"] = o.Name
 	if !IsNil(o.Alias) {
@@ -200,6 +226,7 @@ func (o ListCustomersResponseCustomersInner) ToMap() (map[string]interface{}, er
 	toSerialize["id"] = o.Id
 	toSerialize["createdAt"] = o.CreatedAt
 	toSerialize["updatedAt"] = o.UpdatedAt
+	toSerialize["deletedAt"] = o.DeletedAt
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -208,7 +235,7 @@ func (o ListCustomersResponseCustomersInner) ToMap() (map[string]interface{}, er
 	return toSerialize, nil
 }
 
-func (o *ListCustomersResponseCustomersInner) UnmarshalJSON(data []byte) (err error) {
+func (o *DeleteCustomerResponseCustomer) UnmarshalJSON(data []byte) (err error) {
 	// This validates that all required properties are included in the JSON object
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
@@ -217,6 +244,7 @@ func (o *ListCustomersResponseCustomersInner) UnmarshalJSON(data []byte) (err er
 		"id",
 		"createdAt",
 		"updatedAt",
+		"deletedAt",
 	}
 
 	allProperties := make(map[string]interface{})
@@ -233,15 +261,15 @@ func (o *ListCustomersResponseCustomersInner) UnmarshalJSON(data []byte) (err er
 		}
 	}
 
-	varListCustomersResponseCustomersInner := _ListCustomersResponseCustomersInner{}
+	varDeleteCustomerResponseCustomer := _DeleteCustomerResponseCustomer{}
 
-	err = json.Unmarshal(data, &varListCustomersResponseCustomersInner)
+	err = json.Unmarshal(data, &varDeleteCustomerResponseCustomer)
 
 	if err != nil {
 		return err
 	}
 
-	*o = ListCustomersResponseCustomersInner(varListCustomersResponseCustomersInner)
+	*o = DeleteCustomerResponseCustomer(varDeleteCustomerResponseCustomer)
 
 	additionalProperties := make(map[string]interface{})
 
@@ -251,44 +279,45 @@ func (o *ListCustomersResponseCustomersInner) UnmarshalJSON(data []byte) (err er
 		delete(additionalProperties, "id")
 		delete(additionalProperties, "createdAt")
 		delete(additionalProperties, "updatedAt")
+		delete(additionalProperties, "deletedAt")
 		o.AdditionalProperties = additionalProperties
 	}
 
 	return err
 }
 
-type NullableListCustomersResponseCustomersInner struct {
-	value *ListCustomersResponseCustomersInner
+type NullableDeleteCustomerResponseCustomer struct {
+	value *DeleteCustomerResponseCustomer
 	isSet bool
 }
 
-func (v NullableListCustomersResponseCustomersInner) Get() *ListCustomersResponseCustomersInner {
+func (v NullableDeleteCustomerResponseCustomer) Get() *DeleteCustomerResponseCustomer {
 	return v.value
 }
 
-func (v *NullableListCustomersResponseCustomersInner) Set(val *ListCustomersResponseCustomersInner) {
+func (v *NullableDeleteCustomerResponseCustomer) Set(val *DeleteCustomerResponseCustomer) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableListCustomersResponseCustomersInner) IsSet() bool {
+func (v NullableDeleteCustomerResponseCustomer) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableListCustomersResponseCustomersInner) Unset() {
+func (v *NullableDeleteCustomerResponseCustomer) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableListCustomersResponseCustomersInner(val *ListCustomersResponseCustomersInner) *NullableListCustomersResponseCustomersInner {
-	return &NullableListCustomersResponseCustomersInner{value: val, isSet: true}
+func NewNullableDeleteCustomerResponseCustomer(val *DeleteCustomerResponseCustomer) *NullableDeleteCustomerResponseCustomer {
+	return &NullableDeleteCustomerResponseCustomer{value: val, isSet: true}
 }
 
-func (v NullableListCustomersResponseCustomersInner) MarshalJSON() ([]byte, error) {
+func (v NullableDeleteCustomerResponseCustomer) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableListCustomersResponseCustomersInner) UnmarshalJSON(src []byte) error {
+func (v *NullableDeleteCustomerResponseCustomer) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
