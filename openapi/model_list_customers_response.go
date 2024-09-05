@@ -21,7 +21,7 @@ var _ MappedNullable = &ListCustomersResponse{}
 
 // ListCustomersResponse struct for ListCustomersResponse
 type ListCustomersResponse struct {
-	Customers []ListCustomersResponseCustomersInner `json:"customers"`
+	Customers []CreateCustomerResponseCustomer `json:"customers"`
 	Total float32 `json:"total"`
 	HasMore bool `json:"hasMore"`
 	NextCursor *string `json:"nextCursor,omitempty"`
@@ -34,7 +34,7 @@ type _ListCustomersResponse ListCustomersResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewListCustomersResponse(customers []ListCustomersResponseCustomersInner, total float32, hasMore bool) *ListCustomersResponse {
+func NewListCustomersResponse(customers []CreateCustomerResponseCustomer, total float32, hasMore bool) *ListCustomersResponse {
 	this := ListCustomersResponse{}
 	this.Customers = customers
 	this.Total = total
@@ -51,9 +51,9 @@ func NewListCustomersResponseWithDefaults() *ListCustomersResponse {
 }
 
 // GetCustomers returns the Customers field value
-func (o *ListCustomersResponse) GetCustomers() []ListCustomersResponseCustomersInner {
+func (o *ListCustomersResponse) GetCustomers() []CreateCustomerResponseCustomer {
 	if o == nil {
-		var ret []ListCustomersResponseCustomersInner
+		var ret []CreateCustomerResponseCustomer
 		return ret
 	}
 
@@ -62,7 +62,7 @@ func (o *ListCustomersResponse) GetCustomers() []ListCustomersResponseCustomersI
 
 // GetCustomersOk returns a tuple with the Customers field value
 // and a boolean to check if the value has been set.
-func (o *ListCustomersResponse) GetCustomersOk() ([]ListCustomersResponseCustomersInner, bool) {
+func (o *ListCustomersResponse) GetCustomersOk() ([]CreateCustomerResponseCustomer, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -70,7 +70,7 @@ func (o *ListCustomersResponse) GetCustomersOk() ([]ListCustomersResponseCustome
 }
 
 // SetCustomers sets field value
-func (o *ListCustomersResponse) SetCustomers(v []ListCustomersResponseCustomersInner) {
+func (o *ListCustomersResponse) SetCustomers(v []CreateCustomerResponseCustomer) {
 	o.Customers = v
 }
 

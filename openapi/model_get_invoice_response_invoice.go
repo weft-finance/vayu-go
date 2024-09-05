@@ -35,7 +35,6 @@ type GetInvoiceResponseInvoice struct {
 	Id string `json:"id"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
-	DeletedAt string `json:"deletedAt"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -45,7 +44,7 @@ type _GetInvoiceResponseInvoice GetInvoiceResponseInvoice
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGetInvoiceResponseInvoice(customerId string, name string, billingCycle Period, lineItems []LineItem, amount float32, id string, createdAt time.Time, updatedAt time.Time, deletedAt string) *GetInvoiceResponseInvoice {
+func NewGetInvoiceResponseInvoice(customerId string, name string, billingCycle Period, lineItems []LineItem, amount float32, id string, createdAt time.Time, updatedAt time.Time) *GetInvoiceResponseInvoice {
 	this := GetInvoiceResponseInvoice{}
 	this.CustomerId = customerId
 	this.Name = name
@@ -55,7 +54,6 @@ func NewGetInvoiceResponseInvoice(customerId string, name string, billingCycle P
 	this.Id = id
 	this.CreatedAt = createdAt
 	this.UpdatedAt = updatedAt
-	this.DeletedAt = deletedAt
 	return &this
 }
 
@@ -291,30 +289,6 @@ func (o *GetInvoiceResponseInvoice) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = v
 }
 
-// GetDeletedAt returns the DeletedAt field value
-func (o *GetInvoiceResponseInvoice) GetDeletedAt() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.DeletedAt
-}
-
-// GetDeletedAtOk returns a tuple with the DeletedAt field value
-// and a boolean to check if the value has been set.
-func (o *GetInvoiceResponseInvoice) GetDeletedAtOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.DeletedAt, true
-}
-
-// SetDeletedAt sets field value
-func (o *GetInvoiceResponseInvoice) SetDeletedAt(v string) {
-	o.DeletedAt = v
-}
-
 func (o GetInvoiceResponseInvoice) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -336,7 +310,6 @@ func (o GetInvoiceResponseInvoice) ToMap() (map[string]interface{}, error) {
 	toSerialize["id"] = o.Id
 	toSerialize["createdAt"] = o.CreatedAt
 	toSerialize["updatedAt"] = o.UpdatedAt
-	toSerialize["deletedAt"] = o.DeletedAt
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -358,7 +331,6 @@ func (o *GetInvoiceResponseInvoice) UnmarshalJSON(data []byte) (err error) {
 		"id",
 		"createdAt",
 		"updatedAt",
-		"deletedAt",
 	}
 
 	allProperties := make(map[string]interface{})
@@ -397,7 +369,6 @@ func (o *GetInvoiceResponseInvoice) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "id")
 		delete(additionalProperties, "createdAt")
 		delete(additionalProperties, "updatedAt")
-		delete(additionalProperties, "deletedAt")
 		o.AdditionalProperties = additionalProperties
 	}
 

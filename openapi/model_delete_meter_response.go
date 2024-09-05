@@ -21,7 +21,7 @@ var _ MappedNullable = &DeleteMeterResponse{}
 
 // DeleteMeterResponse struct for DeleteMeterResponse
 type DeleteMeterResponse struct {
-	Meter GetMeterResponseMeter `json:"meter"`
+	Meter DeleteMeterResponseMeter `json:"meter"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -31,7 +31,7 @@ type _DeleteMeterResponse DeleteMeterResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDeleteMeterResponse(meter GetMeterResponseMeter) *DeleteMeterResponse {
+func NewDeleteMeterResponse(meter DeleteMeterResponseMeter) *DeleteMeterResponse {
 	this := DeleteMeterResponse{}
 	this.Meter = meter
 	return &this
@@ -46,9 +46,9 @@ func NewDeleteMeterResponseWithDefaults() *DeleteMeterResponse {
 }
 
 // GetMeter returns the Meter field value
-func (o *DeleteMeterResponse) GetMeter() GetMeterResponseMeter {
+func (o *DeleteMeterResponse) GetMeter() DeleteMeterResponseMeter {
 	if o == nil {
-		var ret GetMeterResponseMeter
+		var ret DeleteMeterResponseMeter
 		return ret
 	}
 
@@ -57,7 +57,7 @@ func (o *DeleteMeterResponse) GetMeter() GetMeterResponseMeter {
 
 // GetMeterOk returns a tuple with the Meter field value
 // and a boolean to check if the value has been set.
-func (o *DeleteMeterResponse) GetMeterOk() (*GetMeterResponseMeter, bool) {
+func (o *DeleteMeterResponse) GetMeterOk() (*DeleteMeterResponseMeter, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -65,7 +65,7 @@ func (o *DeleteMeterResponse) GetMeterOk() (*GetMeterResponseMeter, bool) {
 }
 
 // SetMeter sets field value
-func (o *DeleteMeterResponse) SetMeter(v GetMeterResponseMeter) {
+func (o *DeleteMeterResponse) SetMeter(v DeleteMeterResponseMeter) {
 	o.Meter = v
 }
 

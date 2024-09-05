@@ -21,7 +21,7 @@ var _ MappedNullable = &DeleteContractResponse{}
 
 // DeleteContractResponse struct for DeleteContractResponse
 type DeleteContractResponse struct {
-	Contract GetContractResponseContract `json:"contract"`
+	Contract DeleteContractResponseContract `json:"contract"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -31,7 +31,7 @@ type _DeleteContractResponse DeleteContractResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDeleteContractResponse(contract GetContractResponseContract) *DeleteContractResponse {
+func NewDeleteContractResponse(contract DeleteContractResponseContract) *DeleteContractResponse {
 	this := DeleteContractResponse{}
 	this.Contract = contract
 	return &this
@@ -46,9 +46,9 @@ func NewDeleteContractResponseWithDefaults() *DeleteContractResponse {
 }
 
 // GetContract returns the Contract field value
-func (o *DeleteContractResponse) GetContract() GetContractResponseContract {
+func (o *DeleteContractResponse) GetContract() DeleteContractResponseContract {
 	if o == nil {
-		var ret GetContractResponseContract
+		var ret DeleteContractResponseContract
 		return ret
 	}
 
@@ -57,7 +57,7 @@ func (o *DeleteContractResponse) GetContract() GetContractResponseContract {
 
 // GetContractOk returns a tuple with the Contract field value
 // and a boolean to check if the value has been set.
-func (o *DeleteContractResponse) GetContractOk() (*GetContractResponseContract, bool) {
+func (o *DeleteContractResponse) GetContractOk() (*DeleteContractResponseContract, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -65,7 +65,7 @@ func (o *DeleteContractResponse) GetContractOk() (*GetContractResponseContract, 
 }
 
 // SetContract sets field value
-func (o *DeleteContractResponse) SetContract(v GetContractResponseContract) {
+func (o *DeleteContractResponse) SetContract(v DeleteContractResponseContract) {
 	o.Contract = v
 }
 

@@ -1394,7 +1394,6 @@ components:
       example:
         customer:
           createdAt: 2000-01-23T04:56:07.000+00:00
-          deletedAt: deletedAt
           name: name
           alias: alias
           id: id
@@ -1424,7 +1423,7 @@ components:
       properties:
         customers:
           items:
-            $ref: '#/components/schemas/ListCustomersResponse_customers_inner'
+            $ref: '#/components/schemas/CreateCustomerResponse_customer'
           type: array
         total:
           type: number
@@ -1441,7 +1440,6 @@ components:
       example:
         customer:
           createdAt: 2000-01-23T04:56:07.000+00:00
-          deletedAt: deletedAt
           name: name
           alias: alias
           id: id
@@ -1471,7 +1469,6 @@ components:
       example:
         customer:
           createdAt: 2000-01-23T04:56:07.000+00:00
-          deletedAt: deletedAt
           name: name
           alias: alias
           id: id
@@ -1493,7 +1490,7 @@ components:
           updatedAt: 2000-01-23T04:56:07.000+00:00
       properties:
         customer:
-          $ref: '#/components/schemas/CreateCustomerResponse_customer'
+          $ref: '#/components/schemas/DeleteCustomerResponse_customer'
       required:
       - customer
       type: object
@@ -1631,7 +1628,6 @@ components:
                 value: value
                 operator: Equals
           createdAt: 2000-01-23T04:56:07.000+00:00
-          deletedAt: deletedAt
           name: name
           eventName: eventName
           id: id
@@ -1705,7 +1701,6 @@ components:
                 value: value
                 operator: Equals
           createdAt: 2000-01-23T04:56:07.000+00:00
-          deletedAt: deletedAt
           name: name
           eventName: eventName
           id: id
@@ -1751,7 +1746,7 @@ components:
           updatedAt: 2000-01-23T04:56:07.000+00:00
       properties:
         meter:
-          $ref: '#/components/schemas/GetMeterResponse_meter'
+          $ref: '#/components/schemas/DeleteMeterResponse_meter'
       required:
       - meter
       type: object
@@ -1814,7 +1809,7 @@ components:
       properties:
         meters:
           items:
-            $ref: '#/components/schemas/ListMetersResponse_meters_inner'
+            $ref: '#/components/schemas/GetMeterResponse_meter'
           type: array
         total:
           type: number
@@ -1884,7 +1879,6 @@ components:
       example:
         plan:
           createdAt: 2000-01-23T04:56:07.000+00:00
-          deletedAt: deletedAt
           name: name
           id: id
           billingData:
@@ -1918,7 +1912,7 @@ components:
           updatedAt: 2000-01-23T04:56:07.000+00:00
       properties:
         plan:
-          $ref: '#/components/schemas/GetPlanResponse_plan'
+          $ref: '#/components/schemas/DeletePlanResponse_plan'
       required:
       - plan
       type: object
@@ -1953,7 +1947,7 @@ components:
       properties:
         plans:
           items:
-            $ref: '#/components/schemas/ListPlansResponse_plans_inner'
+            $ref: '#/components/schemas/GetPlanResponse_plan'
           type: array
         total:
           type: number
@@ -1970,7 +1964,6 @@ components:
       example:
         contract:
           createdAt: 2000-01-23T04:56:07.000+00:00
-          deletedAt: deletedAt
           endDate: 2000-01-23T04:56:07.000+00:00
           customerId: customerId
           planId: planId
@@ -1996,7 +1989,7 @@ components:
           updatedAt: 2000-01-23T04:56:07.000+00:00
       properties:
         contract:
-          $ref: '#/components/schemas/GetContractResponse_contract'
+          $ref: '#/components/schemas/DeleteContractResponse_contract'
       required:
       - contract
       type: object
@@ -2023,7 +2016,7 @@ components:
       properties:
         contracts:
           items:
-            $ref: '#/components/schemas/ListContractsResponse_contracts_inner'
+            $ref: '#/components/schemas/GetContractResponse_contract'
           type: array
         total:
           type: number
@@ -2068,7 +2061,6 @@ components:
       example:
         contract:
           createdAt: 2000-01-23T04:56:07.000+00:00
-          deletedAt: deletedAt
           endDate: 2000-01-23T04:56:07.000+00:00
           customerId: customerId
           planId: planId
@@ -2125,7 +2117,6 @@ components:
             invoiceId: invoiceId
           createdAt: 2000-01-23T04:56:07.000+00:00
           amount: 6.027456183070403
-          deletedAt: deletedAt
           billingCycle:
             startTime: 2000-01-23T04:56:07.000+00:00
             endTime: 2000-01-23T04:56:07.000+00:00
@@ -2143,7 +2134,7 @@ components:
     ListInvoicesResponse:
       example:
         nextCursor: nextCursor
-        total: 6.027456183070403
+        total: 0.8008281904610115
         invoices:
         - lineItems:
           - price: 0.08008281904610115
@@ -2151,7 +2142,7 @@ components:
           - price: 0.08008281904610115
             invoiceId: invoiceId
           createdAt: 2000-01-23T04:56:07.000+00:00
-          amount: 0.8008281904610115
+          amount: 6.027456183070403
           billingCycle:
             startTime: 2000-01-23T04:56:07.000+00:00
             endTime: 2000-01-23T04:56:07.000+00:00
@@ -2166,7 +2157,7 @@ components:
           - price: 0.08008281904610115
             invoiceId: invoiceId
           createdAt: 2000-01-23T04:56:07.000+00:00
-          amount: 0.8008281904610115
+          amount: 6.027456183070403
           billingCycle:
             startTime: 2000-01-23T04:56:07.000+00:00
             endTime: 2000-01-23T04:56:07.000+00:00
@@ -2179,7 +2170,7 @@ components:
       properties:
         invoices:
           items:
-            $ref: '#/components/schemas/ListInvoicesResponse_invoices_inner'
+            $ref: '#/components/schemas/GetInvoiceResponse_invoice'
           type: array
         total:
           type: number
@@ -3082,6 +3073,36 @@ components:
     CreateCustomerResponse_customer:
       example:
         createdAt: 2000-01-23T04:56:07.000+00:00
+        name: name
+        alias: alias
+        id: id
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        name:
+          description: The name of the customer
+          minLength: 1
+          type: string
+        alias:
+          description: The alias of the customer used to match events to the customer.
+          minLength: 1
+          type: string
+        id:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      required:
+      - createdAt
+      - id
+      - name
+      - updatedAt
+      type: object
+    DeleteCustomerResponse_customer:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
         deletedAt: deletedAt
         name: name
         alias: alias
@@ -3109,36 +3130,6 @@ components:
       required:
       - createdAt
       - deletedAt
-      - id
-      - name
-      - updatedAt
-      type: object
-    ListCustomersResponse_customers_inner:
-      example:
-        createdAt: 2000-01-23T04:56:07.000+00:00
-        name: name
-        alias: alias
-        id: id
-        updatedAt: 2000-01-23T04:56:07.000+00:00
-      properties:
-        name:
-          description: The name of the customer
-          minLength: 1
-          type: string
-        alias:
-          description: The alias of the customer used to match events to the customer.
-          minLength: 1
-          type: string
-        id:
-          type: string
-        createdAt:
-          format: date-time
-          type: string
-        updatedAt:
-          format: date-time
-          type: string
-      required:
-      - createdAt
       - id
       - name
       - updatedAt
@@ -3162,7 +3153,6 @@ components:
               value: value
               operator: Equals
         createdAt: 2000-01-23T04:56:07.000+00:00
-        deletedAt: deletedAt
         name: name
         eventName: eventName
         id: id
@@ -3192,18 +3182,15 @@ components:
         updatedAt:
           format: date-time
           type: string
-        deletedAt:
-          type: string
       required:
       - aggregationMethod
       - createdAt
-      - deletedAt
       - eventName
       - id
       - name
       - updatedAt
       type: object
-    ListMetersResponse_meters_inner:
+    DeleteMeterResponse_meter:
       example:
         filter:
           conditions:
@@ -3222,6 +3209,7 @@ components:
               value: value
               operator: Equals
         createdAt: 2000-01-23T04:56:07.000+00:00
+        deletedAt: deletedAt
         name: name
         eventName: eventName
         id: id
@@ -3251,9 +3239,12 @@ components:
         updatedAt:
           format: date-time
           type: string
+        deletedAt:
+          type: string
       required:
       - aggregationMethod
       - createdAt
+      - deletedAt
       - eventName
       - id
       - name
@@ -3262,6 +3253,44 @@ components:
     GetPlanResponse_plan:
       example:
         createdAt: 2000-01-23T04:56:07.000+00:00
+        name: name
+        id: id
+        billingData:
+          duration: 0.08008281904610115
+          proRated: true
+          autoRenewal: false
+          billingInterval: Monthly
+          paymentTerm: Postpayment
+        status: Active
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        name:
+          description: The name of the plan
+          minLength: 1
+          type: string
+        status:
+          $ref: '#/components/schemas/PlanStatus'
+        billingData:
+          $ref: '#/components/schemas/PlanBillingData'
+        id:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      required:
+      - billingData
+      - createdAt
+      - id
+      - name
+      - status
+      - updatedAt
+      type: object
+    DeletePlanResponse_plan:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
         deletedAt: deletedAt
         name: name
         id: id
@@ -3296,44 +3325,6 @@ components:
       - billingData
       - createdAt
       - deletedAt
-      - id
-      - name
-      - status
-      - updatedAt
-      type: object
-    ListPlansResponse_plans_inner:
-      example:
-        createdAt: 2000-01-23T04:56:07.000+00:00
-        name: name
-        id: id
-        billingData:
-          duration: 0.08008281904610115
-          proRated: true
-          autoRenewal: false
-          billingInterval: Monthly
-          paymentTerm: Postpayment
-        status: Active
-        updatedAt: 2000-01-23T04:56:07.000+00:00
-      properties:
-        name:
-          description: The name of the plan
-          minLength: 1
-          type: string
-        status:
-          $ref: '#/components/schemas/PlanStatus'
-        billingData:
-          $ref: '#/components/schemas/PlanBillingData'
-        id:
-          type: string
-        createdAt:
-          format: date-time
-          type: string
-        updatedAt:
-          format: date-time
-          type: string
-      required:
-      - billingData
-      - createdAt
       - id
       - name
       - status
@@ -3342,6 +3333,48 @@ components:
     GetContractResponse_contract:
       example:
         createdAt: 2000-01-23T04:56:07.000+00:00
+        endDate: 2000-01-23T04:56:07.000+00:00
+        customerId: customerId
+        planId: planId
+        id: id
+        startDate: 2000-01-23T04:56:07.000+00:00
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        startDate:
+          description: The start date of the contract
+          format: date-time
+          type: string
+        endDate:
+          description: The end date of the contract
+          format: date-time
+          type: string
+        customerId:
+          description: The id of the customer that the contract is associated with
+          pattern: "^[0-9a-fA-F]{24}$"
+          type: string
+        planId:
+          description: The id of the plan that the contract is associated with
+          pattern: "^[0-9a-fA-F]{24}$"
+          type: string
+        id:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      required:
+      - createdAt
+      - customerId
+      - id
+      - planId
+      - startDate
+      - updatedAt
+      type: object
+    DeleteContractResponse_contract:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
         deletedAt: deletedAt
         endDate: 2000-01-23T04:56:07.000+00:00
         customerId: customerId
@@ -3380,48 +3413,6 @@ components:
       - createdAt
       - customerId
       - deletedAt
-      - id
-      - planId
-      - startDate
-      - updatedAt
-      type: object
-    ListContractsResponse_contracts_inner:
-      example:
-        createdAt: 2000-01-23T04:56:07.000+00:00
-        endDate: 2000-01-23T04:56:07.000+00:00
-        customerId: customerId
-        planId: planId
-        id: id
-        startDate: 2000-01-23T04:56:07.000+00:00
-        updatedAt: 2000-01-23T04:56:07.000+00:00
-      properties:
-        startDate:
-          description: The start date of the contract
-          format: date-time
-          type: string
-        endDate:
-          description: The end date of the contract
-          format: date-time
-          type: string
-        customerId:
-          description: The id of the customer that the contract is associated with
-          pattern: "^[0-9a-fA-F]{24}$"
-          type: string
-        planId:
-          description: The id of the plan that the contract is associated with
-          pattern: "^[0-9a-fA-F]{24}$"
-          type: string
-        id:
-          type: string
-        createdAt:
-          format: date-time
-          type: string
-        updatedAt:
-          format: date-time
-          type: string
-      required:
-      - createdAt
-      - customerId
       - id
       - planId
       - startDate
@@ -3436,68 +3427,6 @@ components:
           invoiceId: invoiceId
         createdAt: 2000-01-23T04:56:07.000+00:00
         amount: 6.027456183070403
-        deletedAt: deletedAt
-        billingCycle:
-          startTime: 2000-01-23T04:56:07.000+00:00
-          endTime: 2000-01-23T04:56:07.000+00:00
-        customerId: customerId
-        contractId: contractId
-        name: name
-        id: id
-        updatedAt: 2000-01-23T04:56:07.000+00:00
-      properties:
-        customerId:
-          description: The id of the customer that the invoice is associated with
-          pattern: "^[0-9a-fA-F]{24}$"
-          type: string
-        contractId:
-          description: The id of the contract that the invoice is associated with
-          pattern: "^[0-9a-fA-F]{24}$"
-          type: string
-        name:
-          description: "The name of the invoice, usually a description of the billing\
-            \ period"
-          minLength: 1
-          type: string
-        billingCycle:
-          $ref: '#/components/schemas/Period'
-        lineItems:
-          items:
-            $ref: '#/components/schemas/LineItem'
-          type: array
-        amount:
-          description: The total amount of the invoice
-          type: number
-        id:
-          type: string
-        createdAt:
-          format: date-time
-          type: string
-        updatedAt:
-          format: date-time
-          type: string
-        deletedAt:
-          type: string
-      required:
-      - amount
-      - billingCycle
-      - createdAt
-      - customerId
-      - deletedAt
-      - id
-      - lineItems
-      - name
-      - updatedAt
-      type: object
-    ListInvoicesResponse_invoices_inner:
-      example:
-        lineItems:
-        - price: 0.08008281904610115
-          invoiceId: invoiceId
-        - price: 0.08008281904610115
-          invoiceId: invoiceId
-        createdAt: 2000-01-23T04:56:07.000+00:00
-        amount: 0.8008281904610115
         billingCycle:
           startTime: 2000-01-23T04:56:07.000+00:00
           endTime: 2000-01-23T04:56:07.000+00:00

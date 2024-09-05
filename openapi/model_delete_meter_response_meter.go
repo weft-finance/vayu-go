@@ -17,11 +17,11 @@ import (
 	"fmt"
 )
 
-// checks if the ListMetersResponseMetersInner type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &ListMetersResponseMetersInner{}
+// checks if the DeleteMeterResponseMeter type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &DeleteMeterResponseMeter{}
 
-// ListMetersResponseMetersInner struct for ListMetersResponseMetersInner
-type ListMetersResponseMetersInner struct {
+// DeleteMeterResponseMeter struct for DeleteMeterResponseMeter
+type DeleteMeterResponseMeter struct {
 	// The name of the meter
 	Name string `json:"name"`
 	// The name of the event that the meter is tracking.
@@ -31,36 +31,38 @@ type ListMetersResponseMetersInner struct {
 	Id string `json:"id"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
+	DeletedAt string `json:"deletedAt"`
 	AdditionalProperties map[string]interface{}
 }
 
-type _ListMetersResponseMetersInner ListMetersResponseMetersInner
+type _DeleteMeterResponseMeter DeleteMeterResponseMeter
 
-// NewListMetersResponseMetersInner instantiates a new ListMetersResponseMetersInner object
+// NewDeleteMeterResponseMeter instantiates a new DeleteMeterResponseMeter object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewListMetersResponseMetersInner(name string, eventName string, aggregationMethod AggregationMethod, id string, createdAt time.Time, updatedAt time.Time) *ListMetersResponseMetersInner {
-	this := ListMetersResponseMetersInner{}
+func NewDeleteMeterResponseMeter(name string, eventName string, aggregationMethod AggregationMethod, id string, createdAt time.Time, updatedAt time.Time, deletedAt string) *DeleteMeterResponseMeter {
+	this := DeleteMeterResponseMeter{}
 	this.Name = name
 	this.EventName = eventName
 	this.AggregationMethod = aggregationMethod
 	this.Id = id
 	this.CreatedAt = createdAt
 	this.UpdatedAt = updatedAt
+	this.DeletedAt = deletedAt
 	return &this
 }
 
-// NewListMetersResponseMetersInnerWithDefaults instantiates a new ListMetersResponseMetersInner object
+// NewDeleteMeterResponseMeterWithDefaults instantiates a new DeleteMeterResponseMeter object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewListMetersResponseMetersInnerWithDefaults() *ListMetersResponseMetersInner {
-	this := ListMetersResponseMetersInner{}
+func NewDeleteMeterResponseMeterWithDefaults() *DeleteMeterResponseMeter {
+	this := DeleteMeterResponseMeter{}
 	return &this
 }
 
 // GetName returns the Name field value
-func (o *ListMetersResponseMetersInner) GetName() string {
+func (o *DeleteMeterResponseMeter) GetName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -71,7 +73,7 @@ func (o *ListMetersResponseMetersInner) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-func (o *ListMetersResponseMetersInner) GetNameOk() (*string, bool) {
+func (o *DeleteMeterResponseMeter) GetNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -79,12 +81,12 @@ func (o *ListMetersResponseMetersInner) GetNameOk() (*string, bool) {
 }
 
 // SetName sets field value
-func (o *ListMetersResponseMetersInner) SetName(v string) {
+func (o *DeleteMeterResponseMeter) SetName(v string) {
 	o.Name = v
 }
 
 // GetEventName returns the EventName field value
-func (o *ListMetersResponseMetersInner) GetEventName() string {
+func (o *DeleteMeterResponseMeter) GetEventName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -95,7 +97,7 @@ func (o *ListMetersResponseMetersInner) GetEventName() string {
 
 // GetEventNameOk returns a tuple with the EventName field value
 // and a boolean to check if the value has been set.
-func (o *ListMetersResponseMetersInner) GetEventNameOk() (*string, bool) {
+func (o *DeleteMeterResponseMeter) GetEventNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -103,12 +105,12 @@ func (o *ListMetersResponseMetersInner) GetEventNameOk() (*string, bool) {
 }
 
 // SetEventName sets field value
-func (o *ListMetersResponseMetersInner) SetEventName(v string) {
+func (o *DeleteMeterResponseMeter) SetEventName(v string) {
 	o.EventName = v
 }
 
 // GetAggregationMethod returns the AggregationMethod field value
-func (o *ListMetersResponseMetersInner) GetAggregationMethod() AggregationMethod {
+func (o *DeleteMeterResponseMeter) GetAggregationMethod() AggregationMethod {
 	if o == nil {
 		var ret AggregationMethod
 		return ret
@@ -119,7 +121,7 @@ func (o *ListMetersResponseMetersInner) GetAggregationMethod() AggregationMethod
 
 // GetAggregationMethodOk returns a tuple with the AggregationMethod field value
 // and a boolean to check if the value has been set.
-func (o *ListMetersResponseMetersInner) GetAggregationMethodOk() (*AggregationMethod, bool) {
+func (o *DeleteMeterResponseMeter) GetAggregationMethodOk() (*AggregationMethod, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -127,12 +129,12 @@ func (o *ListMetersResponseMetersInner) GetAggregationMethodOk() (*AggregationMe
 }
 
 // SetAggregationMethod sets field value
-func (o *ListMetersResponseMetersInner) SetAggregationMethod(v AggregationMethod) {
+func (o *DeleteMeterResponseMeter) SetAggregationMethod(v AggregationMethod) {
 	o.AggregationMethod = v
 }
 
 // GetFilter returns the Filter field value if set, zero value otherwise.
-func (o *ListMetersResponseMetersInner) GetFilter() Filter {
+func (o *DeleteMeterResponseMeter) GetFilter() Filter {
 	if o == nil || IsNil(o.Filter) {
 		var ret Filter
 		return ret
@@ -142,7 +144,7 @@ func (o *ListMetersResponseMetersInner) GetFilter() Filter {
 
 // GetFilterOk returns a tuple with the Filter field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ListMetersResponseMetersInner) GetFilterOk() (*Filter, bool) {
+func (o *DeleteMeterResponseMeter) GetFilterOk() (*Filter, bool) {
 	if o == nil || IsNil(o.Filter) {
 		return nil, false
 	}
@@ -150,7 +152,7 @@ func (o *ListMetersResponseMetersInner) GetFilterOk() (*Filter, bool) {
 }
 
 // HasFilter returns a boolean if a field has been set.
-func (o *ListMetersResponseMetersInner) HasFilter() bool {
+func (o *DeleteMeterResponseMeter) HasFilter() bool {
 	if o != nil && !IsNil(o.Filter) {
 		return true
 	}
@@ -159,12 +161,12 @@ func (o *ListMetersResponseMetersInner) HasFilter() bool {
 }
 
 // SetFilter gets a reference to the given Filter and assigns it to the Filter field.
-func (o *ListMetersResponseMetersInner) SetFilter(v Filter) {
+func (o *DeleteMeterResponseMeter) SetFilter(v Filter) {
 	o.Filter = &v
 }
 
 // GetId returns the Id field value
-func (o *ListMetersResponseMetersInner) GetId() string {
+func (o *DeleteMeterResponseMeter) GetId() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -175,7 +177,7 @@ func (o *ListMetersResponseMetersInner) GetId() string {
 
 // GetIdOk returns a tuple with the Id field value
 // and a boolean to check if the value has been set.
-func (o *ListMetersResponseMetersInner) GetIdOk() (*string, bool) {
+func (o *DeleteMeterResponseMeter) GetIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -183,12 +185,12 @@ func (o *ListMetersResponseMetersInner) GetIdOk() (*string, bool) {
 }
 
 // SetId sets field value
-func (o *ListMetersResponseMetersInner) SetId(v string) {
+func (o *DeleteMeterResponseMeter) SetId(v string) {
 	o.Id = v
 }
 
 // GetCreatedAt returns the CreatedAt field value
-func (o *ListMetersResponseMetersInner) GetCreatedAt() time.Time {
+func (o *DeleteMeterResponseMeter) GetCreatedAt() time.Time {
 	if o == nil {
 		var ret time.Time
 		return ret
@@ -199,7 +201,7 @@ func (o *ListMetersResponseMetersInner) GetCreatedAt() time.Time {
 
 // GetCreatedAtOk returns a tuple with the CreatedAt field value
 // and a boolean to check if the value has been set.
-func (o *ListMetersResponseMetersInner) GetCreatedAtOk() (*time.Time, bool) {
+func (o *DeleteMeterResponseMeter) GetCreatedAtOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -207,12 +209,12 @@ func (o *ListMetersResponseMetersInner) GetCreatedAtOk() (*time.Time, bool) {
 }
 
 // SetCreatedAt sets field value
-func (o *ListMetersResponseMetersInner) SetCreatedAt(v time.Time) {
+func (o *DeleteMeterResponseMeter) SetCreatedAt(v time.Time) {
 	o.CreatedAt = v
 }
 
 // GetUpdatedAt returns the UpdatedAt field value
-func (o *ListMetersResponseMetersInner) GetUpdatedAt() time.Time {
+func (o *DeleteMeterResponseMeter) GetUpdatedAt() time.Time {
 	if o == nil {
 		var ret time.Time
 		return ret
@@ -223,7 +225,7 @@ func (o *ListMetersResponseMetersInner) GetUpdatedAt() time.Time {
 
 // GetUpdatedAtOk returns a tuple with the UpdatedAt field value
 // and a boolean to check if the value has been set.
-func (o *ListMetersResponseMetersInner) GetUpdatedAtOk() (*time.Time, bool) {
+func (o *DeleteMeterResponseMeter) GetUpdatedAtOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -231,11 +233,35 @@ func (o *ListMetersResponseMetersInner) GetUpdatedAtOk() (*time.Time, bool) {
 }
 
 // SetUpdatedAt sets field value
-func (o *ListMetersResponseMetersInner) SetUpdatedAt(v time.Time) {
+func (o *DeleteMeterResponseMeter) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = v
 }
 
-func (o ListMetersResponseMetersInner) MarshalJSON() ([]byte, error) {
+// GetDeletedAt returns the DeletedAt field value
+func (o *DeleteMeterResponseMeter) GetDeletedAt() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.DeletedAt
+}
+
+// GetDeletedAtOk returns a tuple with the DeletedAt field value
+// and a boolean to check if the value has been set.
+func (o *DeleteMeterResponseMeter) GetDeletedAtOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.DeletedAt, true
+}
+
+// SetDeletedAt sets field value
+func (o *DeleteMeterResponseMeter) SetDeletedAt(v string) {
+	o.DeletedAt = v
+}
+
+func (o DeleteMeterResponseMeter) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -243,7 +269,7 @@ func (o ListMetersResponseMetersInner) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o ListMetersResponseMetersInner) ToMap() (map[string]interface{}, error) {
+func (o DeleteMeterResponseMeter) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["name"] = o.Name
 	toSerialize["eventName"] = o.EventName
@@ -254,6 +280,7 @@ func (o ListMetersResponseMetersInner) ToMap() (map[string]interface{}, error) {
 	toSerialize["id"] = o.Id
 	toSerialize["createdAt"] = o.CreatedAt
 	toSerialize["updatedAt"] = o.UpdatedAt
+	toSerialize["deletedAt"] = o.DeletedAt
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -262,7 +289,7 @@ func (o ListMetersResponseMetersInner) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *ListMetersResponseMetersInner) UnmarshalJSON(data []byte) (err error) {
+func (o *DeleteMeterResponseMeter) UnmarshalJSON(data []byte) (err error) {
 	// This validates that all required properties are included in the JSON object
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
@@ -273,6 +300,7 @@ func (o *ListMetersResponseMetersInner) UnmarshalJSON(data []byte) (err error) {
 		"id",
 		"createdAt",
 		"updatedAt",
+		"deletedAt",
 	}
 
 	allProperties := make(map[string]interface{})
@@ -289,15 +317,15 @@ func (o *ListMetersResponseMetersInner) UnmarshalJSON(data []byte) (err error) {
 		}
 	}
 
-	varListMetersResponseMetersInner := _ListMetersResponseMetersInner{}
+	varDeleteMeterResponseMeter := _DeleteMeterResponseMeter{}
 
-	err = json.Unmarshal(data, &varListMetersResponseMetersInner)
+	err = json.Unmarshal(data, &varDeleteMeterResponseMeter)
 
 	if err != nil {
 		return err
 	}
 
-	*o = ListMetersResponseMetersInner(varListMetersResponseMetersInner)
+	*o = DeleteMeterResponseMeter(varDeleteMeterResponseMeter)
 
 	additionalProperties := make(map[string]interface{})
 
@@ -309,44 +337,45 @@ func (o *ListMetersResponseMetersInner) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "id")
 		delete(additionalProperties, "createdAt")
 		delete(additionalProperties, "updatedAt")
+		delete(additionalProperties, "deletedAt")
 		o.AdditionalProperties = additionalProperties
 	}
 
 	return err
 }
 
-type NullableListMetersResponseMetersInner struct {
-	value *ListMetersResponseMetersInner
+type NullableDeleteMeterResponseMeter struct {
+	value *DeleteMeterResponseMeter
 	isSet bool
 }
 
-func (v NullableListMetersResponseMetersInner) Get() *ListMetersResponseMetersInner {
+func (v NullableDeleteMeterResponseMeter) Get() *DeleteMeterResponseMeter {
 	return v.value
 }
 
-func (v *NullableListMetersResponseMetersInner) Set(val *ListMetersResponseMetersInner) {
+func (v *NullableDeleteMeterResponseMeter) Set(val *DeleteMeterResponseMeter) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableListMetersResponseMetersInner) IsSet() bool {
+func (v NullableDeleteMeterResponseMeter) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableListMetersResponseMetersInner) Unset() {
+func (v *NullableDeleteMeterResponseMeter) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableListMetersResponseMetersInner(val *ListMetersResponseMetersInner) *NullableListMetersResponseMetersInner {
-	return &NullableListMetersResponseMetersInner{value: val, isSet: true}
+func NewNullableDeleteMeterResponseMeter(val *DeleteMeterResponseMeter) *NullableDeleteMeterResponseMeter {
+	return &NullableDeleteMeterResponseMeter{value: val, isSet: true}
 }
 
-func (v NullableListMetersResponseMetersInner) MarshalJSON() ([]byte, error) {
+func (v NullableDeleteMeterResponseMeter) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableListMetersResponseMetersInner) UnmarshalJSON(src []byte) error {
+func (v *NullableDeleteMeterResponseMeter) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

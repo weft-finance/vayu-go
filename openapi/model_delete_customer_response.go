@@ -21,7 +21,7 @@ var _ MappedNullable = &DeleteCustomerResponse{}
 
 // DeleteCustomerResponse struct for DeleteCustomerResponse
 type DeleteCustomerResponse struct {
-	Customer CreateCustomerResponseCustomer `json:"customer"`
+	Customer DeleteCustomerResponseCustomer `json:"customer"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -31,7 +31,7 @@ type _DeleteCustomerResponse DeleteCustomerResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDeleteCustomerResponse(customer CreateCustomerResponseCustomer) *DeleteCustomerResponse {
+func NewDeleteCustomerResponse(customer DeleteCustomerResponseCustomer) *DeleteCustomerResponse {
 	this := DeleteCustomerResponse{}
 	this.Customer = customer
 	return &this
@@ -46,9 +46,9 @@ func NewDeleteCustomerResponseWithDefaults() *DeleteCustomerResponse {
 }
 
 // GetCustomer returns the Customer field value
-func (o *DeleteCustomerResponse) GetCustomer() CreateCustomerResponseCustomer {
+func (o *DeleteCustomerResponse) GetCustomer() DeleteCustomerResponseCustomer {
 	if o == nil {
-		var ret CreateCustomerResponseCustomer
+		var ret DeleteCustomerResponseCustomer
 		return ret
 	}
 
@@ -57,7 +57,7 @@ func (o *DeleteCustomerResponse) GetCustomer() CreateCustomerResponseCustomer {
 
 // GetCustomerOk returns a tuple with the Customer field value
 // and a boolean to check if the value has been set.
-func (o *DeleteCustomerResponse) GetCustomerOk() (*CreateCustomerResponseCustomer, bool) {
+func (o *DeleteCustomerResponse) GetCustomerOk() (*DeleteCustomerResponseCustomer, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -65,7 +65,7 @@ func (o *DeleteCustomerResponse) GetCustomerOk() (*CreateCustomerResponseCustome
 }
 
 // SetCustomer sets field value
-func (o *DeleteCustomerResponse) SetCustomer(v CreateCustomerResponseCustomer) {
+func (o *DeleteCustomerResponse) SetCustomer(v DeleteCustomerResponseCustomer) {
 	o.Customer = v
 }
 

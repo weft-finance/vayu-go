@@ -21,7 +21,7 @@ var _ MappedNullable = &ListContractsResponse{}
 
 // ListContractsResponse struct for ListContractsResponse
 type ListContractsResponse struct {
-	Contracts []ListContractsResponseContractsInner `json:"contracts"`
+	Contracts []GetContractResponseContract `json:"contracts"`
 	Total float32 `json:"total"`
 	HasMore bool `json:"hasMore"`
 	NextCursor *string `json:"nextCursor,omitempty"`
@@ -34,7 +34,7 @@ type _ListContractsResponse ListContractsResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewListContractsResponse(contracts []ListContractsResponseContractsInner, total float32, hasMore bool) *ListContractsResponse {
+func NewListContractsResponse(contracts []GetContractResponseContract, total float32, hasMore bool) *ListContractsResponse {
 	this := ListContractsResponse{}
 	this.Contracts = contracts
 	this.Total = total
@@ -51,9 +51,9 @@ func NewListContractsResponseWithDefaults() *ListContractsResponse {
 }
 
 // GetContracts returns the Contracts field value
-func (o *ListContractsResponse) GetContracts() []ListContractsResponseContractsInner {
+func (o *ListContractsResponse) GetContracts() []GetContractResponseContract {
 	if o == nil {
-		var ret []ListContractsResponseContractsInner
+		var ret []GetContractResponseContract
 		return ret
 	}
 
@@ -62,7 +62,7 @@ func (o *ListContractsResponse) GetContracts() []ListContractsResponseContractsI
 
 // GetContractsOk returns a tuple with the Contracts field value
 // and a boolean to check if the value has been set.
-func (o *ListContractsResponse) GetContractsOk() ([]ListContractsResponseContractsInner, bool) {
+func (o *ListContractsResponse) GetContractsOk() ([]GetContractResponseContract, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -70,7 +70,7 @@ func (o *ListContractsResponse) GetContractsOk() ([]ListContractsResponseContrac
 }
 
 // SetContracts sets field value
-func (o *ListContractsResponse) SetContracts(v []ListContractsResponseContractsInner) {
+func (o *ListContractsResponse) SetContracts(v []GetContractResponseContract) {
 	o.Contracts = v
 }
 

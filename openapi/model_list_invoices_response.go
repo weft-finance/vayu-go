@@ -21,7 +21,7 @@ var _ MappedNullable = &ListInvoicesResponse{}
 
 // ListInvoicesResponse struct for ListInvoicesResponse
 type ListInvoicesResponse struct {
-	Invoices []ListInvoicesResponseInvoicesInner `json:"invoices"`
+	Invoices []GetInvoiceResponseInvoice `json:"invoices"`
 	Total float32 `json:"total"`
 	HasMore bool `json:"hasMore"`
 	NextCursor *string `json:"nextCursor,omitempty"`
@@ -34,7 +34,7 @@ type _ListInvoicesResponse ListInvoicesResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewListInvoicesResponse(invoices []ListInvoicesResponseInvoicesInner, total float32, hasMore bool) *ListInvoicesResponse {
+func NewListInvoicesResponse(invoices []GetInvoiceResponseInvoice, total float32, hasMore bool) *ListInvoicesResponse {
 	this := ListInvoicesResponse{}
 	this.Invoices = invoices
 	this.Total = total
@@ -51,9 +51,9 @@ func NewListInvoicesResponseWithDefaults() *ListInvoicesResponse {
 }
 
 // GetInvoices returns the Invoices field value
-func (o *ListInvoicesResponse) GetInvoices() []ListInvoicesResponseInvoicesInner {
+func (o *ListInvoicesResponse) GetInvoices() []GetInvoiceResponseInvoice {
 	if o == nil {
-		var ret []ListInvoicesResponseInvoicesInner
+		var ret []GetInvoiceResponseInvoice
 		return ret
 	}
 
@@ -62,7 +62,7 @@ func (o *ListInvoicesResponse) GetInvoices() []ListInvoicesResponseInvoicesInner
 
 // GetInvoicesOk returns a tuple with the Invoices field value
 // and a boolean to check if the value has been set.
-func (o *ListInvoicesResponse) GetInvoicesOk() ([]ListInvoicesResponseInvoicesInner, bool) {
+func (o *ListInvoicesResponse) GetInvoicesOk() ([]GetInvoiceResponseInvoice, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -70,7 +70,7 @@ func (o *ListInvoicesResponse) GetInvoicesOk() ([]ListInvoicesResponseInvoicesIn
 }
 
 // SetInvoices sets field value
-func (o *ListInvoicesResponse) SetInvoices(v []ListInvoicesResponseInvoicesInner) {
+func (o *ListInvoicesResponse) SetInvoices(v []GetInvoiceResponseInvoice) {
 	o.Invoices = v
 }
 
