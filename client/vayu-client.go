@@ -2,6 +2,7 @@ package client
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/weft-finance/vayu-go/openapi"
@@ -61,26 +62,34 @@ func NewVayuClient(APIKey string) *VayuClient {
 	return &VayuClient{Client: client, apiKey: APIKey}
 }
 
-func (c *VayuClient) Login() error {
+func (api *VayuClient) Login() error {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	request := c.Client.AuthAPI.Login(ctx)
-	request = request.LoginRequest(openapi.LoginRequest{RefreshToken: c.apiKey})
+	request := api.Client.AuthAPI.Login(ctx)
+	request = request.LoginRequest(openapi.LoginRequest{RefreshToken: api.apiKey})
 	oApiResponse, _, err := request.Execute()
 
 	if err != nil {
 		return err
 	}
 
-	c.accessToken = oApiResponse.AccessToken
+	api.accessToken = oApiResponse.AccessToken
 
-	cfg := c.Client.GetConfig()
-	cfg.AddDefaultHeader("Authorization", "Bearer "+c.accessToken)
+	cfg := api.Client.GetConfig()
+	cfg.AddDefaultHeader("Authorization", "Bearer "+api.accessToken)
 
 	return nil
 }
 
 func (v *VayuClient) IsLoggedIn() bool {
 	return v.accessToken != ""
+}
+
+func (v *VayuClient) ValidateLoggedIn() *VayuError {
+	if v.IsLoggedIn() {
+		return nil
+	}
+
+	return BuildVayuError(fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method"))
 }
