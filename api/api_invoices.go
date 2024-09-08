@@ -2,7 +2,6 @@ package api
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"github.com/weft-finance/vayu-go/client"
@@ -23,15 +22,15 @@ func NewInvoicesAPI(client *client.VayuClient) *InvoicesAPI {
 	}
 }
 
-func (c *InvoicesAPI) ListInvoices(limit *float32, cursor *string) (*ListInvoicesResponse, error) {
-	if !c.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
+func (api *InvoicesAPI) ListInvoices(limit *float32, cursor *string) (*ListInvoicesResponse, *client.VayuError) {
+	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
+		return nil, invalidLoggedInStatus
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	request := c.vayuClient.Client.InvoicesAPI.ListInvoices(ctx)
+	request := api.vayuClient.Client.InvoicesAPI.ListInvoices(ctx)
 	if limit != nil {
 		request = request.Limit(*limit)
 	}
@@ -42,25 +41,25 @@ func (c *InvoicesAPI) ListInvoices(limit *float32, cursor *string) (*ListInvoice
 	response, _, err := request.Execute()
 
 	if err != nil {
-		return nil, err
+		return nil, client.BuildVayuErrorFromGenericOpenAPIError(err)
 	}
 
 	return response, nil
 }
 
-func (c *InvoicesAPI) GetInvoice(invoiceId string) (*GetInvoiceResponse, error) {
-	if !c.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
+func (api *InvoicesAPI) GetInvoice(invoiceId string) (*GetInvoiceResponse, *client.VayuError) {
+	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
+		return nil, invalidLoggedInStatus
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	request := c.vayuClient.Client.InvoicesAPI.GetInvoice(ctx, invoiceId)
+	request := api.vayuClient.Client.InvoicesAPI.GetInvoice(ctx, invoiceId)
 	response, _, err := request.Execute()
 
 	if err != nil {
-		return nil, err
+		return nil, client.BuildVayuErrorFromGenericOpenAPIError(err)
 	}
 
 	return response, nil

@@ -2,7 +2,6 @@ package api
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"github.com/weft-finance/vayu-go/client"
@@ -24,15 +23,15 @@ func NewPlansAPI(client *client.VayuClient) *PlansAPI {
 	}
 }
 
-func (c *PlansAPI) ListPlans(limit *float32, cursor *string) (*ListPlansResponse, error) {
-	if !c.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
+func (api *PlansAPI) ListPlans(limit *float32, cursor *string) (*ListPlansResponse, *client.VayuError) {
+	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
+		return nil, invalidLoggedInStatus
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	request := c.vayuClient.Client.PlansAPI.ListPlans(ctx)
+	request := api.vayuClient.Client.PlansAPI.ListPlans(ctx)
 	if limit != nil {
 		request = request.Limit(*limit)
 	}
@@ -43,43 +42,43 @@ func (c *PlansAPI) ListPlans(limit *float32, cursor *string) (*ListPlansResponse
 	response, _, err := request.Execute()
 
 	if err != nil {
-		return nil, err
+		return nil, client.BuildVayuErrorFromGenericOpenAPIError(err)
 	}
 
 	return response, nil
 }
 
-func (c *PlansAPI) GetPlan(planId string) (*GetPlanResponse, error) {
-	if !c.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
+func (api *PlansAPI) GetPlan(planId string) (*GetPlanResponse, *client.VayuError) {
+	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
+		return nil, invalidLoggedInStatus
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	request := c.vayuClient.Client.PlansAPI.GetPlan(ctx, planId)
+	request := api.vayuClient.Client.PlansAPI.GetPlan(ctx, planId)
 	response, _, err := request.Execute()
 
 	if err != nil {
-		return nil, err
+		return nil, client.BuildVayuErrorFromGenericOpenAPIError(err)
 	}
 
 	return response, nil
 }
 
-func (c *PlansAPI) DeletePlan(planId string) (*DeletePlanResponse, error) {
-	if !c.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
+func (api *PlansAPI) DeletePlan(planId string) (*DeletePlanResponse, *client.VayuError) {
+	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
+		return nil, invalidLoggedInStatus
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	request := c.vayuClient.Client.PlansAPI.DeletePlan(ctx, planId)
+	request := api.vayuClient.Client.PlansAPI.DeletePlan(ctx, planId)
 	response, _, err := request.Execute()
 
 	if err != nil {
-		return nil, err
+		return nil, client.BuildVayuErrorFromGenericOpenAPIError(err)
 	}
 
 	return response, nil

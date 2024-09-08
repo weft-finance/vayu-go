@@ -2,7 +2,6 @@ package api
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"github.com/weft-finance/vayu-go/client"
@@ -23,15 +22,15 @@ func NewMetersAPI(client *client.VayuClient) *MetersAPI {
 	}
 }
 
-func (c *MetersAPI) ListMeters(limit *float32, cursor *string) (*ListMetersResponse, error) {
-	if !c.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
+func (api *MetersAPI) ListMeters(limit *float32, cursor *string) (*ListMetersResponse, *client.VayuError) {
+	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
+		return nil, invalidLoggedInStatus
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	request := c.vayuClient.Client.MetersAPI.ListMeters(ctx)
+	request := api.vayuClient.Client.MetersAPI.ListMeters(ctx)
 	if limit != nil {
 		request = request.Limit(*limit)
 	}
@@ -42,25 +41,25 @@ func (c *MetersAPI) ListMeters(limit *float32, cursor *string) (*ListMetersRespo
 	response, _, err := request.Execute()
 
 	if err != nil {
-		return nil, err
+		return nil, client.BuildVayuErrorFromGenericOpenAPIError(err)
 	}
 
 	return response, nil
 }
 
-func (c *MetersAPI) GetMeter(meterId string) (*GetMeterResponse, error) {
-	if !c.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
+func (api *MetersAPI) GetMeter(meterId string) (*GetMeterResponse, *client.VayuError) {
+	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
+		return nil, invalidLoggedInStatus
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	request := c.vayuClient.Client.MetersAPI.GetMeter(ctx, meterId)
+	request := api.vayuClient.Client.MetersAPI.GetMeter(ctx, meterId)
 	response, _, err := request.Execute()
 
 	if err != nil {
-		return nil, err
+		return nil, client.BuildVayuErrorFromGenericOpenAPIError(err)
 	}
 
 	return response, nil
