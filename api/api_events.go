@@ -114,7 +114,7 @@ func (e *EventsAPI) SendEvents(events []Event) (*SendEventsResponse, *client.Vay
 		return nil, invalidLoggedInStatus
 	}
 
-	ctx, cancel := context.WithTimeout(context.Background(), 11115*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
 	request := e.vayuClient.Client.EventsAPI.SendEvents(ctx)

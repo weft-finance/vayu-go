@@ -30,7 +30,7 @@ func NewVayu(APIKey string) *Vayu {
 	}
 }
 
-func (v *Vayu) Login() error {
+func (v *Vayu) Login() *VayuError {
 	return v.client.Login()
 }
 

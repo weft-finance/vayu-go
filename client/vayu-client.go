@@ -62,7 +62,7 @@ func NewVayuClient(APIKey string) *VayuClient {
 	return &VayuClient{Client: client, apiKey: APIKey}
 }
 
-func (api *VayuClient) Login() error {
+func (api *VayuClient) Login() *VayuError {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
@@ -71,7 +71,7 @@ func (api *VayuClient) Login() error {
 	oApiResponse, _, err := request.Execute()
 
 	if err != nil {
-		return err
+		return BuildVayuErrorFromGenericOpenAPIError(err)
 	}
 
 	api.accessToken = oApiResponse.AccessToken
