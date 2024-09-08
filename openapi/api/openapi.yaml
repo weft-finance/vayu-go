@@ -2092,7 +2092,7 @@ components:
       type: object
     LineItem:
       example:
-        price: 0.08008281904610115
+        price: 0.8008281904610115
         invoiceId: invoiceId
       properties:
         invoiceId:
@@ -2101,7 +2101,6 @@ components:
           type: string
         price:
           description: The price of the line item
-          minimum: 0
           type: number
       required:
       - invoiceId
@@ -2111,9 +2110,9 @@ components:
       example:
         invoice:
           lineItems:
-          - price: 0.08008281904610115
+          - price: 0.8008281904610115
             invoiceId: invoiceId
-          - price: 0.08008281904610115
+          - price: 0.8008281904610115
             invoiceId: invoiceId
           createdAt: 2000-01-23T04:56:07.000+00:00
           amount: 6.027456183070403
@@ -2137,9 +2136,9 @@ components:
         total: 0.8008281904610115
         invoices:
         - lineItems:
-          - price: 0.08008281904610115
+          - price: 0.8008281904610115
             invoiceId: invoiceId
-          - price: 0.08008281904610115
+          - price: 0.8008281904610115
             invoiceId: invoiceId
           createdAt: 2000-01-23T04:56:07.000+00:00
           amount: 6.027456183070403
@@ -2152,9 +2151,9 @@ components:
           id: id
           updatedAt: 2000-01-23T04:56:07.000+00:00
         - lineItems:
-          - price: 0.08008281904610115
+          - price: 0.8008281904610115
             invoiceId: invoiceId
-          - price: 0.08008281904610115
+          - price: 0.8008281904610115
             invoiceId: invoiceId
           createdAt: 2000-01-23T04:56:07.000+00:00
           amount: 6.027456183070403
@@ -2241,7 +2240,7 @@ components:
           type: string
         data:
           additionalProperties:
-            type: string
+            nullable: true
           description: A schema-less JSON object encapsulating miscellaneous attributes
             and metrics associated with the event.
           example:
@@ -2379,7 +2378,7 @@ components:
           customerAlias: customerAlias
           ref: ref
           data:
-            key: data
+            key: ""
           name: name
           timestamp: 2000-01-23T04:56:07.000+00:00
       properties:
@@ -2454,7 +2453,7 @@ components:
             customerAlias: customerAlias
             ref: ref
             data:
-              key: data
+              key: ""
             name: name
             timestamp: 2000-01-23T04:56:07.000+00:00
         - matchedCustomer: matchedCustomer
@@ -2512,7 +2511,7 @@ components:
             customerAlias: customerAlias
             ref: ref
             data:
-              key: data
+              key: ""
             name: name
             timestamp: 2000-01-23T04:56:07.000+00:00
       properties:
@@ -3421,9 +3420,9 @@ components:
     GetInvoiceResponse_invoice:
       example:
         lineItems:
-        - price: 0.08008281904610115
+        - price: 0.8008281904610115
           invoiceId: invoiceId
-        - price: 0.08008281904610115
+        - price: 0.8008281904610115
           invoiceId: invoiceId
         createdAt: 2000-01-23T04:56:07.000+00:00
         amount: 6.027456183070403
@@ -3482,7 +3481,7 @@ components:
         customerAlias: customerAlias
         ref: ref
         data:
-          key: data
+          key: ""
         name: name
         timestamp: 2000-01-23T04:56:07.000+00:00
       properties:
@@ -3497,7 +3496,7 @@ components:
           type: string
         data:
           additionalProperties:
-            type: string
+            nullable: true
           nullable: true
           type: object
         ref:
@@ -3586,7 +3585,7 @@ components:
           type: string
         data:
           additionalProperties:
-            type: string
+            nullable: true
           description: A schema-less JSON object encapsulating miscellaneous attributes
             and metrics associated with the event.
           example:
@@ -3651,7 +3650,7 @@ components:
           type: string
         data:
           additionalProperties:
-            type: string
+            nullable: true
           description: A schema-less JSON object encapsulating miscellaneous attributes
             and metrics associated with the event.
           example:
@@ -3717,7 +3716,7 @@ components:
           type: string
         data:
           additionalProperties:
-            type: string
+            nullable: true
           description: A schema-less JSON object encapsulating miscellaneous attributes
             and metrics associated with the event.
           example:

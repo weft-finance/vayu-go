@@ -2,7 +2,6 @@ package api
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"github.com/weft-finance/vayu-go/client"
@@ -29,15 +28,15 @@ func NewCreateContractRequest(startDate time.Time, endDate *time.Time, customerI
 	return &openapi.CreateContractRequest{StartDate: startDate, EndDate: endDate, CustomerId: customerId, PlanId: planId}
 }
 
-func (c *ContractsAPI) ListContracts(limit *float32, cursor *string) (*ListContractsResponse, error) {
-	if !c.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
+func (api *ContractsAPI) ListContracts(limit *float32, cursor *string) (*ListContractsResponse, *client.VayuError) {
+	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
+		return nil, invalidLoggedInStatus
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	request := c.vayuClient.Client.ContractsAPI.ListContracts(ctx)
+	request := api.vayuClient.Client.ContractsAPI.ListContracts(ctx)
 
 	if limit != nil {
 		request = request.Limit(*limit)
@@ -50,62 +49,62 @@ func (c *ContractsAPI) ListContracts(limit *float32, cursor *string) (*ListContr
 	response, _, err := request.Execute()
 
 	if err != nil {
-		return nil, err
+		return nil, client.BuildVayuErrorFromGenericOpenAPIError(err)
 	}
 
 	return response, nil
 }
 
-func (c *ContractsAPI) GetContract(contractId string) (*GetContractResponse, error) {
-	if !c.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
+func (api *ContractsAPI) GetContract(contractId string) (*GetContractResponse, *client.VayuError) {
+	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
+		return nil, invalidLoggedInStatus
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	request := c.vayuClient.Client.ContractsAPI.GetContract(ctx, contractId)
+	request := api.vayuClient.Client.ContractsAPI.GetContract(ctx, contractId)
 	response, _, err := request.Execute()
 
 	if err != nil {
-		return nil, err
+		return nil, client.BuildVayuErrorFromGenericOpenAPIError(err)
 	}
 
 	return response, nil
 }
 
-func (c *ContractsAPI) CreateContract(input CreateContractRequest) (*CreateContractResponse, error) {
-	if !c.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
+func (api *ContractsAPI) CreateContract(input CreateContractRequest) (*CreateContractResponse, *client.VayuError) {
+	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
+		return nil, invalidLoggedInStatus
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	request := c.vayuClient.Client.ContractsAPI.CreateContract(ctx)
+	request := api.vayuClient.Client.ContractsAPI.CreateContract(ctx)
 	request = request.CreateContractRequest((openapi.CreateContractRequest)(input))
 	response, _, err := request.Execute()
 
 	if err != nil {
-		return nil, err
+		return nil, client.BuildVayuErrorFromGenericOpenAPIError(err)
 	}
 
 	return response, nil
 }
 
-func (c *ContractsAPI) DeleteContract(contractId string) (*DeleteContractResponse, error) {
-	if !c.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
+func (api *ContractsAPI) DeleteContract(contractId string) (*DeleteContractResponse, *client.VayuError) {
+	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
+		return nil, invalidLoggedInStatus
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	request := c.vayuClient.Client.ContractsAPI.DeleteContract(ctx, contractId)
+	request := api.vayuClient.Client.ContractsAPI.DeleteContract(ctx, contractId)
 	response, _, err := request.Execute()
 
 	if err != nil {
-		return nil, err
+		return nil, client.BuildVayuErrorFromGenericOpenAPIError(err)
 	}
 
 	return response, nil

@@ -25,7 +25,7 @@ type EventsDryRunResponseObjectEvent struct {
 	Timestamp time.Time `json:"timestamp"`
 	CustomerAlias string `json:"customerAlias"`
 	AccountId string `json:"accountId" validate:"regexp=^[0-9a-fA-F]{24}$"`
-	Data map[string]string `json:"data,omitempty"`
+	Data map[string]interface{} `json:"data,omitempty"`
 	Ref string `json:"ref"`
 	Name string `json:"name"`
 	AdditionalProperties map[string]interface{}
@@ -128,9 +128,9 @@ func (o *EventsDryRunResponseObjectEvent) SetAccountId(v string) {
 }
 
 // GetData returns the Data field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *EventsDryRunResponseObjectEvent) GetData() map[string]string {
+func (o *EventsDryRunResponseObjectEvent) GetData() map[string]interface{} {
 	if o == nil {
-		var ret map[string]string
+		var ret map[string]interface{}
 		return ret
 	}
 	return o.Data
@@ -139,11 +139,11 @@ func (o *EventsDryRunResponseObjectEvent) GetData() map[string]string {
 // GetDataOk returns a tuple with the Data field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *EventsDryRunResponseObjectEvent) GetDataOk() (*map[string]string, bool) {
+func (o *EventsDryRunResponseObjectEvent) GetDataOk() (map[string]interface{}, bool) {
 	if o == nil || IsNil(o.Data) {
-		return nil, false
+		return map[string]interface{}{}, false
 	}
-	return &o.Data, true
+	return o.Data, true
 }
 
 // HasData returns a boolean if a field has been set.
@@ -155,8 +155,8 @@ func (o *EventsDryRunResponseObjectEvent) HasData() bool {
 	return false
 }
 
-// SetData gets a reference to the given map[string]string and assigns it to the Data field.
-func (o *EventsDryRunResponseObjectEvent) SetData(v map[string]string) {
+// SetData gets a reference to the given map[string]interface{} and assigns it to the Data field.
+func (o *EventsDryRunResponseObjectEvent) SetData(v map[string]interface{}) {
 	o.Data = v
 }
 

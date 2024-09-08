@@ -30,7 +30,7 @@ func NewVayu(APIKey string) *Vayu {
 	}
 }
 
-func (v *Vayu) Login() error {
+func (v *Vayu) Login() *VayuError {
 	return v.client.Login()
 }
 
@@ -45,6 +45,10 @@ func (v *Vayu) IsLoggedIn() bool {
 }
 
 // Types
+
+type (
+	VayuError = client.VayuError
+)
 
 type (
 	Contract               = api.Contract

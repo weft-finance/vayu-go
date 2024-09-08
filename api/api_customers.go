@@ -2,7 +2,6 @@ package api
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"github.com/weft-finance/vayu-go/client"
@@ -35,15 +34,15 @@ func NewUpdateCustomerRequest(name *string, alias *string) *UpdateCustomerReques
 	return &openapi.UpdateCustomerRequest{Name: name, Alias: alias}
 }
 
-func (c *CustomersAPI) ListCustomers(limit *float32, cursor *string) (*ListCustomersResponse, error) {
-	if !c.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
+func (api *CustomersAPI) ListCustomers(limit *float32, cursor *string) (*ListCustomersResponse, *client.VayuError) {
+	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
+		return nil, invalidLoggedInStatus
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	request := c.vayuClient.Client.CustomersAPI.ListCustomers(ctx)
+	request := api.vayuClient.Client.CustomersAPI.ListCustomers(ctx)
 
 	if limit != nil {
 		request = request.Limit(*limit)
@@ -56,81 +55,81 @@ func (c *CustomersAPI) ListCustomers(limit *float32, cursor *string) (*ListCusto
 	response, _, err := request.Execute()
 
 	if err != nil {
-		return nil, err
+		return nil, client.BuildVayuErrorFromGenericOpenAPIError(err)
 	}
 
 	return response, nil
 }
 
-func (c *CustomersAPI) GetCustomer(customerId string) (*GetCustomerResponse, error) {
-	if !c.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
+func (api *CustomersAPI) GetCustomer(customerId string) (*GetCustomerResponse, *client.VayuError) {
+	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
+		return nil, invalidLoggedInStatus
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	request := c.vayuClient.Client.CustomersAPI.GetCustomer(ctx, customerId)
+	request := api.vayuClient.Client.CustomersAPI.GetCustomer(ctx, customerId)
 	response, _, err := request.Execute()
 
 	if err != nil {
-		return nil, err
+		return nil, client.BuildVayuErrorFromGenericOpenAPIError(err)
 	}
 
 	return response, nil
 }
 
-func (c *CustomersAPI) CreateCustomer(payload CreateCustomerRequest) (*CreateCustomerResponse, error) {
-	if !c.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
+func (api *CustomersAPI) CreateCustomer(payload CreateCustomerRequest) (*CreateCustomerResponse, *client.VayuError) {
+	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
+		return nil, invalidLoggedInStatus
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	request := c.vayuClient.Client.CustomersAPI.CreateCustomer(ctx)
+	request := api.vayuClient.Client.CustomersAPI.CreateCustomer(ctx)
 	request = request.CreateCustomerRequest(payload)
 	response, _, err := request.Execute()
 
 	if err != nil {
-		return nil, err
+		return nil, client.BuildVayuErrorFromGenericOpenAPIError(err)
 	}
 
 	return response, nil
 }
 
-func (c *CustomersAPI) UpdateCustomer(customerId string, payload UpdateCustomerRequest) (*UpdateCustomerResponse, error) {
-	if !c.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
+func (api *CustomersAPI) UpdateCustomer(customerId string, payload UpdateCustomerRequest) (*UpdateCustomerResponse, *client.VayuError) {
+	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
+		return nil, invalidLoggedInStatus
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	request := c.vayuClient.Client.CustomersAPI.UpdateCustomer(ctx, customerId)
+	request := api.vayuClient.Client.CustomersAPI.UpdateCustomer(ctx, customerId)
 	request = request.UpdateCustomerRequest(payload)
 	response, _, err := request.Execute()
 
 	if err != nil {
-		return nil, err
+		return nil, client.BuildVayuErrorFromGenericOpenAPIError(err)
 	}
 
 	return response, nil
 }
 
-func (c *CustomersAPI) DeleteCustomer(customerId string) (*DeleteCustomerResponse, error) {
-	if !c.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
+func (api *CustomersAPI) DeleteCustomer(customerId string) (*DeleteCustomerResponse, *client.VayuError) {
+	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
+		return nil, invalidLoggedInStatus
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	request := c.vayuClient.Client.CustomersAPI.DeleteCustomer(ctx, customerId)
+	request := api.vayuClient.Client.CustomersAPI.DeleteCustomer(ctx, customerId)
 	response, _, err := request.Execute()
 
 	if err != nil {
-		return nil, err
+		return nil, client.BuildVayuErrorFromGenericOpenAPIError(err)
 	}
 
 	return response, nil

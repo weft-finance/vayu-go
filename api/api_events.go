@@ -2,7 +2,6 @@ package api
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"github.com/weft-finance/vayu-go/client"
@@ -44,9 +43,9 @@ func NewQueryEventsRequest(startTime time.Time, endTime time.Time, name string, 
 	}
 }
 
-func (e *EventsAPI) GetEvent(refId string) (*GetEventResponse, error) {
-	if !e.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
+func (e *EventsAPI) GetEvent(refId string) (*GetEventResponse, *client.VayuError) {
+	if invalidLoggedInStatus := e.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
+		return nil, invalidLoggedInStatus
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -56,15 +55,15 @@ func (e *EventsAPI) GetEvent(refId string) (*GetEventResponse, error) {
 	response, _, err := request.Execute()
 
 	if err != nil {
-		return nil, err
+		return nil, client.BuildVayuErrorFromGenericOpenAPIError(err)
 	}
 
 	return response, nil
 }
 
-func (e *EventsAPI) DeleteEvent(refId string) (*DeleteEventResponse, error) {
-	if !e.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
+func (e *EventsAPI) DeleteEvent(refId string) (*DeleteEventResponse, *client.VayuError) {
+	if invalidLoggedInStatus := e.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
+		return nil, invalidLoggedInStatus
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -74,15 +73,15 @@ func (e *EventsAPI) DeleteEvent(refId string) (*DeleteEventResponse, error) {
 	response, _, err := request.Execute()
 
 	if err != nil {
-		return nil, err
+		return nil, client.BuildVayuErrorFromGenericOpenAPIError(err)
 	}
 
 	return response, nil
 }
 
-func (e *EventsAPI) QueryEvents(payload QueryEventsRequest) (*QueryEventsResponse, error) {
-	if !e.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
+func (e *EventsAPI) QueryEvents(payload QueryEventsRequest) (*QueryEventsResponse, *client.VayuError) {
+	if invalidLoggedInStatus := e.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
+		return nil, invalidLoggedInStatus
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -104,15 +103,15 @@ func (e *EventsAPI) QueryEvents(payload QueryEventsRequest) (*QueryEventsRespons
 	response, _, err := request.Execute()
 
 	if err != nil {
-		return nil, err
+		return nil, client.BuildVayuErrorFromGenericOpenAPIError(err)
 	}
 
 	return response, nil
 }
 
-func (e *EventsAPI) SendEvents(events []Event) (*SendEventsResponse, error) {
-	if !e.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
+func (e *EventsAPI) SendEvents(events []Event) (*SendEventsResponse, *client.VayuError) {
+	if invalidLoggedInStatus := e.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
+		return nil, invalidLoggedInStatus
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -123,15 +122,15 @@ func (e *EventsAPI) SendEvents(events []Event) (*SendEventsResponse, error) {
 	response, _, err := request.Execute()
 
 	if err != nil {
-		return nil, err
+		return nil, client.BuildVayuErrorFromGenericOpenAPIError(err)
 	}
 
 	return response, nil
 }
 
-func (e *EventsAPI) SendEventsDryRun(events []Event) (*EventsDryRunResponse, error) {
-	if !e.vayuClient.IsLoggedIn() {
-		return nil, fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method")
+func (e *EventsAPI) SendEventsDryRun(events []Event) (*EventsDryRunResponse, *client.VayuError) {
+	if invalidLoggedInStatus := e.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
+		return nil, invalidLoggedInStatus
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -142,7 +141,7 @@ func (e *EventsAPI) SendEventsDryRun(events []Event) (*EventsDryRunResponse, err
 	response, _, err := request.Execute()
 
 	if err != nil {
-		return nil, err
+		return nil, client.BuildVayuErrorFromGenericOpenAPIError(err)
 	}
 
 	return response, nil
