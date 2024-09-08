@@ -13,6 +13,45 @@ type VayuClient struct {
 	Client      *openapi.APIClient
 }
 
+type VayuError struct {
+	error interface{}
+	Body  string
+	Title string
+}
+
+func (ve *VayuError) Error() string {
+	return ve.Title + " - " + ve.Body
+}
+
+func BuildVayuError(err error) *VayuError {
+	if err == nil {
+		return nil
+	}
+
+	vayuError := &VayuError{
+		error: err,
+		Body:  err.Error(),
+		Title: "Internal Error",
+	}
+
+	return vayuError
+}
+
+func BuildVayuErrorFromGenericOpenAPIError(err interface{}) *VayuError {
+	genericErr, ok := err.(*openapi.GenericOpenAPIError)
+	if !ok {
+		return nil
+	}
+
+	errorMessage := string(genericErr.Body())
+
+	return &VayuError{
+		error: genericErr,
+		Body:  errorMessage,
+		Title: genericErr.Error(),
+	}
+}
+
 func NewVayuClient(APIKey string) *VayuClient {
 	client := openapi.NewAPIClient(openapi.NewConfiguration())
 
