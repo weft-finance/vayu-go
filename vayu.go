@@ -47,6 +47,10 @@ func (v *Vayu) IsLoggedIn() bool {
 // Types
 
 type (
+	VayuError = client.VayuError
+)
+
+type (
 	Contract               = api.Contract
 	ListContractsResponse  = api.ListContractsResponse
 	GetContractResponse    = api.GetContractResponse
