@@ -21,6 +21,12 @@ type VayuError struct {
 }
 
 func (ve *VayuError) Error() string {
+	genericError := "Internal Error - Unknown error occurred"
+
+	if ve.error == nil {
+		return genericError
+	}
+
 	return ve.Title + " - " + ve.Body
 }
 
@@ -41,15 +47,22 @@ func BuildVayuError(err error) *VayuError {
 func BuildVayuErrorFromGenericOpenAPIError(err interface{}) *VayuError {
 	genericErr, ok := err.(*openapi.GenericOpenAPIError)
 	if !ok {
-		return nil
+		return BuildVayuError(fmt.Errorf("Unknown error occurred"))
 	}
 
-	errorMessage := string(genericErr.Body())
+	bytes := genericErr.Body()
+
+	errorTitle := genericErr.Error()
+	errorMessage := "Unknown error occurred"
+
+	if bytes != nil && len(bytes) != 0 {
+		errorMessage = string(bytes)
+	}
 
 	return &VayuError{
 		error: genericErr,
 		Body:  errorMessage,
-		Title: genericErr.Error(),
+		Title: errorTitle,
 	}
 }
 
