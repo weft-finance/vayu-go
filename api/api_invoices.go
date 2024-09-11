@@ -22,7 +22,7 @@ func NewInvoicesAPI(client *client.VayuClient) *InvoicesAPI {
 	}
 }
 
-func (api *InvoicesAPI) ListInvoices(limit *float32, cursor *string) (*ListInvoicesResponse, *client.VayuError) {
+func (api *InvoicesAPI) ListInvoices(limit *float32, cursor *string) (*ListInvoicesResponse, error) {
 	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
 		return nil, invalidLoggedInStatus
 	}
@@ -47,7 +47,7 @@ func (api *InvoicesAPI) ListInvoices(limit *float32, cursor *string) (*ListInvoi
 	return response, nil
 }
 
-func (api *InvoicesAPI) GetInvoice(invoiceId string) (*GetInvoiceResponse, *client.VayuError) {
+func (api *InvoicesAPI) GetInvoice(invoiceId string) (*GetInvoiceResponse, error) {
 	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
 		return nil, invalidLoggedInStatus
 	}

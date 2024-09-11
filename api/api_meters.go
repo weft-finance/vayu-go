@@ -22,7 +22,7 @@ func NewMetersAPI(client *client.VayuClient) *MetersAPI {
 	}
 }
 
-func (api *MetersAPI) ListMeters(limit *float32, cursor *string) (*ListMetersResponse, *client.VayuError) {
+func (api *MetersAPI) ListMeters(limit *float32, cursor *string) (*ListMetersResponse, error) {
 	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
 		return nil, invalidLoggedInStatus
 	}
@@ -47,7 +47,7 @@ func (api *MetersAPI) ListMeters(limit *float32, cursor *string) (*ListMetersRes
 	return response, nil
 }
 
-func (api *MetersAPI) GetMeter(meterId string) (*GetMeterResponse, *client.VayuError) {
+func (api *MetersAPI) GetMeter(meterId string) (*GetMeterResponse, error) {
 	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
 		return nil, invalidLoggedInStatus
 	}

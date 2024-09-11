@@ -23,7 +23,7 @@ func NewPlansAPI(client *client.VayuClient) *PlansAPI {
 	}
 }
 
-func (api *PlansAPI) ListPlans(limit *float32, cursor *string) (*ListPlansResponse, *client.VayuError) {
+func (api *PlansAPI) ListPlans(limit *float32, cursor *string) (*ListPlansResponse, error) {
 	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
 		return nil, invalidLoggedInStatus
 	}
@@ -48,7 +48,7 @@ func (api *PlansAPI) ListPlans(limit *float32, cursor *string) (*ListPlansRespon
 	return response, nil
 }
 
-func (api *PlansAPI) GetPlan(planId string) (*GetPlanResponse, *client.VayuError) {
+func (api *PlansAPI) GetPlan(planId string) (*GetPlanResponse, error) {
 	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
 		return nil, invalidLoggedInStatus
 	}
@@ -66,7 +66,7 @@ func (api *PlansAPI) GetPlan(planId string) (*GetPlanResponse, *client.VayuError
 	return response, nil
 }
 
-func (api *PlansAPI) DeletePlan(planId string) (*DeletePlanResponse, *client.VayuError) {
+func (api *PlansAPI) DeletePlan(planId string) (*DeletePlanResponse, error) {
 	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
 		return nil, invalidLoggedInStatus
 	}

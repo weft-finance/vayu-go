@@ -28,7 +28,7 @@ func NewCreateContractRequest(startDate time.Time, endDate *time.Time, customerI
 	return &openapi.CreateContractRequest{StartDate: startDate, EndDate: endDate, CustomerId: customerId, PlanId: planId}
 }
 
-func (api *ContractsAPI) ListContracts(limit *float32, cursor *string) (*ListContractsResponse, *client.VayuError) {
+func (api *ContractsAPI) ListContracts(limit *float32, cursor *string) (*ListContractsResponse, error) {
 	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
 		return nil, invalidLoggedInStatus
 	}
@@ -55,7 +55,7 @@ func (api *ContractsAPI) ListContracts(limit *float32, cursor *string) (*ListCon
 	return response, nil
 }
 
-func (api *ContractsAPI) GetContract(contractId string) (*GetContractResponse, *client.VayuError) {
+func (api *ContractsAPI) GetContract(contractId string) (*GetContractResponse, error) {
 	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
 		return nil, invalidLoggedInStatus
 	}
@@ -73,7 +73,7 @@ func (api *ContractsAPI) GetContract(contractId string) (*GetContractResponse, *
 	return response, nil
 }
 
-func (api *ContractsAPI) CreateContract(input CreateContractRequest) (*CreateContractResponse, *client.VayuError) {
+func (api *ContractsAPI) CreateContract(input CreateContractRequest) (*CreateContractResponse, error) {
 	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
 		return nil, invalidLoggedInStatus
 	}
@@ -92,7 +92,7 @@ func (api *ContractsAPI) CreateContract(input CreateContractRequest) (*CreateCon
 	return response, nil
 }
 
-func (api *ContractsAPI) DeleteContract(contractId string) (*DeleteContractResponse, *client.VayuError) {
+func (api *ContractsAPI) DeleteContract(contractId string) (*DeleteContractResponse, error) {
 	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
 		return nil, invalidLoggedInStatus
 	}
