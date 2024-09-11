@@ -30,7 +30,7 @@ func (ve *VayuError) Error() string {
 	return ve.Title + " - " + ve.Body
 }
 
-func BuildVayuError(err error) *VayuError {
+func BuildVayuError(err error) error {
 	if err == nil {
 		return nil
 	}
@@ -44,7 +44,7 @@ func BuildVayuError(err error) *VayuError {
 	return vayuError
 }
 
-func BuildVayuErrorFromGenericOpenAPIError(err interface{}) *VayuError {
+func BuildVayuErrorFromGenericOpenAPIError(err interface{}) error {
 	genericErr, ok := err.(*openapi.GenericOpenAPIError)
 	if !ok {
 		return BuildVayuError(fmt.Errorf("Unknown error occurred"))
@@ -75,7 +75,7 @@ func NewVayuClient(APIKey string) *VayuClient {
 	return &VayuClient{Client: client, apiKey: APIKey}
 }
 
-func (api *VayuClient) Login() *VayuError {
+func (api *VayuClient) Login() error {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
@@ -99,7 +99,7 @@ func (v *VayuClient) IsLoggedIn() bool {
 	return v.accessToken != ""
 }
 
-func (v *VayuClient) ValidateLoggedIn() *VayuError {
+func (v *VayuClient) ValidateLoggedIn() error {
 	if v.IsLoggedIn() {
 		return nil
 	}
