@@ -43,7 +43,7 @@ func NewQueryEventsRequest(startTime time.Time, endTime time.Time, name string, 
 	}
 }
 
-func (e *EventsAPI) GetEvent(refId string) (*GetEventResponse, *client.VayuError) {
+func (e *EventsAPI) GetEvent(refId string) (*GetEventResponse, error) {
 	if invalidLoggedInStatus := e.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
 		return nil, invalidLoggedInStatus
 	}
@@ -61,7 +61,7 @@ func (e *EventsAPI) GetEvent(refId string) (*GetEventResponse, *client.VayuError
 	return response, nil
 }
 
-func (e *EventsAPI) DeleteEvent(refId string) (*DeleteEventResponse, *client.VayuError) {
+func (e *EventsAPI) DeleteEvent(refId string) (*DeleteEventResponse, error) {
 	if invalidLoggedInStatus := e.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
 		return nil, invalidLoggedInStatus
 	}
@@ -79,7 +79,7 @@ func (e *EventsAPI) DeleteEvent(refId string) (*DeleteEventResponse, *client.Vay
 	return response, nil
 }
 
-func (e *EventsAPI) QueryEvents(payload QueryEventsRequest) (*QueryEventsResponse, *client.VayuError) {
+func (e *EventsAPI) QueryEvents(payload QueryEventsRequest) (*QueryEventsResponse, error) {
 	if invalidLoggedInStatus := e.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
 		return nil, invalidLoggedInStatus
 	}
@@ -109,7 +109,7 @@ func (e *EventsAPI) QueryEvents(payload QueryEventsRequest) (*QueryEventsRespons
 	return response, nil
 }
 
-func (e *EventsAPI) SendEvents(events []Event) (*SendEventsResponse, *client.VayuError) {
+func (e *EventsAPI) SendEvents(events []Event) (*SendEventsResponse, error) {
 	if invalidLoggedInStatus := e.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
 		return nil, invalidLoggedInStatus
 	}
@@ -128,7 +128,7 @@ func (e *EventsAPI) SendEvents(events []Event) (*SendEventsResponse, *client.Vay
 	return response, nil
 }
 
-func (e *EventsAPI) SendEventsDryRun(events []Event) (*EventsDryRunResponse, *client.VayuError) {
+func (e *EventsAPI) SendEventsDryRun(events []Event) (*EventsDryRunResponse, error) {
 	if invalidLoggedInStatus := e.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
 		return nil, invalidLoggedInStatus
 	}

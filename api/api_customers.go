@@ -34,7 +34,7 @@ func NewUpdateCustomerRequest(name *string, alias *string) *UpdateCustomerReques
 	return &openapi.UpdateCustomerRequest{Name: name, Alias: alias}
 }
 
-func (api *CustomersAPI) ListCustomers(limit *float32, cursor *string) (*ListCustomersResponse, *client.VayuError) {
+func (api *CustomersAPI) ListCustomers(limit *float32, cursor *string) (*ListCustomersResponse, error) {
 	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
 		return nil, invalidLoggedInStatus
 	}
@@ -61,7 +61,7 @@ func (api *CustomersAPI) ListCustomers(limit *float32, cursor *string) (*ListCus
 	return response, nil
 }
 
-func (api *CustomersAPI) GetCustomer(customerId string) (*GetCustomerResponse, *client.VayuError) {
+func (api *CustomersAPI) GetCustomer(customerId string) (*GetCustomerResponse, error) {
 	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
 		return nil, invalidLoggedInStatus
 	}
@@ -79,7 +79,7 @@ func (api *CustomersAPI) GetCustomer(customerId string) (*GetCustomerResponse, *
 	return response, nil
 }
 
-func (api *CustomersAPI) CreateCustomer(payload CreateCustomerRequest) (*CreateCustomerResponse, *client.VayuError) {
+func (api *CustomersAPI) CreateCustomer(payload CreateCustomerRequest) (*CreateCustomerResponse, error) {
 	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
 		return nil, invalidLoggedInStatus
 	}
@@ -98,7 +98,7 @@ func (api *CustomersAPI) CreateCustomer(payload CreateCustomerRequest) (*CreateC
 	return response, nil
 }
 
-func (api *CustomersAPI) UpdateCustomer(customerId string, payload UpdateCustomerRequest) (*UpdateCustomerResponse, *client.VayuError) {
+func (api *CustomersAPI) UpdateCustomer(customerId string, payload UpdateCustomerRequest) (*UpdateCustomerResponse, error) {
 	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
 		return nil, invalidLoggedInStatus
 	}
@@ -117,7 +117,7 @@ func (api *CustomersAPI) UpdateCustomer(customerId string, payload UpdateCustome
 	return response, nil
 }
 
-func (api *CustomersAPI) DeleteCustomer(customerId string) (*DeleteCustomerResponse, *client.VayuError) {
+func (api *CustomersAPI) DeleteCustomer(customerId string) (*DeleteCustomerResponse, error) {
 	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
 		return nil, invalidLoggedInStatus
 	}
