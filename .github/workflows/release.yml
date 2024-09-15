@@ -79,5 +79,5 @@ jobs:
           tag_name: "v${{ env.new_version }}"
           release_name: "v${{ env.new_version }}"
           body_path: ./release_body.txt
-          draft: true
+          draft: false
           prerelease: false
