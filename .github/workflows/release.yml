@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   bumping_version_and_releasing:
@@ -49,8 +50,11 @@ jobs:
             echo "Updating go.mod to Go version $version"
             go mod edit -go=$version
             go mod tidy
-            git add go.mod go.sum
-            git commit -m "Update go.mod for Go $version"
+            git add go.mod
+            if [ -f go.sum ]; then
+              git add go.sum
+            fi
+            git diff --cached --quiet || git commit -m "Update go.mod for Go $version" || echo "Nothing to commit for Go $version"
             git tag "v${{ env.new_version }}-go$version"
             git push origin "v${{ env.new_version }}-go$version"
           done
@@ -60,8 +64,11 @@ jobs:
           echo "Updating go.mod to the latest Go version: ${{ env.LATEST_VERSION }}"
           go mod edit -go=${{ env.LATEST_VERSION }}
           go mod tidy
-          git add go.mod go.sum
-          git commit -m "Update go.mod to latest Go version ${{ env.LATEST_VERSION }}"
+          git add go.mod
+            if [ -f go.sum ]; then
+              git add go.sum
+            fi
+          git diff --cached --quiet || git commit -m "Update go.mod to latest Go version ${{ env.LATEST_VERSION }}" || echo "Nothing to commit for Go $version"
           git tag "latest" --force
           git push origin "latest" --force
 
