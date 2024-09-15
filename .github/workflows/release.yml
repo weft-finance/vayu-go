@@ -59,20 +59,18 @@ jobs:
             git push origin "v${{ env.new_version }}-go$version"
           done
 
-      # Generate release body
       - name: Generate release body
-        id: generate_release_body
         run: |
-          release_body="Release version ${{ env.new_version }}\n\n### Supported Go Versions:\n"
-          release_body+="- [latest](https://github.com/weft-finance/vayu-go/releases/tag/latest)\n"
+          echo "Release version ${{ env.new_version }}" > release_body.txt
+          echo "" >> release_body.txt
+          echo "### Supported Go Versions:" >> release_body.txt
+          echo "- [latest](https://github.com/weft-finance/vayu-go/releases/tag/latest)" >> release_body.txt
 
+          # Append the Go version-specific tags
           for version in ${{ env.SUPPORTED_VERSIONS }}; do
-            release_body+="- [v${{ env.new_version }}-go$version](https://github.com/weft-finance/vayu-go/releases/tag/v${{ env.new_version }}-go$version)\n"
+            echo "- [v${{ env.new_version }}-go$version](https://github.com/weft-finance/vayu-go/releases/tag/v${{ env.new_version }}-go$version)" >> release_body.txt
           done
 
-          echo "::set-output name=body::$release_body"
-
-      # Create GitHub Release using the generated release body
       - name: Create GitHub Release
         uses: actions/create-release@v1
         env:
@@ -80,6 +78,6 @@ jobs:
         with:
           tag_name: "v${{ env.new_version }}"
           release_name: "v${{ env.new_version }}"
-          body: ${{ steps.generate_release_body.outputs.body }}
-          draft: false
+          body_path: ./release_body.txt
+          draft: true
           prerelease: false
