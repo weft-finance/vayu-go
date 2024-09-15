@@ -44,33 +44,43 @@ jobs:
           git commit -m "Bump version to ${{ env.new_version }}"
           git push origin main
 
-      - name: Create Go version-specific tags
+      - name: Releasing GO versions tags
         run: |
           for version in ${{ env.SUPPORTED_VERSIONS }}; do
-            echo "Updating go.mod to Go version $version"
+            echo "Releasing GO version $version"
             go mod edit -go=$version
             go mod tidy
             git add go.mod
             if [ -f go.sum ]; then
               git add go.sum
             fi
-            git diff --cached --quiet || git commit -m "Update go.mod for Go $version" || echo "Nothing to commit for Go $version"
+            git commit -m "Releasing for GO version ${{ env.LATEST_VERSION }}" --allow-empty || echo "Nothing to commit"
             git tag "v${{ env.new_version }}-go$version"
             git push origin "v${{ env.new_version }}-go$version"
           done
 
-      - name: Update go.mod for latest version
+      - name: Releasing latest tag
         run: |
-          echo "Updating go.mod to the latest Go version: ${{ env.LATEST_VERSION }}"
+          echo "Releasing latest tag; Go version: ${{ env.LATEST_VERSION }}"
           go mod edit -go=${{ env.LATEST_VERSION }}
           go mod tidy
           git add go.mod
             if [ -f go.sum ]; then
               git add go.sum
             fi
-          git diff --cached --quiet || git commit -m "Update go.mod to latest Go version ${{ env.LATEST_VERSION }}" || echo "Nothing to commit for Go $version"
+          git commit -m "Releasing for GO version ${{ env.LATEST_VERSION }} as latest" --allow-empty || echo "Nothing to commit"
           git tag "latest" --force
           git push origin "latest" --force
+
+      - name: Generate release body
+        id: generate_release_body
+        run: |
+          release_body="Release version ${{ env.new_version }}\n\n### Supported Go Versions:\n"
+          release_body+="- [latest](https://github.com/weft-finance/vayu-go/releases/tag/latest)\n"
+          for version in ${{ env.SUPPORTED_VERSIONS }}; do
+            release_body+="- [v${{ env.new_version }}-go$version](https://github.com/weft-finance/vayu-go/releases/tag/v${{ env.new_version }}-go$version)\n"
+          done
+          echo "::set-output name=body::$release_body"
 
       - name: Create GitHub Release
         uses: actions/create-release@v1
@@ -79,14 +89,7 @@ jobs:
         with:
           tag_name: "v${{ env.new_version }}"
           release_name: "v${{ env.new_version }}"
-          body: |
-            Release version ${{ env.new_version }}
-
-            ### Supported Go Versions:
-
-            {% for version in '${{ env.SUPPORTED_VERSIONS }}'.split(' ') %}
-            - [v${{ env.new_version }}-go{{ version }}](https://github.com/weft-finance/vayu-go/releases/tag/v${{ env.new_version }}-go{{ version }})
-            {% endfor %}
-            - [latest](https://github.com/weft-finance/vayu-go/releases/tag/latest)
+          body: ${{ steps.generate_release_body.outputs.body }}
           draft: false
           prerelease: false
+
