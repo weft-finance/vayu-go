@@ -9,7 +9,6 @@ on:
 jobs:
   bumping_version_and_releasing:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -46,20 +45,40 @@ jobs:
           git commit -m "Bump version to ${{ env.new_version }}"
           git push origin main
 
-      - name: Releasing GO versions tags
+  release_go_versions:
+    needs: bumping_version_and_releasing
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go_version: ${{ fromJson(env.SUPPORTED_VERSIONS) }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ matrix.go_version }}
+
+      - name: Release GO version tags
         run: |
-          for version in ${{ env.SUPPORTED_VERSIONS }}; do
-            echo "Releasing GO version $version"
-            go mod edit -go=$version
-            go mod tidy
-            git add go.mod
-            if [ -f go.sum ]; then
-              git add go.sum
-            fi
-            git commit -m "Releasing for GO version $version" --allow-empty || echo "Nothing to commit"
-            git tag "v${{ env.new_version }}-go$version"
-            git push origin "v${{ env.new_version }}-go$version"
-          done
+          echo "Releasing GO version ${{ matrix.go_version }}"
+          go mod edit -go=${{ matrix.go_version }}
+          go mod tidy
+          git add go.mod
+          if [ -f go.sum ]; then
+            git add go.sum
+          fi
+          git commit -m "Releasing for GO version ${{ matrix.go_version }}" --allow-empty || echo "Nothing to commit"
+          git tag "v${{ env.new_version }}-go${{ matrix.go_version }}"
+          git push origin "v${{ env.new_version }}-go${{ matrix.go_version }}"
+
+  create_release:
+    needs: release_go_versions
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Generate release body
         run: |
