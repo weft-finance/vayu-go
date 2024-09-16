@@ -1,0 +1,37 @@
+name: Add Go Version
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "The Go version to add"
+        required: true
+
+jobs:
+  add_go_version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: main
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Validate and Add Go Version
+        run: |
+          chmod +x add_supported_version.sh
+          ./add_supported_version.sh ${{ github.event.inputs.version }}
+
+      - name: Commit changes
+        run: |
+          git add supported_versions.txt
+          git commit -m "Add Go version ${{ github.event.inputs.version }}"
+
+      - name: Push changes
+        run: |
+          git push origin main
