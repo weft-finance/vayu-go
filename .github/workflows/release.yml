@@ -85,8 +85,8 @@ jobs:
             git add go.sum
           fi
           git commit -m "Releasing for GO version ${{ matrix.go_version }}" --allow-empty || echo "Nothing to commit"
-          git tag "v${{ needs.get-versions.outputs.go_versions }}-go${{ matrix.go_version }}"
-          git push origin "v${{ needs.get-versions.outputs.go_versions }}-go${{ matrix.go_version }}"
+          git tag "v${{ needs.get_versions.outputs.go_versions }}-go${{ matrix.go_version }}"
+          git push origin "v${{ needs.get_versions.outputs.go_versions }}-go${{ matrix.go_version }}"
 
   create_release:
     needs: release_go_versions
@@ -97,12 +97,12 @@ jobs:
 
       - name: Generate release body
         run: |
-          echo "Release version ${{ needs.get-versions.outputs.go_versions }}" > release_body.txt
+          echo "Release version ${{ needs.get_versions.outputs.go_versions }}" > release_body.txt
           echo "" >> release_body.txt
           echo "### Supported Go Versions:" >> release_body.txt
           echo "- [latest](https://github.com/weft-finance/vayu-go/releases/tag/latest)" >> release_body.txt
-          for version in ${{ needs.get-versions.outputs.go_versions }}; do
-            echo "- [v${{ needs.get-versions.outputs.go_versions }}-go$version](https://github.com/weft-finance/vayu-go/releases/tag/v${{ needs.get-versions.outputs.go_versions }}-go$version)" >> release_body.txt
+          for version in ${{ needs.get_versions.outputs.go_versions }}; do
+            echo "- [v${{ needs.get_versions.outputs.go_versions }}-go$version](https://github.com/weft-finance/vayu-go/releases/tag/v${{ needs.get_versions.outputs.go_versions }}-go$version)" >> release_body.txt
           done
 
       - name: Create GitHub Release
@@ -110,8 +110,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: "v${{ needs.get-versions.outputs.go_versions }}"
-          release_name: "v${{ needs.get-versions.outputs.go_versions }}"
+          tag_name: "v${{ needs.get_versions.outputs.go_versions }}"
+          release_name: "v${{ needs.get_versions.outputs.go_versions }}"
           body_path: ./release_body.txt
           draft: false
           prerelease: false

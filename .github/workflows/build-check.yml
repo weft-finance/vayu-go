@@ -33,7 +33,7 @@ jobs:
 
 
   build:
-    needs: get-versions
+    needs: get_versions
     runs-on: ubuntu-latest
     strategy:
       matrix:
