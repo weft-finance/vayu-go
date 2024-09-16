@@ -1,0 +1,56 @@
+name: Add Version Support
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "The Go version to add"
+        required: true
+      set_latest:
+        description: "Set as latest version?"
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  add_go_version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install dependencies for gvm
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y bsdmainutils curl git mercurial make binutils bison gcc build-essential
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      
+      - name: Set SET_LATEST environment variable
+        if: ${{ github.event.inputs.set_latest == 'true' }}
+        run: echo "SET_LATEST=true" >> $GITHUB_ENV
+
+      - name: Validate and Add Go Version
+        run: |
+          bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
+          chmod +x ./version_support/add_supported_version.sh
+          ./version_support/add_supported_version.sh ${{ github.event.inputs.version }}
+
+          echo "New supported Versions:"
+          cat ./version_support/supported_versions.txt
+
+      - name: Commit changes
+        run: |
+          if [[ "${{ github.event.inputs.set_latest }}" == "true" ]]; then
+            git add go.mod
+          fi
+          git add ./version_support/supported_versions.txt
+          git commit -m "Add Go version ${{ github.event.inputs.version }}"
+
+      - name: Push changes
+        run: |
+          git push origin main
