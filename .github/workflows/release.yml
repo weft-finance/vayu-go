@@ -50,7 +50,6 @@ jobs:
         run: |
           VERSION=$(cat VERSION)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "$VERSION" >> version.txt
 
       - name: Increment version
         id: increment_version
@@ -61,6 +60,7 @@ jobs:
           new_version="$major.$minor.$patch"
           echo "New version: $new_version"
           echo "new_version=$new_version" >> $GITHUB_OUTPUT
+          echo "$new_version" >> version.txt
 
       - name: Update version in VERSION file
         run: echo ${{ steps.increment_version.outputs.new_version }} > VERSION
@@ -155,8 +155,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: "v${{ needs.bump_version.outputs.new_version }}"
-          release_name: "v${{ needs.bump_version.outputs.new_version }}"
+          tag_name: "v${{ env.VERSION }}"
+          release_name: "v${{ env.VERSION  }}"
           body_path: ./release_body.txt
           draft: false
           prerelease: false
