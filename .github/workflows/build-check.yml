@@ -18,7 +18,6 @@ jobs:
       - name: Read Go versions
         id: get_versions
         run: |
-          ls -la
           VERSIONS=$(grep -v '^[[:space:]]*$' ./version_support/supported_versions.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | tr '\n' ' ')
 
           VERSIONS_ARRAY="["
