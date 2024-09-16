@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# Source gvm to make it available in the script
+if [ -f "$HOME/.gvm/scripts/gvm" ]; then
+    source "$HOME/.gvm/scripts/gvm"
+else
+    echo "gvm is not installed or not found. Please install gvm first."
+    exit 1
+fi
+
 cleanup() {
     if [ -f go.mod.bak ]; then
         echo "Restoring original go.mod file"
@@ -13,13 +21,6 @@ trap cleanup EXIT
 
 pushd "$(pwd)" > /dev/null
 
-if ! command -v gvm &> /dev/null
-then
-    echo "gvm is not installed. Please install gvm first."
-    popd > /dev/null
-    exit 1
-fi
-
 if [ -z "$1" ]; then
     echo "Usage: $0 <go-version>"
     popd > /dev/null
@@ -32,11 +33,15 @@ if gvm list | grep -q "$GO_VERSION"; then
     echo "Go version $GO_VERSION is already installed."
 else
     echo "Go version $GO_VERSION is not installed. Installing..."
-    gvm install "$GO_VERSION"
+    gvm install go"$GO_VERSION" --binary
 fi
 
+gvm list
+
+go -version
+
 echo "Switching to Go version $GO_VERSION"
-gvm use "$GO_VERSION"
+gvm use go"$GO_VERSION" --default
 
 echo "Backing up go.mod"
 cp go.mod go.mod.bak
