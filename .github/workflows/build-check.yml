@@ -1,0 +1,72 @@
+name: Build Check
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+jobs:
+  get-versions:
+    runs-on: ubuntu-latest
+    outputs:
+      go-versions: ${{ steps.get_versions.outputs.go_versions }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          ref: main
+
+      - name: Read Go versions
+        id: get_versions
+        run: |
+          VERSIONS=$(grep -v '^[[:space:]]*$' ./version_support/supported_versions.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | tr '\n' ' ')
+
+          VERSIONS_ARRAY="["
+
+          for version in $VERSIONS; do
+            VERSIONS_ARRAY="$VERSIONS_ARRAY\"$version\","
+          done
+
+          VERSIONS_ARRAY=${VERSIONS_ARRAY%,}
+          VERSIONS_ARRAY="$VERSIONS_ARRAY]"
+          echo "go_versions=$VERSIONS_ARRAY" >> $GITHUB_OUTPUT
+
+
+  build:
+    needs: get-versions
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go-version: ${{ fromJSON(needs.get-versions.outputs.go-versions) }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Update go.mod for Go ${{ matrix.go-version }}
+        run: |
+          go mod edit -go=${{ matrix.go-version }}
+          go mod tidy
+
+      - name: Install dependencies
+        run: go mod download
+
+      - name: Build
+        run: go build ./...
+
+      - name: Run Tests
+        run: go test ./...
+
+      - name: Verify Build
+        run: |
+          if go build ./...; then
+            echo "Build successful"
+          else
+            echo "Build failed"
+            exit 1
+          fi

@@ -10,21 +10,25 @@ jobs:
   bumping_version_and_releasing:
     runs-on: ubuntu-latest
 
-    env:
-      SUPPORTED_VERSIONS: "1.22.5 1.22.3"
-      LATEST_VERSION: "1.22.5"
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          ref: main
+
+      - name: Read Go versions
+        id: get_versions
+        run: |
+          VERSIONS=$(grep -v '^[[:space:]]*$' ./version_support/supported_versions.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | tr '\n' ' ')
+          LATEST_VERSION=$(echo "$VERSIONS" | awk '{print $1}')
+          echo "SUPPORTED_VERSIONS=$VERSIONS" >> $GITHUB_ENV
+          echo "LATEST_VERSION=$LATEST_VERSION" >> $GITHUB_ENV
 
       - name: Get the current version
-        id: get_version
         run: |
           echo "VERSION=$(cat VERSION)" >> $GITHUB_ENV
 
       - name: Increment version
-        id: increment_version
         run: |
           echo "Current version: $VERSION"
           IFS='.' read -r major minor patch <<< "$VERSION"
@@ -54,7 +58,7 @@ jobs:
             if [ -f go.sum ]; then
               git add go.sum
             fi
-            git commit -m "Releasing for GO version ${{ env.LATEST_VERSION }}" --allow-empty || echo "Nothing to commit"
+            git commit -m "Releasing for GO version $version" --allow-empty || echo "Nothing to commit"
             git tag "v${{ env.new_version }}-go$version"
             git push origin "v${{ env.new_version }}-go$version"
           done
@@ -65,8 +69,6 @@ jobs:
           echo "" >> release_body.txt
           echo "### Supported Go Versions:" >> release_body.txt
           echo "- [latest](https://github.com/weft-finance/vayu-go/releases/tag/latest)" >> release_body.txt
-
-          # Append the Go version-specific tags
           for version in ${{ env.SUPPORTED_VERSIONS }}; do
             echo "- [v${{ env.new_version }}-go$version](https://github.com/weft-finance/vayu-go/releases/tag/v${{ env.new_version }}-go$version)" >> release_body.txt
           done
