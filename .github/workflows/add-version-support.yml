@@ -12,10 +12,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Install dependencies for gvm
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y bsdmainutils curl git mercurial make binutils bison gcc build-essential
+
       - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          ref: main
 
       - name: Set up Git
         run: |
@@ -24,13 +27,15 @@ jobs:
 
       - name: Validate and Add Go Version
         run: |
-          chmod +x add_supported_version.sh
-          ./add_supported_version.sh ${{ github.event.inputs.version }}
+          bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
+          chmod +x ./version_support/add_supported_version.sh
+          ./version_support/add_supported_version.sh ${{ github.event.inputs.version }}
 
       - name: Commit changes
         run: |
-          git add supported_versions.txt
+          git add ./version_support/supported_versions.txt
           git commit -m "Add Go version ${{ github.event.inputs.version }}"
+          exit 1
 
       - name: Push changes
         run: |
