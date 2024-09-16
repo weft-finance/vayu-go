@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  get-versions:
+  get_versions:
     runs-on: ubuntu-latest
     outputs:
       go_versions: ${{ steps.get_versions.outputs.go_versions }}
@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go-version: ${{ fromJSON(needs.get-versions.outputs.go_versions) }}
+        go-version: ${{ fromJSON(needs.get_versions.outputs.go_versions) }}
 
     steps:
       - name: Checkout code

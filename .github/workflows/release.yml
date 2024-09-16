@@ -7,8 +7,10 @@ on:
   workflow_dispatch:
 
 jobs:
-  bumping_version_and_releasing:
+  get_versions:
     runs-on: ubuntu-latest
+    outputs:
+      go_versions: ${{ steps.get_versions.outputs.go_versions }}
 
     steps:
       - name: Checkout code
@@ -18,9 +20,21 @@ jobs:
         id: get_versions
         run: |
           VERSIONS=$(grep -v '^[[:space:]]*$' ./version_support/supported_versions.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | tr '\n' ' ')
-          LATEST_VERSION=$(echo "$VERSIONS" | awk '{print $1}')
-          echo "SUPPORTED_VERSIONS=$VERSIONS" >> $GITHUB_ENV
-          echo "LATEST_VERSION=$LATEST_VERSION" >> $GITHUB_ENV
+
+          VERSIONS_ARRAY="["
+          for version in $VERSIONS; do
+            VERSIONS_ARRAY="$VERSIONS_ARRAY\"$version\","
+          done
+          VERSIONS_ARRAY=${VERSIONS_ARRAY%,}
+          VERSIONS_ARRAY="$VERSIONS_ARRAY]"
+
+          echo "go_versions=$VERSIONS_ARRAY" >> $GITHUB_OUTPUT
+
+  bump_version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Get the current version
         run: |
@@ -46,29 +60,49 @@ jobs:
           git commit -m "Bump version to ${{ env.new_version }}"
           git push origin main
 
-      - name: Releasing GO versions tags
+  release_go_versions:
+    needs: [get_versions, bump_version]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go_version: ${{ fromJson(needs.get_versions.outputs.go_versions) }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ matrix.go_version }}
+
+      - name: Release GO version tags
         run: |
-          for version in ${{ env.SUPPORTED_VERSIONS }}; do
-            echo "Releasing GO version $version"
-            go mod edit -go=$version
-            go mod tidy
-            git add go.mod
-            if [ -f go.sum ]; then
-              git add go.sum
-            fi
-            git commit -m "Releasing for GO version $version" --allow-empty || echo "Nothing to commit"
-            git tag "v${{ env.new_version }}-go$version"
-            git push origin "v${{ env.new_version }}-go$version"
-          done
+          echo "Releasing GO version ${{ matrix.go_version }}"
+          go mod edit -go=${{ matrix.go_version }}
+          go mod tidy
+          git add go.mod
+          if [ -f go.sum ]; then
+            git add go.sum
+          fi
+          git commit -m "Releasing for GO version ${{ matrix.go_version }}" --allow-empty || echo "Nothing to commit"
+          git tag "v${{ needs.get-versions.outputs.go_versions }}-go${{ matrix.go_version }}"
+          git push origin "v${{ needs.get-versions.outputs.go_versions }}-go${{ matrix.go_version }}"
+
+  create_release:
+    needs: release_go_versions
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Generate release body
         run: |
-          echo "Release version ${{ env.new_version }}" > release_body.txt
+          echo "Release version ${{ needs.get-versions.outputs.go_versions }}" > release_body.txt
           echo "" >> release_body.txt
           echo "### Supported Go Versions:" >> release_body.txt
           echo "- [latest](https://github.com/weft-finance/vayu-go/releases/tag/latest)" >> release_body.txt
-          for version in ${{ env.SUPPORTED_VERSIONS }}; do
-            echo "- [v${{ env.new_version }}-go$version](https://github.com/weft-finance/vayu-go/releases/tag/v${{ env.new_version }}-go$version)" >> release_body.txt
+          for version in ${{ needs.get-versions.outputs.go_versions }}; do
+            echo "- [v${{ needs.get-versions.outputs.go_versions }}-go$version](https://github.com/weft-finance/vayu-go/releases/tag/v${{ needs.get-versions.outputs.go_versions }}-go$version)" >> release_body.txt
           done
 
       - name: Create GitHub Release
@@ -76,8 +110,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: "v${{ env.new_version }}"
-          release_name: "v${{ env.new_version }}"
+          tag_name: "v${{ needs.get-versions.outputs.go_versions }}"
+          release_name: "v${{ needs.get-versions.outputs.go_versions }}"
           body_path: ./release_body.txt
           draft: false
           prerelease: false
