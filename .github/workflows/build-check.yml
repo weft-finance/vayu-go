@@ -9,12 +9,11 @@ jobs:
   get-versions:
     runs-on: ubuntu-latest
     outputs:
-      go-versions: ${{ steps.get_versions.outputs.go_versions }}
+      go_versions: ${{ steps.get_versions.outputs.go_versions }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        with:
-          ref: main
 
       - name: Read Go versions
         id: get_versions
@@ -30,6 +29,7 @@ jobs:
 
           VERSIONS_ARRAY=${VERSIONS_ARRAY%,}
           VERSIONS_ARRAY="$VERSIONS_ARRAY]"
+
           echo "go_versions=$VERSIONS_ARRAY" >> $GITHUB_OUTPUT
 
 
@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go-version: ${{ fromJSON(needs.get-versions.outputs.go-versions) }}
+        go-version: ${{ fromJSON(needs.get-versions.outputs.go_versions) }}
 
     steps:
       - name: Checkout code
