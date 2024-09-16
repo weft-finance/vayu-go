@@ -36,10 +36,6 @@ else
     gvm install go"$GO_VERSION" --binary
 fi
 
-gvm list
-
-go -version
-
 echo "Switching to Go version $GO_VERSION"
 gvm use go"$GO_VERSION" --default
 
