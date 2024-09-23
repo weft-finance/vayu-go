@@ -1,7 +1,6 @@
 package client
 
 import (
-	"context"
 	"fmt"
 	"time"
 
@@ -10,60 +9,9 @@ import (
 
 type VayuClient struct {
 	accessToken string
+	expiresAt   time.Time
 	apiKey      string
 	Client      *openapi.APIClient
-}
-
-type VayuError struct {
-	error interface{}
-	Body  string
-	Title string
-}
-
-func (ve *VayuError) Error() string {
-	genericError := "Internal Error - Unknown error occurred"
-
-	if ve.error == nil {
-		return genericError
-	}
-
-	return ve.Title + " - " + ve.Body
-}
-
-func BuildVayuError(err error) error {
-	if err == nil {
-		return nil
-	}
-
-	vayuError := &VayuError{
-		error: err,
-		Body:  err.Error(),
-		Title: "Internal Error",
-	}
-
-	return vayuError
-}
-
-func BuildVayuErrorFromGenericOpenAPIError(err interface{}) error {
-	genericErr, ok := err.(*openapi.GenericOpenAPIError)
-	if !ok {
-		return BuildVayuError(fmt.Errorf("Unknown error occurred"))
-	}
-
-	bytes := genericErr.Body()
-
-	errorTitle := genericErr.Error()
-	errorMessage := "Unknown error occurred"
-
-	if bytes != nil && len(bytes) != 0 {
-		errorMessage = string(bytes)
-	}
-
-	return &VayuError{
-		error: genericErr,
-		Body:  errorMessage,
-		Title: errorTitle,
-	}
 }
 
 func NewVayuClient(APIKey string) *VayuClient {
@@ -76,7 +24,7 @@ func NewVayuClient(APIKey string) *VayuClient {
 }
 
 func (api *VayuClient) Login() error {
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := GenerateContextWithTimeout()
 	defer cancel()
 
 	request := api.Client.AuthAPI.Login(ctx)
@@ -89,18 +37,22 @@ func (api *VayuClient) Login() error {
 
 	api.accessToken = oApiResponse.AccessToken
 
-	cfg := api.Client.GetConfig()
-	cfg.AddDefaultHeader("Authorization", "Bearer "+api.accessToken)
+	err = api.extractJWTExpiryDate()
+	if err != nil {
+		return BuildVayuError(err)
+	}
+
+	api.buildClientConfig()
 
 	return nil
 }
 
-func (v *VayuClient) IsLoggedIn() bool {
-	return v.accessToken != ""
+func (api *VayuClient) IsLoggedIn() bool {
+	return api.accessToken != ""
 }
 
-func (v *VayuClient) ValidateLoggedIn() error {
-	if v.IsLoggedIn() {
+func (api *VayuClient) ValidateLoggedIn() error {
+	if api.IsLoggedIn() {
 		return nil
 	}
 
