@@ -1,9 +1,6 @@
 package api
 
 import (
-	"context"
-	"time"
-
 	"github.com/weft-finance/vayu-go/client"
 	"github.com/weft-finance/vayu-go/openapi"
 )
@@ -23,11 +20,7 @@ func NewInvoicesAPI(client *client.VayuClient) *InvoicesAPI {
 }
 
 func (api *InvoicesAPI) ListInvoices(limit *float32, cursor *string) (*ListInvoicesResponse, error) {
-	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
-		return nil, invalidLoggedInStatus
-	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := client.GenerateContextWithTimeout()
 	defer cancel()
 
 	request := api.vayuClient.Client.InvoicesAPI.ListInvoices(ctx)
@@ -48,11 +41,7 @@ func (api *InvoicesAPI) ListInvoices(limit *float32, cursor *string) (*ListInvoi
 }
 
 func (api *InvoicesAPI) GetInvoice(invoiceId string) (*GetInvoiceResponse, error) {
-	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
-		return nil, invalidLoggedInStatus
-	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := client.GenerateContextWithTimeout()
 	defer cancel()
 
 	request := api.vayuClient.Client.InvoicesAPI.GetInvoice(ctx, invoiceId)

@@ -1,7 +1,6 @@
 package api
 
 import (
-	"context"
 	"time"
 
 	"github.com/weft-finance/vayu-go/client"
@@ -48,7 +47,7 @@ func (e *EventsAPI) GetEvent(refId string) (*GetEventResponse, error) {
 		return nil, invalidLoggedInStatus
 	}
 
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := client.GenerateContextWithTimeout()
 	defer cancel()
 
 	request := e.vayuClient.Client.EventsAPI.GetEventByRefId(ctx, refId)
@@ -66,7 +65,7 @@ func (e *EventsAPI) DeleteEvent(refId string) (*DeleteEventResponse, error) {
 		return nil, invalidLoggedInStatus
 	}
 
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := client.GenerateContextWithTimeout()
 	defer cancel()
 
 	request := e.vayuClient.Client.EventsAPI.DeleteEventByRefId(ctx, refId)
@@ -84,7 +83,7 @@ func (e *EventsAPI) QueryEvents(payload QueryEventsRequest) (*QueryEventsRespons
 		return nil, invalidLoggedInStatus
 	}
 
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := client.GenerateContextWithTimeout()
 	defer cancel()
 
 	request := e.vayuClient.Client.EventsAPI.QueryEvents(ctx)
@@ -114,7 +113,7 @@ func (e *EventsAPI) SendEvents(events []Event) (*SendEventsResponse, error) {
 		return nil, invalidLoggedInStatus
 	}
 
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := client.GenerateContextWithTimeout()
 	defer cancel()
 
 	request := e.vayuClient.Client.EventsAPI.SendEvents(ctx)
@@ -133,7 +132,7 @@ func (e *EventsAPI) SendEventsDryRun(events []Event) (*EventsDryRunResponse, err
 		return nil, invalidLoggedInStatus
 	}
 
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := client.GenerateContextWithTimeout()
 	defer cancel()
 
 	request := e.vayuClient.Client.EventsAPI.SendEventsDryRun(ctx)

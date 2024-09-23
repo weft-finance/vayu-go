@@ -1,9 +1,6 @@
 package api
 
 import (
-	"context"
-	"time"
-
 	"github.com/weft-finance/vayu-go/client"
 	"github.com/weft-finance/vayu-go/openapi"
 )
@@ -35,11 +32,7 @@ func NewUpdateCustomerRequest(name *string, alias *string) *UpdateCustomerReques
 }
 
 func (api *CustomersAPI) ListCustomers(limit *float32, cursor *string) (*ListCustomersResponse, error) {
-	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
-		return nil, invalidLoggedInStatus
-	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := client.GenerateContextWithTimeout()
 	defer cancel()
 
 	request := api.vayuClient.Client.CustomersAPI.ListCustomers(ctx)
@@ -62,11 +55,7 @@ func (api *CustomersAPI) ListCustomers(limit *float32, cursor *string) (*ListCus
 }
 
 func (api *CustomersAPI) GetCustomer(customerId string) (*GetCustomerResponse, error) {
-	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
-		return nil, invalidLoggedInStatus
-	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := client.GenerateContextWithTimeout()
 	defer cancel()
 
 	request := api.vayuClient.Client.CustomersAPI.GetCustomer(ctx, customerId)
@@ -80,11 +69,7 @@ func (api *CustomersAPI) GetCustomer(customerId string) (*GetCustomerResponse, e
 }
 
 func (api *CustomersAPI) CreateCustomer(payload CreateCustomerRequest) (*CreateCustomerResponse, error) {
-	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
-		return nil, invalidLoggedInStatus
-	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := client.GenerateContextWithTimeout()
 	defer cancel()
 
 	request := api.vayuClient.Client.CustomersAPI.CreateCustomer(ctx)
@@ -99,11 +84,7 @@ func (api *CustomersAPI) CreateCustomer(payload CreateCustomerRequest) (*CreateC
 }
 
 func (api *CustomersAPI) UpdateCustomer(customerId string, payload UpdateCustomerRequest) (*UpdateCustomerResponse, error) {
-	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
-		return nil, invalidLoggedInStatus
-	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := client.GenerateContextWithTimeout()
 	defer cancel()
 
 	request := api.vayuClient.Client.CustomersAPI.UpdateCustomer(ctx, customerId)
@@ -118,11 +99,7 @@ func (api *CustomersAPI) UpdateCustomer(customerId string, payload UpdateCustome
 }
 
 func (api *CustomersAPI) DeleteCustomer(customerId string) (*DeleteCustomerResponse, error) {
-	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
-		return nil, invalidLoggedInStatus
-	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := client.GenerateContextWithTimeout()
 	defer cancel()
 
 	request := api.vayuClient.Client.CustomersAPI.DeleteCustomer(ctx, customerId)
