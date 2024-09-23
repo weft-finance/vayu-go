@@ -11,14 +11,14 @@ import (
 func (api *VayuClient) extractJWTExpiryDate() error {
 	token, _, err := new(jwt.Parser).ParseUnverified(api.accessToken, jwt.MapClaims{})
 	if err != nil {
-		return BuildVayuError(fmt.Errorf("Failed to parse JWT"))
+		return BuildVayuError(fmt.Errorf("failed to parse JWT"))
 	}
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok {
 		if exp, ok := claims["exp"].(float64); ok {
 			api.expiresAt = time.Unix(int64(exp), 0)
 		} else {
-			return BuildVayuError(fmt.Errorf("xpiry date not found in JWT"))
+			return BuildVayuError(fmt.Errorf("expiry date not found in JWT"))
 		}
 	}
 
