@@ -39,7 +39,7 @@ func BuildVayuError(err error) error {
 func BuildVayuErrorFromGenericOpenAPIError(err interface{}) error {
 	genericErr, ok := err.(*openapi.GenericOpenAPIError)
 	if !ok {
-		return BuildVayuError(fmt.Errorf("Unknown error occurred"))
+		return BuildVayuError(fmt.Errorf("unknown error occurred"))
 	}
 
 	bytes := genericErr.Body()
@@ -47,7 +47,7 @@ func BuildVayuErrorFromGenericOpenAPIError(err interface{}) error {
 	errorTitle := genericErr.Error()
 	errorMessage := "Unknown error occurred"
 
-	if bytes != nil && len(bytes) != 0 {
+	if len(bytes) != 0 {
 		errorMessage = string(bytes)
 	}
 

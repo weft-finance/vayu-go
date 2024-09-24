@@ -5,18 +5,8 @@ import (
 	"time"
 )
 
-const defaultTimeout = 60
-
-var connectionTimeoutAfterSeconds = getConnectionTimeout()
-
-func getConnectionTimeout() time.Duration {
-	return defaultTimeout
-}
-
-func setConnectionTimeout(timeout time.Duration) {
-	connectionTimeoutAfterSeconds = timeout
-}
+const connectionTimeout = 60 * time.Second
 
 func GenerateContextWithTimeout() (context.Context, context.CancelFunc) {
-	return context.WithTimeout(context.Background(), connectionTimeoutAfterSeconds*time.Second)
+	return context.WithTimeout(context.Background(), connectionTimeout)
 }

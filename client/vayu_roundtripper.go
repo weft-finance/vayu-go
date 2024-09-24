@@ -44,6 +44,8 @@ type vayuRoundTripper struct {
 	api *VayuClient
 }
 
+const TokenExpiryThreshold = 5 * time.Minute
+
 func (c *vayuRoundTripper) RoundTrip(req *http.Request) (*http.Response, error) {
 	if req.URL.Path == "/login" {
 		return c.rt.RoundTrip(req)
@@ -53,7 +55,7 @@ func (c *vayuRoundTripper) RoundTrip(req *http.Request) (*http.Response, error) 
 		return nil, err
 	}
 
-	if time.Now().After(c.api.expiresAt) {
+	if time.Now().Add(TokenExpiryThreshold).After(c.api.expiresAt) {
 		err := c.api.Login()
 		if err != nil {
 			return nil, err
