@@ -1,7 +1,6 @@
 package api
 
 import (
-	"context"
 	"time"
 
 	"github.com/weft-finance/vayu-go/client"
@@ -29,11 +28,7 @@ func NewCreateContractRequest(startDate time.Time, endDate *time.Time, customerI
 }
 
 func (api *ContractsAPI) ListContracts(limit *float32, cursor *string) (*ListContractsResponse, error) {
-	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
-		return nil, invalidLoggedInStatus
-	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := client.GenerateContextWithTimeout()
 	defer cancel()
 
 	request := api.vayuClient.Client.ContractsAPI.ListContracts(ctx)
@@ -56,11 +51,7 @@ func (api *ContractsAPI) ListContracts(limit *float32, cursor *string) (*ListCon
 }
 
 func (api *ContractsAPI) GetContract(contractId string) (*GetContractResponse, error) {
-	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
-		return nil, invalidLoggedInStatus
-	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := client.GenerateContextWithTimeout()
 	defer cancel()
 
 	request := api.vayuClient.Client.ContractsAPI.GetContract(ctx, contractId)
@@ -74,11 +65,7 @@ func (api *ContractsAPI) GetContract(contractId string) (*GetContractResponse, e
 }
 
 func (api *ContractsAPI) CreateContract(input CreateContractRequest) (*CreateContractResponse, error) {
-	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
-		return nil, invalidLoggedInStatus
-	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := client.GenerateContextWithTimeout()
 	defer cancel()
 
 	request := api.vayuClient.Client.ContractsAPI.CreateContract(ctx)
@@ -93,11 +80,7 @@ func (api *ContractsAPI) CreateContract(input CreateContractRequest) (*CreateCon
 }
 
 func (api *ContractsAPI) DeleteContract(contractId string) (*DeleteContractResponse, error) {
-	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
-		return nil, invalidLoggedInStatus
-	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := client.GenerateContextWithTimeout()
 	defer cancel()
 
 	request := api.vayuClient.Client.ContractsAPI.DeleteContract(ctx, contractId)

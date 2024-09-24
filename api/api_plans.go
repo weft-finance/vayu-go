@@ -1,9 +1,6 @@
 package api
 
 import (
-	"context"
-	"time"
-
 	"github.com/weft-finance/vayu-go/client"
 	"github.com/weft-finance/vayu-go/openapi"
 )
@@ -24,11 +21,7 @@ func NewPlansAPI(client *client.VayuClient) *PlansAPI {
 }
 
 func (api *PlansAPI) ListPlans(limit *float32, cursor *string) (*ListPlansResponse, error) {
-	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
-		return nil, invalidLoggedInStatus
-	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := client.GenerateContextWithTimeout()
 	defer cancel()
 
 	request := api.vayuClient.Client.PlansAPI.ListPlans(ctx)
@@ -49,11 +42,7 @@ func (api *PlansAPI) ListPlans(limit *float32, cursor *string) (*ListPlansRespon
 }
 
 func (api *PlansAPI) GetPlan(planId string) (*GetPlanResponse, error) {
-	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
-		return nil, invalidLoggedInStatus
-	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := client.GenerateContextWithTimeout()
 	defer cancel()
 
 	request := api.vayuClient.Client.PlansAPI.GetPlan(ctx, planId)
@@ -67,11 +56,7 @@ func (api *PlansAPI) GetPlan(planId string) (*GetPlanResponse, error) {
 }
 
 func (api *PlansAPI) DeletePlan(planId string) (*DeletePlanResponse, error) {
-	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
-		return nil, invalidLoggedInStatus
-	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := client.GenerateContextWithTimeout()
 	defer cancel()
 
 	request := api.vayuClient.Client.PlansAPI.DeletePlan(ctx, planId)

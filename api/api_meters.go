@@ -1,9 +1,6 @@
 package api
 
 import (
-	"context"
-	"time"
-
 	"github.com/weft-finance/vayu-go/client"
 	"github.com/weft-finance/vayu-go/openapi"
 )
@@ -23,11 +20,7 @@ func NewMetersAPI(client *client.VayuClient) *MetersAPI {
 }
 
 func (api *MetersAPI) ListMeters(limit *float32, cursor *string) (*ListMetersResponse, error) {
-	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
-		return nil, invalidLoggedInStatus
-	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := client.GenerateContextWithTimeout()
 	defer cancel()
 
 	request := api.vayuClient.Client.MetersAPI.ListMeters(ctx)
@@ -48,11 +41,7 @@ func (api *MetersAPI) ListMeters(limit *float32, cursor *string) (*ListMetersRes
 }
 
 func (api *MetersAPI) GetMeter(meterId string) (*GetMeterResponse, error) {
-	if invalidLoggedInStatus := api.vayuClient.ValidateLoggedIn(); invalidLoggedInStatus != nil {
-		return nil, invalidLoggedInStatus
-	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := client.GenerateContextWithTimeout()
 	defer cancel()
 
 	request := api.vayuClient.Client.MetersAPI.GetMeter(ctx, meterId)
