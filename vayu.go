@@ -30,6 +30,10 @@ func NewVayu(APIKey string) *Vayu {
 	}
 }
 
+func (v *Vayu) SetCustomHost(host string) {
+	v.client.SetCustomHost(host)
+}
+
 func (v *Vayu) Login() error {
 	return v.client.Login()
 }

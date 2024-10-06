@@ -23,6 +23,16 @@ func NewVayuClient(APIKey string) *VayuClient {
 	return &VayuClient{Client: client, apiKey: APIKey}
 }
 
+func (api *VayuClient) SetCustomHost(host string) {
+	cfg := api.Client.GetConfig()
+	cfg.Servers = openapi.ServerConfigurations{
+		{
+			URL:         host,
+			Description: "Custom server",
+		},
+	}
+}
+
 func (api *VayuClient) Login() error {
 	ctx, cancel := GenerateContextWithTimeout()
 	defer cancel()
@@ -56,5 +66,5 @@ func (api *VayuClient) ValidateLoggedIn() error {
 		return nil
 	}
 
-	return BuildVayuError(fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method"))
+	return BuildVayuError(fmt.Errorf("vayu client is not logged in. please login before calling this method"))
 }
