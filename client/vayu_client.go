@@ -23,6 +23,16 @@ func NewVayuClient(APIKey string) *VayuClient {
 	return &VayuClient{Client: client, apiKey: APIKey}
 }
 
+func (api *VayuClient) SetCustomHost(host string) {
+	cfg := api.Client.GetConfig()
+	cfg.Servers = openapi.ServerConfigurations{
+		{
+			URL:         host,
+			Description: "Custom server",
+		},
+	}
+}
+
 func (api *VayuClient) Login() error {
 	ctx, cancel := GenerateContextWithTimeout()
 	defer cancel()
