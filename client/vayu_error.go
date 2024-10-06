@@ -3,6 +3,9 @@ package client
 import (
 	"fmt"
 
+	"net"
+	"net/url"
+
 	"github.com/weft-finance/vayu-go/openapi"
 )
 
@@ -37,7 +40,16 @@ func BuildVayuError(err error) error {
 }
 
 func BuildVayuErrorFromGenericOpenAPIError(err interface{}) error {
+	if netErr, ok := err.(net.Error); ok {
+		return BuildVayuError(fmt.Errorf("network error: %v", netErr))
+	}
+
+	if urlErr, ok := err.(*url.Error); ok {
+		return BuildVayuError(fmt.Errorf("connection error: %v", urlErr))
+	}
+
 	genericErr, ok := err.(*openapi.GenericOpenAPIError)
+
 	if !ok {
 		return BuildVayuError(fmt.Errorf("unknown error occurred"))
 	}
