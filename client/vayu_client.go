@@ -56,5 +56,5 @@ func (api *VayuClient) ValidateLoggedIn() error {
 		return nil
 	}
 
-	return BuildVayuError(fmt.Errorf("vayu client is not logged in. please call `vayu.login()` before calling this method"))
+	return BuildVayuError(fmt.Errorf("vayu client is not logged in. please login before calling this method"))
 }
