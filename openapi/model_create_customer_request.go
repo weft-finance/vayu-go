@@ -23,8 +23,11 @@ var _ MappedNullable = &CreateCustomerRequest{}
 type CreateCustomerRequest struct {
 	// The name of the customer
 	Name string `json:"name"`
-	// The alias of the customer used to match events to the customer.
-	Alias *string `json:"alias,omitempty"`
+	// The external ID of the customer
+	ExternalId *string `json:"externalId,omitempty"`
+	// The aliases of the customer used to match events to the customer.
+	Aliases []string `json:"aliases,omitempty"`
+	Address *Address `json:"address,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -72,36 +75,100 @@ func (o *CreateCustomerRequest) SetName(v string) {
 	o.Name = v
 }
 
-// GetAlias returns the Alias field value if set, zero value otherwise.
-func (o *CreateCustomerRequest) GetAlias() string {
-	if o == nil || IsNil(o.Alias) {
+// GetExternalId returns the ExternalId field value if set, zero value otherwise.
+func (o *CreateCustomerRequest) GetExternalId() string {
+	if o == nil || IsNil(o.ExternalId) {
 		var ret string
 		return ret
 	}
-	return *o.Alias
+	return *o.ExternalId
 }
 
-// GetAliasOk returns a tuple with the Alias field value if set, nil otherwise
+// GetExternalIdOk returns a tuple with the ExternalId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CreateCustomerRequest) GetAliasOk() (*string, bool) {
-	if o == nil || IsNil(o.Alias) {
+func (o *CreateCustomerRequest) GetExternalIdOk() (*string, bool) {
+	if o == nil || IsNil(o.ExternalId) {
 		return nil, false
 	}
-	return o.Alias, true
+	return o.ExternalId, true
 }
 
-// HasAlias returns a boolean if a field has been set.
-func (o *CreateCustomerRequest) HasAlias() bool {
-	if o != nil && !IsNil(o.Alias) {
+// HasExternalId returns a boolean if a field has been set.
+func (o *CreateCustomerRequest) HasExternalId() bool {
+	if o != nil && !IsNil(o.ExternalId) {
 		return true
 	}
 
 	return false
 }
 
-// SetAlias gets a reference to the given string and assigns it to the Alias field.
-func (o *CreateCustomerRequest) SetAlias(v string) {
-	o.Alias = &v
+// SetExternalId gets a reference to the given string and assigns it to the ExternalId field.
+func (o *CreateCustomerRequest) SetExternalId(v string) {
+	o.ExternalId = &v
+}
+
+// GetAliases returns the Aliases field value if set, zero value otherwise.
+func (o *CreateCustomerRequest) GetAliases() []string {
+	if o == nil || IsNil(o.Aliases) {
+		var ret []string
+		return ret
+	}
+	return o.Aliases
+}
+
+// GetAliasesOk returns a tuple with the Aliases field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *CreateCustomerRequest) GetAliasesOk() ([]string, bool) {
+	if o == nil || IsNil(o.Aliases) {
+		return nil, false
+	}
+	return o.Aliases, true
+}
+
+// HasAliases returns a boolean if a field has been set.
+func (o *CreateCustomerRequest) HasAliases() bool {
+	if o != nil && !IsNil(o.Aliases) {
+		return true
+	}
+
+	return false
+}
+
+// SetAliases gets a reference to the given []string and assigns it to the Aliases field.
+func (o *CreateCustomerRequest) SetAliases(v []string) {
+	o.Aliases = v
+}
+
+// GetAddress returns the Address field value if set, zero value otherwise.
+func (o *CreateCustomerRequest) GetAddress() Address {
+	if o == nil || IsNil(o.Address) {
+		var ret Address
+		return ret
+	}
+	return *o.Address
+}
+
+// GetAddressOk returns a tuple with the Address field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *CreateCustomerRequest) GetAddressOk() (*Address, bool) {
+	if o == nil || IsNil(o.Address) {
+		return nil, false
+	}
+	return o.Address, true
+}
+
+// HasAddress returns a boolean if a field has been set.
+func (o *CreateCustomerRequest) HasAddress() bool {
+	if o != nil && !IsNil(o.Address) {
+		return true
+	}
+
+	return false
+}
+
+// SetAddress gets a reference to the given Address and assigns it to the Address field.
+func (o *CreateCustomerRequest) SetAddress(v Address) {
+	o.Address = &v
 }
 
 func (o CreateCustomerRequest) MarshalJSON() ([]byte, error) {
@@ -115,8 +182,14 @@ func (o CreateCustomerRequest) MarshalJSON() ([]byte, error) {
 func (o CreateCustomerRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["name"] = o.Name
-	if !IsNil(o.Alias) {
-		toSerialize["alias"] = o.Alias
+	if !IsNil(o.ExternalId) {
+		toSerialize["externalId"] = o.ExternalId
+	}
+	if !IsNil(o.Aliases) {
+		toSerialize["aliases"] = o.Aliases
+	}
+	if !IsNil(o.Address) {
+		toSerialize["address"] = o.Address
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -162,7 +235,9 @@ func (o *CreateCustomerRequest) UnmarshalJSON(data []byte) (err error) {
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "name")
-		delete(additionalProperties, "alias")
+		delete(additionalProperties, "externalId")
+		delete(additionalProperties, "aliases")
+		delete(additionalProperties, "address")
 		o.AdditionalProperties = additionalProperties
 	}
 
