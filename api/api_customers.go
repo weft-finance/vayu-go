@@ -10,6 +10,7 @@ type CustomersAPI struct {
 }
 
 type Customer = openapi.CreateCustomerResponseCustomer
+type Address = openapi.Address
 type ListCustomersResponse = openapi.ListCustomersResponse
 type GetCustomerResponse = openapi.GetCustomerResponse
 type CreateCustomerRequest = openapi.CreateCustomerRequest
@@ -24,11 +25,22 @@ func NewCustomersAPI(client *client.VayuClient) *CustomersAPI {
 	}
 }
 
-func NewCreateCustomerRequest(name string, alias *string) *CreateCustomerRequest {
-	return &openapi.CreateCustomerRequest{Name: name, Alias: alias}
+func NewAddress(country *string, city *string, addressText *string, state *string, postalCode *string) *Address {
+	return &openapi.Address{
+		Country:     country,
+		City:        city,
+		AddressText: addressText,
+		State:       state,
+		PostalCode:  postalCode,
+	}
 }
-func NewUpdateCustomerRequest(name *string, alias *string) *UpdateCustomerRequest {
-	return &openapi.UpdateCustomerRequest{Name: name, Alias: alias}
+
+func NewCreateCustomerRequest(name string, externalId *string, aliases []string, address *Address) *CreateCustomerRequest {
+	return &openapi.CreateCustomerRequest{Name: name, ExternalId: externalId, Aliases: aliases, Address: address}
+}
+
+func NewUpdateCustomerRequest(name *string, externalId *string, aliases []string, address *Address) *UpdateCustomerRequest {
+	return &openapi.UpdateCustomerRequest{Name: name, ExternalId: externalId, Aliases: aliases, Address: address}
 }
 
 func (api *CustomersAPI) ListCustomers(limit *float32, cursor *string) (*ListCustomersResponse, error) {
