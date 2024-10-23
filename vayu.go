@@ -15,6 +15,7 @@ type Vayu struct {
 	Invoices  *api.InvoicesAPI
 	Meters    *api.MetersAPI
 	Plans     *api.PlansAPI
+	Webhooks  *api.WebhooksAPI
 }
 
 func NewVayu(APIKey string) *Vayu {
@@ -27,6 +28,7 @@ func NewVayu(APIKey string) *Vayu {
 		Invoices:  api.NewInvoicesAPI(vayuClient),
 		Meters:    api.NewMetersAPI(vayuClient),
 		Plans:     api.NewPlansAPI(vayuClient),
+		Webhooks:  api.NewWebhooksAPI(vayuClient),
 	}
 }
 
@@ -65,6 +67,7 @@ type (
 
 type (
 	Customer               = api.Customer
+	Address                = api.Address
 	ListCustomersResponse  = api.ListCustomersResponse
 	GetCustomerResponse    = api.GetCustomerResponse
 	CreateCustomerRequest  = api.CreateCustomerRequest
