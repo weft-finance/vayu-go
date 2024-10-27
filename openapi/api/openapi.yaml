@@ -1374,19 +1374,62 @@ components:
             $ref: '#/components/schemas/ListCreditLedgerEntriesResponse'
       description: RequestSuccess
   schemas:
+    Address:
+      description: The address of the customer
+      example:
+        country: country
+        city: city
+        postalCode: postalCode
+        addressText: addressText
+        state: state
+      properties:
+        country:
+          minLength: 1
+          type: string
+        city:
+          minLength: 1
+          type: string
+        addressText:
+          minLength: 1
+          type: string
+        state:
+          minLength: 1
+          type: string
+        postalCode:
+          minLength: 1
+          type: string
+      type: object
     CreateCustomerRequest:
       example:
+        aliases:
+        - aliases
+        - aliases
+        address:
+          country: country
+          city: city
+          postalCode: postalCode
+          addressText: addressText
+          state: state
         name: name
-        alias: alias
+        externalId: externalId
       properties:
         name:
           description: The name of the customer
           minLength: 1
           type: string
-        alias:
-          description: The alias of the customer used to match events to the customer.
+        externalId:
+          description: The external ID of the customer
           minLength: 1
           type: string
+        aliases:
+          default: []
+          description: The aliases of the customer used to match events to the customer.
+          items:
+            minLength: 1
+            type: string
+          type: array
+        address:
+          $ref: '#/components/schemas/Address'
       required:
       - name
       type: object
@@ -1394,8 +1437,17 @@ components:
       example:
         customer:
           createdAt: 2000-01-23T04:56:07.000+00:00
+          aliases:
+          - aliases
+          - aliases
+          address:
+            country: country
+            city: city
+            postalCode: postalCode
+            addressText: addressText
+            state: state
           name: name
-          alias: alias
+          externalId: externalId
           id: id
           updatedAt: 2000-01-23T04:56:07.000+00:00
       properties:
@@ -1411,13 +1463,31 @@ components:
         hasMore: true
         customers:
         - createdAt: 2000-01-23T04:56:07.000+00:00
+          aliases:
+          - aliases
+          - aliases
+          address:
+            country: country
+            city: city
+            postalCode: postalCode
+            addressText: addressText
+            state: state
           name: name
-          alias: alias
+          externalId: externalId
           id: id
           updatedAt: 2000-01-23T04:56:07.000+00:00
         - createdAt: 2000-01-23T04:56:07.000+00:00
+          aliases:
+          - aliases
+          - aliases
+          address:
+            country: country
+            city: city
+            postalCode: postalCode
+            addressText: addressText
+            state: state
           name: name
-          alias: alias
+          externalId: externalId
           id: id
           updatedAt: 2000-01-23T04:56:07.000+00:00
       properties:
@@ -1440,8 +1510,17 @@ components:
       example:
         customer:
           createdAt: 2000-01-23T04:56:07.000+00:00
+          aliases:
+          - aliases
+          - aliases
+          address:
+            country: country
+            city: city
+            postalCode: postalCode
+            addressText: addressText
+            state: state
           name: name
-          alias: alias
+          externalId: externalId
           id: id
           updatedAt: 2000-01-23T04:56:07.000+00:00
       properties:
@@ -1453,24 +1532,51 @@ components:
     UpdateCustomerRequest:
       additionalProperties: false
       example:
+        aliases:
+        - aliases
+        - aliases
+        address:
+          country: country
+          city: city
+          postalCode: postalCode
+          addressText: addressText
+          state: state
         name: name
-        alias: alias
+        externalId: externalId
       properties:
         name:
           description: The name of the customer
           minLength: 1
           type: string
-        alias:
-          description: The alias of the customer used to match events to the customer.
+        externalId:
+          description: The external ID of the customer
           minLength: 1
           type: string
+        aliases:
+          default: []
+          description: The aliases of the customer used to match events to the customer.
+          items:
+            minLength: 1
+            type: string
+          type: array
+        address:
+          $ref: '#/components/schemas/Address'
       type: object
     UpdateCustomerResponse:
       example:
         customer:
           createdAt: 2000-01-23T04:56:07.000+00:00
+          aliases:
+          - aliases
+          - aliases
+          address:
+            country: country
+            city: city
+            postalCode: postalCode
+            addressText: addressText
+            state: state
           name: name
-          alias: alias
+          externalId: externalId
           id: id
           updatedAt: 2000-01-23T04:56:07.000+00:00
       properties:
@@ -1484,8 +1590,17 @@ components:
         customer:
           createdAt: 2000-01-23T04:56:07.000+00:00
           deletedAt: deletedAt
+          aliases:
+          - aliases
+          - aliases
+          address:
+            country: country
+            city: city
+            postalCode: postalCode
+            addressText: addressText
+            state: state
           name: name
-          alias: alias
+          externalId: externalId
           id: id
           updatedAt: 2000-01-23T04:56:07.000+00:00
       properties:
@@ -1839,6 +1954,7 @@ components:
       type: string
     PaymentTerm:
       default: Postpayment
+      description: flag to indicate if the payment is postpayment or prepayment
       enum:
       - Prepayment
       - Postpayment
@@ -3072,8 +3188,17 @@ components:
     CreateCustomerResponse_customer:
       example:
         createdAt: 2000-01-23T04:56:07.000+00:00
+        aliases:
+        - aliases
+        - aliases
+        address:
+          country: country
+          city: city
+          postalCode: postalCode
+          addressText: addressText
+          state: state
         name: name
-        alias: alias
+        externalId: externalId
         id: id
         updatedAt: 2000-01-23T04:56:07.000+00:00
       properties:
@@ -3081,10 +3206,19 @@ components:
           description: The name of the customer
           minLength: 1
           type: string
-        alias:
-          description: The alias of the customer used to match events to the customer.
+        externalId:
+          description: The external ID of the customer
           minLength: 1
           type: string
+        aliases:
+          default: []
+          description: The aliases of the customer used to match events to the customer.
+          items:
+            minLength: 1
+            type: string
+          type: array
+        address:
+          $ref: '#/components/schemas/Address'
         id:
           type: string
         createdAt:
@@ -3103,8 +3237,17 @@ components:
       example:
         createdAt: 2000-01-23T04:56:07.000+00:00
         deletedAt: deletedAt
+        aliases:
+        - aliases
+        - aliases
+        address:
+          country: country
+          city: city
+          postalCode: postalCode
+          addressText: addressText
+          state: state
         name: name
-        alias: alias
+        externalId: externalId
         id: id
         updatedAt: 2000-01-23T04:56:07.000+00:00
       properties:
@@ -3112,10 +3255,19 @@ components:
           description: The name of the customer
           minLength: 1
           type: string
-        alias:
-          description: The alias of the customer used to match events to the customer.
+        externalId:
+          description: The external ID of the customer
           minLength: 1
           type: string
+        aliases:
+          default: []
+          description: The aliases of the customer used to match events to the customer.
+          items:
+            minLength: 1
+            type: string
+          type: array
+        address:
+          $ref: '#/components/schemas/Address'
         id:
           type: string
         createdAt:

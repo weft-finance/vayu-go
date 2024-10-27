@@ -16,7 +16,7 @@ import (
 	"fmt"
 )
 
-// PaymentTerm the model 'PaymentTerm'
+// PaymentTerm flag to indicate if the payment is postpayment or prepayment
 type PaymentTerm string
 
 // List of PaymentTerm
