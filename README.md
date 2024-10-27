@@ -175,12 +175,16 @@ println(customer.Id)
 
 In order to assign a contract to a customer you would need to provide the customer Id and the relevant plan
 
+
+    customerId: '1f4cf23x-2c4y-483z-1111-158621f77a21',
+    planId: '4f6cf35x-1234-483z-a0a9-158621f77a21',
+
 ```go
 	contract, err := vayu.Contracts.CreateContract(VayuSDK.CreateContractRequest{
-		StartDate:  time.Now().UTC(),  // The start date of the contract
-		EndDate:    nil,               // The end date of the contract
-		CustomerId: customer.Id,       // The id of the customer that the contract is associated with
-		PlanId:     plans.Plans[0].Id, // The id of the plan that the contract is associated with
+		StartDate:  time.Now().UTC(),                       // The start date of the contract
+		EndDate:    nil,                                    // The end date of the contract
+		CustomerId: "1f4cf23x-2c4y-483z-1111-158621f77a21", // The id of the customer that the contract is associated with
+		PlanId:     "4f6cf35x-1234-483z-a0a9-158621f77a21", // The id of the plan that the contract is associated with
 	})
 ```
 
