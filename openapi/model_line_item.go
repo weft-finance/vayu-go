@@ -23,8 +23,7 @@ var _ MappedNullable = &LineItem{}
 type LineItem struct {
 	// The id of the invoice that the line item is a part of
 	InvoiceId string `json:"invoiceId" validate:"regexp=^[0-9a-fA-F]{24}$"`
-	// The price of the line item
-	Price float32 `json:"price"`
+	RevenueBreakdown LineItemRevenueBreakdown `json:"revenueBreakdown"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -34,10 +33,10 @@ type _LineItem LineItem
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewLineItem(invoiceId string, price float32) *LineItem {
+func NewLineItem(invoiceId string, revenueBreakdown LineItemRevenueBreakdown) *LineItem {
 	this := LineItem{}
 	this.InvoiceId = invoiceId
-	this.Price = price
+	this.RevenueBreakdown = revenueBreakdown
 	return &this
 }
 
@@ -73,28 +72,28 @@ func (o *LineItem) SetInvoiceId(v string) {
 	o.InvoiceId = v
 }
 
-// GetPrice returns the Price field value
-func (o *LineItem) GetPrice() float32 {
+// GetRevenueBreakdown returns the RevenueBreakdown field value
+func (o *LineItem) GetRevenueBreakdown() LineItemRevenueBreakdown {
 	if o == nil {
-		var ret float32
+		var ret LineItemRevenueBreakdown
 		return ret
 	}
 
-	return o.Price
+	return o.RevenueBreakdown
 }
 
-// GetPriceOk returns a tuple with the Price field value
+// GetRevenueBreakdownOk returns a tuple with the RevenueBreakdown field value
 // and a boolean to check if the value has been set.
-func (o *LineItem) GetPriceOk() (*float32, bool) {
+func (o *LineItem) GetRevenueBreakdownOk() (*LineItemRevenueBreakdown, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Price, true
+	return &o.RevenueBreakdown, true
 }
 
-// SetPrice sets field value
-func (o *LineItem) SetPrice(v float32) {
-	o.Price = v
+// SetRevenueBreakdown sets field value
+func (o *LineItem) SetRevenueBreakdown(v LineItemRevenueBreakdown) {
+	o.RevenueBreakdown = v
 }
 
 func (o LineItem) MarshalJSON() ([]byte, error) {
@@ -108,7 +107,7 @@ func (o LineItem) MarshalJSON() ([]byte, error) {
 func (o LineItem) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["invoiceId"] = o.InvoiceId
-	toSerialize["price"] = o.Price
+	toSerialize["revenueBreakdown"] = o.RevenueBreakdown
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -123,7 +122,7 @@ func (o *LineItem) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"invoiceId",
-		"price",
+		"revenueBreakdown",
 	}
 
 	allProperties := make(map[string]interface{})
@@ -154,7 +153,7 @@ func (o *LineItem) UnmarshalJSON(data []byte) (err error) {
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "invoiceId")
-		delete(additionalProperties, "price")
+		delete(additionalProperties, "revenueBreakdown")
 		o.AdditionalProperties = additionalProperties
 	}
 

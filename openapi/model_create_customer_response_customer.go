@@ -29,6 +29,8 @@ type CreateCustomerResponseCustomer struct {
 	// The aliases of the customer used to match events to the customer.
 	Aliases []string `json:"aliases,omitempty"`
 	Address *Address `json:"address,omitempty"`
+	// The contacts of the customer. Contact marked as primary is the target for invoice sharing.
+	Contacts []Contact `json:"contacts,omitempty"`
 	Id string `json:"id"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
@@ -178,6 +180,38 @@ func (o *CreateCustomerResponseCustomer) SetAddress(v Address) {
 	o.Address = &v
 }
 
+// GetContacts returns the Contacts field value if set, zero value otherwise.
+func (o *CreateCustomerResponseCustomer) GetContacts() []Contact {
+	if o == nil || IsNil(o.Contacts) {
+		var ret []Contact
+		return ret
+	}
+	return o.Contacts
+}
+
+// GetContactsOk returns a tuple with the Contacts field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *CreateCustomerResponseCustomer) GetContactsOk() ([]Contact, bool) {
+	if o == nil || IsNil(o.Contacts) {
+		return nil, false
+	}
+	return o.Contacts, true
+}
+
+// HasContacts returns a boolean if a field has been set.
+func (o *CreateCustomerResponseCustomer) HasContacts() bool {
+	if o != nil && !IsNil(o.Contacts) {
+		return true
+	}
+
+	return false
+}
+
+// SetContacts gets a reference to the given []Contact and assigns it to the Contacts field.
+func (o *CreateCustomerResponseCustomer) SetContacts(v []Contact) {
+	o.Contacts = v
+}
+
 // GetId returns the Id field value
 func (o *CreateCustomerResponseCustomer) GetId() string {
 	if o == nil {
@@ -270,6 +304,9 @@ func (o CreateCustomerResponseCustomer) ToMap() (map[string]interface{}, error) 
 	if !IsNil(o.Address) {
 		toSerialize["address"] = o.Address
 	}
+	if !IsNil(o.Contacts) {
+		toSerialize["contacts"] = o.Contacts
+	}
 	toSerialize["id"] = o.Id
 	toSerialize["createdAt"] = o.CreatedAt
 	toSerialize["updatedAt"] = o.UpdatedAt
@@ -323,6 +360,7 @@ func (o *CreateCustomerResponseCustomer) UnmarshalJSON(data []byte) (err error) 
 		delete(additionalProperties, "externalId")
 		delete(additionalProperties, "aliases")
 		delete(additionalProperties, "address")
+		delete(additionalProperties, "contacts")
 		delete(additionalProperties, "id")
 		delete(additionalProperties, "createdAt")
 		delete(additionalProperties, "updatedAt")
