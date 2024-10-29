@@ -129,10 +129,10 @@ println(event.Name)
 To create a new customer:
 
 ```go
-alias := "customer_12345"
+externalId := "customer_12345"
 customerPayload := VayuSDK.CreateCustomerRequest{
-    Name: "JJane Doe",
-    Alias: &alias,
+    Name: "Jane Doe",
+    ExternalId: &externalId,
 }
 customer, err := vayu.Customers.CreateCustomer(customerPayload)
 if err != nil {
@@ -146,9 +146,9 @@ println(customer.Id)
 To update an existing customer by ID:
 
 ```go
-newAlias := "customer_67890"
+externalId := "customer_67890"
 updateCustomerPayload := VayuSDK.UpdateCustomerRequest{
-    Alias: &newAlias,
+    ExternalId: &externalId,
 }
 updatedCustomer, err := vayu.Customers.UpdateCustomer("customer-id", updateCustomerPayload)
 if err != nil {

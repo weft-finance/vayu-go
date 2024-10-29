@@ -68,6 +68,7 @@ type (
 type (
 	Customer               = api.Customer
 	Address                = api.Address
+	Contact                = api.Contact
 	ListCustomersResponse  = api.ListCustomersResponse
 	GetCustomerResponse    = api.GetCustomerResponse
 	CreateCustomerRequest  = api.CreateCustomerRequest

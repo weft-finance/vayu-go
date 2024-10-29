@@ -11,6 +11,7 @@ type CustomersAPI struct {
 
 type Customer = openapi.CreateCustomerResponseCustomer
 type Address = openapi.Address
+type Contact = openapi.Contact
 type ListCustomersResponse = openapi.ListCustomersResponse
 type GetCustomerResponse = openapi.GetCustomerResponse
 type CreateCustomerRequest = openapi.CreateCustomerRequest
@@ -35,11 +36,15 @@ func NewAddress(country *string, city *string, addressText *string, state *strin
 	}
 }
 
-func NewCreateCustomerRequest(name string, externalId *string, aliases []string, address *Address) *CreateCustomerRequest {
-	return &openapi.CreateCustomerRequest{Name: name, ExternalId: externalId, Aliases: aliases, Address: address}
+func NewContact(email string, name *string, isPrimary *bool) *Contact {
+	return &openapi.Contact{Email: email, Name: name, IsPrimary: isPrimary}
 }
 
-func NewUpdateCustomerRequest(name *string, externalId *string, aliases []string, address *Address) *UpdateCustomerRequest {
+func NewCreateCustomerRequest(name string, externalId *string, aliases []string, address *Address, contacts []Contact) *CreateCustomerRequest {
+	return &openapi.CreateCustomerRequest{Name: name, ExternalId: externalId, Aliases: aliases, Address: address, Contacts: contacts}
+}
+
+func NewUpdateCustomerRequest(name *string, externalId *string, aliases []string, address *Address, contacts []Contact) *UpdateCustomerRequest {
 	return &openapi.UpdateCustomerRequest{Name: name, ExternalId: externalId, Aliases: aliases, Address: address}
 }
 
