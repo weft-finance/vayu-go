@@ -28,6 +28,8 @@ type CreateCustomerRequest struct {
 	// The aliases of the customer used to match events to the customer.
 	Aliases []string `json:"aliases,omitempty"`
 	Address *Address `json:"address,omitempty"`
+	// The contacts of the customer. Contact marked as primary is the target for invoice sharing.
+	Contacts []Contact `json:"contacts,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -171,6 +173,38 @@ func (o *CreateCustomerRequest) SetAddress(v Address) {
 	o.Address = &v
 }
 
+// GetContacts returns the Contacts field value if set, zero value otherwise.
+func (o *CreateCustomerRequest) GetContacts() []Contact {
+	if o == nil || IsNil(o.Contacts) {
+		var ret []Contact
+		return ret
+	}
+	return o.Contacts
+}
+
+// GetContactsOk returns a tuple with the Contacts field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *CreateCustomerRequest) GetContactsOk() ([]Contact, bool) {
+	if o == nil || IsNil(o.Contacts) {
+		return nil, false
+	}
+	return o.Contacts, true
+}
+
+// HasContacts returns a boolean if a field has been set.
+func (o *CreateCustomerRequest) HasContacts() bool {
+	if o != nil && !IsNil(o.Contacts) {
+		return true
+	}
+
+	return false
+}
+
+// SetContacts gets a reference to the given []Contact and assigns it to the Contacts field.
+func (o *CreateCustomerRequest) SetContacts(v []Contact) {
+	o.Contacts = v
+}
+
 func (o CreateCustomerRequest) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -190,6 +224,9 @@ func (o CreateCustomerRequest) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.Address) {
 		toSerialize["address"] = o.Address
+	}
+	if !IsNil(o.Contacts) {
+		toSerialize["contacts"] = o.Contacts
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -238,6 +275,7 @@ func (o *CreateCustomerRequest) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "externalId")
 		delete(additionalProperties, "aliases")
 		delete(additionalProperties, "address")
+		delete(additionalProperties, "contacts")
 		o.AdditionalProperties = additionalProperties
 	}
 

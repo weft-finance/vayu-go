@@ -1399,6 +1399,23 @@ components:
           minLength: 1
           type: string
       type: object
+    Contact:
+      example:
+        isPrimary: true
+        name: name
+        email: email
+      properties:
+        name:
+          minLength: 1
+          type: string
+        email:
+          format: email
+          type: string
+        isPrimary:
+          type: boolean
+      required:
+      - email
+      type: object
     CreateCustomerRequest:
       example:
         aliases:
@@ -1412,6 +1429,13 @@ components:
           state: state
         name: name
         externalId: externalId
+        contacts:
+        - isPrimary: true
+          name: name
+          email: email
+        - isPrimary: true
+          name: name
+          email: email
       properties:
         name:
           description: The name of the customer
@@ -1430,6 +1454,13 @@ components:
           type: array
         address:
           $ref: '#/components/schemas/Address'
+        contacts:
+          default: []
+          description: The contacts of the customer. Contact marked as primary is
+            the target for invoice sharing.
+          items:
+            $ref: '#/components/schemas/Contact'
+          type: array
       required:
       - name
       type: object
@@ -1449,6 +1480,13 @@ components:
           name: name
           externalId: externalId
           id: id
+          contacts:
+          - isPrimary: true
+            name: name
+            email: email
+          - isPrimary: true
+            name: name
+            email: email
           updatedAt: 2000-01-23T04:56:07.000+00:00
       properties:
         customer:
@@ -1475,6 +1513,13 @@ components:
           name: name
           externalId: externalId
           id: id
+          contacts:
+          - isPrimary: true
+            name: name
+            email: email
+          - isPrimary: true
+            name: name
+            email: email
           updatedAt: 2000-01-23T04:56:07.000+00:00
         - createdAt: 2000-01-23T04:56:07.000+00:00
           aliases:
@@ -1489,6 +1534,13 @@ components:
           name: name
           externalId: externalId
           id: id
+          contacts:
+          - isPrimary: true
+            name: name
+            email: email
+          - isPrimary: true
+            name: name
+            email: email
           updatedAt: 2000-01-23T04:56:07.000+00:00
       properties:
         customers:
@@ -1522,6 +1574,13 @@ components:
           name: name
           externalId: externalId
           id: id
+          contacts:
+          - isPrimary: true
+            name: name
+            email: email
+          - isPrimary: true
+            name: name
+            email: email
           updatedAt: 2000-01-23T04:56:07.000+00:00
       properties:
         customer:
@@ -1543,6 +1602,13 @@ components:
           state: state
         name: name
         externalId: externalId
+        contacts:
+        - isPrimary: true
+          name: name
+          email: email
+        - isPrimary: true
+          name: name
+          email: email
       properties:
         name:
           description: The name of the customer
@@ -1561,6 +1627,13 @@ components:
           type: array
         address:
           $ref: '#/components/schemas/Address'
+        contacts:
+          default: []
+          description: The contacts of the customer. Contact marked as primary is
+            the target for invoice sharing.
+          items:
+            $ref: '#/components/schemas/Contact'
+          type: array
       type: object
     UpdateCustomerResponse:
       example:
@@ -1578,6 +1651,13 @@ components:
           name: name
           externalId: externalId
           id: id
+          contacts:
+          - isPrimary: true
+            name: name
+            email: email
+          - isPrimary: true
+            name: name
+            email: email
           updatedAt: 2000-01-23T04:56:07.000+00:00
       properties:
         customer:
@@ -1602,6 +1682,13 @@ components:
           name: name
           externalId: externalId
           id: id
+          contacts:
+          - isPrimary: true
+            name: name
+            email: email
+          - isPrimary: true
+            name: name
+            email: email
           updatedAt: 2000-01-23T04:56:07.000+00:00
       properties:
         customer:
@@ -2189,7 +2276,7 @@ components:
       required:
       - contract
       type: object
-    Period:
+    FullDayPeriod:
       description: "The billing cycle of the invoice, consists of a start and end\
         \ date"
       example:
@@ -2208,30 +2295,47 @@ components:
       type: object
     LineItem:
       example:
-        price: 0.8008281904610115
         invoiceId: invoiceId
+        revenueBreakdown:
+          total: 0.8008281904610115
+          subtotal: 6.027456183070403
+          discount: 5.962133916683182
+          tax: 0.23021358869347652
+          overage: 1.4658129805029452
+          creditsUsed: 5.637376656633329
       properties:
         invoiceId:
           description: The id of the invoice that the line item is a part of
           pattern: "^[0-9a-fA-F]{24}$"
           type: string
-        price:
-          description: The price of the line item
-          type: number
+        revenueBreakdown:
+          $ref: '#/components/schemas/LineItem_revenueBreakdown'
       required:
       - invoiceId
-      - price
+      - revenueBreakdown
       type: object
     GetInvoiceResponse:
       example:
         invoice:
           lineItems:
-          - price: 0.8008281904610115
-            invoiceId: invoiceId
-          - price: 0.8008281904610115
-            invoiceId: invoiceId
+          - invoiceId: invoiceId
+            revenueBreakdown:
+              total: 0.8008281904610115
+              subtotal: 6.027456183070403
+              discount: 5.962133916683182
+              tax: 0.23021358869347652
+              overage: 1.4658129805029452
+              creditsUsed: 5.637376656633329
+          - invoiceId: invoiceId
+            revenueBreakdown:
+              total: 0.8008281904610115
+              subtotal: 6.027456183070403
+              discount: 5.962133916683182
+              tax: 0.23021358869347652
+              overage: 1.4658129805029452
+              creditsUsed: 5.637376656633329
           createdAt: 2000-01-23T04:56:07.000+00:00
-          amount: 6.027456183070403
+          amount: 7.061401241503109
           billingCycle:
             startTime: 2000-01-23T04:56:07.000+00:00
             endTime: 2000-01-23T04:56:07.000+00:00
@@ -2252,12 +2356,24 @@ components:
         total: 0.8008281904610115
         invoices:
         - lineItems:
-          - price: 0.8008281904610115
-            invoiceId: invoiceId
-          - price: 0.8008281904610115
-            invoiceId: invoiceId
+          - invoiceId: invoiceId
+            revenueBreakdown:
+              total: 0.8008281904610115
+              subtotal: 6.027456183070403
+              discount: 5.962133916683182
+              tax: 0.23021358869347652
+              overage: 1.4658129805029452
+              creditsUsed: 5.637376656633329
+          - invoiceId: invoiceId
+            revenueBreakdown:
+              total: 0.8008281904610115
+              subtotal: 6.027456183070403
+              discount: 5.962133916683182
+              tax: 0.23021358869347652
+              overage: 1.4658129805029452
+              creditsUsed: 5.637376656633329
           createdAt: 2000-01-23T04:56:07.000+00:00
-          amount: 6.027456183070403
+          amount: 7.061401241503109
           billingCycle:
             startTime: 2000-01-23T04:56:07.000+00:00
             endTime: 2000-01-23T04:56:07.000+00:00
@@ -2267,12 +2383,24 @@ components:
           id: id
           updatedAt: 2000-01-23T04:56:07.000+00:00
         - lineItems:
-          - price: 0.8008281904610115
-            invoiceId: invoiceId
-          - price: 0.8008281904610115
-            invoiceId: invoiceId
+          - invoiceId: invoiceId
+            revenueBreakdown:
+              total: 0.8008281904610115
+              subtotal: 6.027456183070403
+              discount: 5.962133916683182
+              tax: 0.23021358869347652
+              overage: 1.4658129805029452
+              creditsUsed: 5.637376656633329
+          - invoiceId: invoiceId
+            revenueBreakdown:
+              total: 0.8008281904610115
+              subtotal: 6.027456183070403
+              discount: 5.962133916683182
+              tax: 0.23021358869347652
+              overage: 1.4658129805029452
+              creditsUsed: 5.637376656633329
           createdAt: 2000-01-23T04:56:07.000+00:00
-          amount: 6.027456183070403
+          amount: 7.061401241503109
           billingCycle:
             startTime: 2000-01-23T04:56:07.000+00:00
             endTime: 2000-01-23T04:56:07.000+00:00
@@ -3200,6 +3328,13 @@ components:
         name: name
         externalId: externalId
         id: id
+        contacts:
+        - isPrimary: true
+          name: name
+          email: email
+        - isPrimary: true
+          name: name
+          email: email
         updatedAt: 2000-01-23T04:56:07.000+00:00
       properties:
         name:
@@ -3219,6 +3354,13 @@ components:
           type: array
         address:
           $ref: '#/components/schemas/Address'
+        contacts:
+          default: []
+          description: The contacts of the customer. Contact marked as primary is
+            the target for invoice sharing.
+          items:
+            $ref: '#/components/schemas/Contact'
+          type: array
         id:
           type: string
         createdAt:
@@ -3249,6 +3391,13 @@ components:
         name: name
         externalId: externalId
         id: id
+        contacts:
+        - isPrimary: true
+          name: name
+          email: email
+        - isPrimary: true
+          name: name
+          email: email
         updatedAt: 2000-01-23T04:56:07.000+00:00
       properties:
         name:
@@ -3268,6 +3417,13 @@ components:
           type: array
         address:
           $ref: '#/components/schemas/Address'
+        contacts:
+          default: []
+          description: The contacts of the customer. Contact marked as primary is
+            the target for invoice sharing.
+          items:
+            $ref: '#/components/schemas/Contact'
+          type: array
         id:
           type: string
         createdAt:
@@ -3569,15 +3725,58 @@ components:
       - startDate
       - updatedAt
       type: object
+    LineItem_revenueBreakdown:
+      description: The revenue breakdown of the line item
+      example:
+        total: 0.8008281904610115
+        subtotal: 6.027456183070403
+        discount: 5.962133916683182
+        tax: 0.23021358869347652
+        overage: 1.4658129805029452
+        creditsUsed: 5.637376656633329
+      properties:
+        total:
+          type: number
+        subtotal:
+          type: number
+        overage:
+          type: number
+        discount:
+          type: number
+        creditsUsed:
+          type: number
+        tax:
+          minimum: 0
+          type: number
+      required:
+      - creditsUsed
+      - discount
+      - overage
+      - subtotal
+      - tax
+      - total
+      type: object
     GetInvoiceResponse_invoice:
       example:
         lineItems:
-        - price: 0.8008281904610115
-          invoiceId: invoiceId
-        - price: 0.8008281904610115
-          invoiceId: invoiceId
+        - invoiceId: invoiceId
+          revenueBreakdown:
+            total: 0.8008281904610115
+            subtotal: 6.027456183070403
+            discount: 5.962133916683182
+            tax: 0.23021358869347652
+            overage: 1.4658129805029452
+            creditsUsed: 5.637376656633329
+        - invoiceId: invoiceId
+          revenueBreakdown:
+            total: 0.8008281904610115
+            subtotal: 6.027456183070403
+            discount: 5.962133916683182
+            tax: 0.23021358869347652
+            overage: 1.4658129805029452
+            creditsUsed: 5.637376656633329
         createdAt: 2000-01-23T04:56:07.000+00:00
-        amount: 6.027456183070403
+        amount: 7.061401241503109
         billingCycle:
           startTime: 2000-01-23T04:56:07.000+00:00
           endTime: 2000-01-23T04:56:07.000+00:00
@@ -3601,7 +3800,7 @@ components:
           minLength: 1
           type: string
         billingCycle:
-          $ref: '#/components/schemas/Period'
+          $ref: '#/components/schemas/FullDayPeriod'
         lineItems:
           items:
             $ref: '#/components/schemas/LineItem'

@@ -28,7 +28,7 @@ type GetInvoiceResponseInvoice struct {
 	ContractId *string `json:"contractId,omitempty" validate:"regexp=^[0-9a-fA-F]{24}$"`
 	// The name of the invoice, usually a description of the billing period
 	Name string `json:"name"`
-	BillingCycle Period `json:"billingCycle"`
+	BillingCycle FullDayPeriod `json:"billingCycle"`
 	LineItems []LineItem `json:"lineItems"`
 	// The total amount of the invoice
 	Amount float32 `json:"amount"`
@@ -44,7 +44,7 @@ type _GetInvoiceResponseInvoice GetInvoiceResponseInvoice
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGetInvoiceResponseInvoice(customerId string, name string, billingCycle Period, lineItems []LineItem, amount float32, id string, createdAt time.Time, updatedAt time.Time) *GetInvoiceResponseInvoice {
+func NewGetInvoiceResponseInvoice(customerId string, name string, billingCycle FullDayPeriod, lineItems []LineItem, amount float32, id string, createdAt time.Time, updatedAt time.Time) *GetInvoiceResponseInvoice {
 	this := GetInvoiceResponseInvoice{}
 	this.CustomerId = customerId
 	this.Name = name
@@ -146,9 +146,9 @@ func (o *GetInvoiceResponseInvoice) SetName(v string) {
 }
 
 // GetBillingCycle returns the BillingCycle field value
-func (o *GetInvoiceResponseInvoice) GetBillingCycle() Period {
+func (o *GetInvoiceResponseInvoice) GetBillingCycle() FullDayPeriod {
 	if o == nil {
-		var ret Period
+		var ret FullDayPeriod
 		return ret
 	}
 
@@ -157,7 +157,7 @@ func (o *GetInvoiceResponseInvoice) GetBillingCycle() Period {
 
 // GetBillingCycleOk returns a tuple with the BillingCycle field value
 // and a boolean to check if the value has been set.
-func (o *GetInvoiceResponseInvoice) GetBillingCycleOk() (*Period, bool) {
+func (o *GetInvoiceResponseInvoice) GetBillingCycleOk() (*FullDayPeriod, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -165,7 +165,7 @@ func (o *GetInvoiceResponseInvoice) GetBillingCycleOk() (*Period, bool) {
 }
 
 // SetBillingCycle sets field value
-func (o *GetInvoiceResponseInvoice) SetBillingCycle(v Period) {
+func (o *GetInvoiceResponseInvoice) SetBillingCycle(v FullDayPeriod) {
 	o.BillingCycle = v
 }
 
