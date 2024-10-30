@@ -226,6 +226,7 @@ The Vayu API client library provides access to the following features:
   - `Customers.DeleteCustomer`
   - `Customers.ListCustomers`
   - `Customers.GetCustomer`
+  - `Customers.GetCustomerByExternalId`
 - **Meters**
   - `Meters.GetMeter`
   - `Meters.UpdateMeter`

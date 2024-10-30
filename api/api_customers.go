@@ -85,6 +85,20 @@ func (api *CustomersAPI) GetCustomer(customerId string) (*GetCustomerResponse, e
 	return response, nil
 }
 
+func (api *CustomersAPI) GetCustomerByExternalId(externalId string) (*GetCustomerResponse, error) {
+	ctx, cancel := client.GenerateContextWithTimeout()
+	defer cancel()
+
+	request := api.vayuClient.Client.CustomersAPI.GetCustomerByExternalId(ctx, externalId)
+	response, _, err := request.Execute()
+
+	if err != nil {
+		return nil, client.BuildVayuErrorFromGenericOpenAPIError(err)
+	}
+
+	return response, nil
+}
+
 func (api *CustomersAPI) CreateCustomer(payload CreateCustomerRequest) (*CreateCustomerResponse, error) {
 	ctx, cancel := client.GenerateContextWithTimeout()
 	defer cancel()
