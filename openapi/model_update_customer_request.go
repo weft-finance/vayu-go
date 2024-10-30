@@ -22,13 +22,13 @@ var _ MappedNullable = &UpdateCustomerRequest{}
 type UpdateCustomerRequest struct {
 	// The name of the customer
 	Name *string `json:"name,omitempty"`
-	// The external ID of the customer
-	ExternalId *string `json:"externalId,omitempty"`
 	// The aliases of the customer used to match events to the customer.
 	Aliases []string `json:"aliases,omitempty"`
 	Address *Address `json:"address,omitempty"`
 	// The contacts of the customer. Contact marked as primary is the target for invoice sharing.
 	Contacts []Contact `json:"contacts,omitempty"`
+	// The external ID of the customer
+	ExternalId *string `json:"externalId,omitempty"`
 }
 
 // NewUpdateCustomerRequest instantiates a new UpdateCustomerRequest object
@@ -80,41 +80,9 @@ func (o *UpdateCustomerRequest) SetName(v string) {
 	o.Name = &v
 }
 
-// GetExternalId returns the ExternalId field value if set, zero value otherwise.
-func (o *UpdateCustomerRequest) GetExternalId() string {
-	if o == nil || IsNil(o.ExternalId) {
-		var ret string
-		return ret
-	}
-	return *o.ExternalId
-}
-
-// GetExternalIdOk returns a tuple with the ExternalId field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *UpdateCustomerRequest) GetExternalIdOk() (*string, bool) {
-	if o == nil || IsNil(o.ExternalId) {
-		return nil, false
-	}
-	return o.ExternalId, true
-}
-
-// HasExternalId returns a boolean if a field has been set.
-func (o *UpdateCustomerRequest) HasExternalId() bool {
-	if o != nil && !IsNil(o.ExternalId) {
-		return true
-	}
-
-	return false
-}
-
-// SetExternalId gets a reference to the given string and assigns it to the ExternalId field.
-func (o *UpdateCustomerRequest) SetExternalId(v string) {
-	o.ExternalId = &v
-}
-
-// GetAliases returns the Aliases field value if set, zero value otherwise.
+// GetAliases returns the Aliases field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *UpdateCustomerRequest) GetAliases() []string {
-	if o == nil || IsNil(o.Aliases) {
+	if o == nil {
 		var ret []string
 		return ret
 	}
@@ -123,6 +91,7 @@ func (o *UpdateCustomerRequest) GetAliases() []string {
 
 // GetAliasesOk returns a tuple with the Aliases field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *UpdateCustomerRequest) GetAliasesOk() ([]string, bool) {
 	if o == nil || IsNil(o.Aliases) {
 		return nil, false
@@ -208,6 +177,38 @@ func (o *UpdateCustomerRequest) SetContacts(v []Contact) {
 	o.Contacts = v
 }
 
+// GetExternalId returns the ExternalId field value if set, zero value otherwise.
+func (o *UpdateCustomerRequest) GetExternalId() string {
+	if o == nil || IsNil(o.ExternalId) {
+		var ret string
+		return ret
+	}
+	return *o.ExternalId
+}
+
+// GetExternalIdOk returns a tuple with the ExternalId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *UpdateCustomerRequest) GetExternalIdOk() (*string, bool) {
+	if o == nil || IsNil(o.ExternalId) {
+		return nil, false
+	}
+	return o.ExternalId, true
+}
+
+// HasExternalId returns a boolean if a field has been set.
+func (o *UpdateCustomerRequest) HasExternalId() bool {
+	if o != nil && !IsNil(o.ExternalId) {
+		return true
+	}
+
+	return false
+}
+
+// SetExternalId gets a reference to the given string and assigns it to the ExternalId field.
+func (o *UpdateCustomerRequest) SetExternalId(v string) {
+	o.ExternalId = &v
+}
+
 func (o UpdateCustomerRequest) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -221,10 +222,7 @@ func (o UpdateCustomerRequest) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Name) {
 		toSerialize["name"] = o.Name
 	}
-	if !IsNil(o.ExternalId) {
-		toSerialize["externalId"] = o.ExternalId
-	}
-	if !IsNil(o.Aliases) {
+	if o.Aliases != nil {
 		toSerialize["aliases"] = o.Aliases
 	}
 	if !IsNil(o.Address) {
@@ -232,6 +230,9 @@ func (o UpdateCustomerRequest) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.Contacts) {
 		toSerialize["contacts"] = o.Contacts
+	}
+	if !IsNil(o.ExternalId) {
+		toSerialize["externalId"] = o.ExternalId
 	}
 	return toSerialize, nil
 }
